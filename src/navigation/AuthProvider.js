@@ -1,7 +1,7 @@
 import React, {createContext, useState} from 'react';
 import '@firebase/auth';
 import '@firebase/firestore';
-
+import firebase from "firebase/app";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
@@ -14,14 +14,14 @@ export const AuthProvider = ({children}) => {
         setUser,
         login: async (email, password) => {
           try {
-            await auth().signInWithEmailAndPassword(email, password);
+            await firebase.auth().signInWithEmailAndPassword(email, password);
           } catch (e) {
             console.log(e);
           }
         },
         register: async (email, password) => {
           try {
-            await auth().createUserWithEmailAndPassword(email, password)
+            await firebase.auth().createUserWithEmailAndPassword(email, password)
             // .then(() => {
               //Once the user creation has happened successfully, we can add the currentUser into firestore
               //with the appropriate details.
@@ -48,7 +48,7 @@ export const AuthProvider = ({children}) => {
         },
         logout: async () => {
           try {
-            await auth().signOut();
+            await firebase.auth().signOut();
           } catch (e) {
             console.log(e);
           }

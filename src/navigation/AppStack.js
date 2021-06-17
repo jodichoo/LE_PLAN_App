@@ -5,10 +5,12 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 
 const Stack = createStackNavigator();
 
-function AppStack() {
+const AppStack = (props) => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name='Home' component={HomeScreen} />
+            <Stack.Screen name='Home'>
+                {props => <HomeScreen {...props} extraData={props.name} />}
+            </Stack.Screen>
         </Stack.Navigator>
     )
 }
