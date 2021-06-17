@@ -8,9 +8,9 @@ const Stack = createStackNavigator();
 
 function AppStack() {
   return (
-    <Stack.Navigator initialRouteName="Login" headerMode="none">
+    <Stack.Navigator initialRouteName="Registration" headerMode="none">
       <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Registeration" component={RegistrationScreen} />
+      <Stack.Screen name="Registration" component={RegistrationScreen} />
     </Stack.Navigator>
   );
 }

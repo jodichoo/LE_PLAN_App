@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState, useContext } from 'react'
+import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View, Button } from 'react-native'
 import styles from './styles';
 import { firebase } from '../../firebase/config'
+import {AuthContext} from '../../navigation/AuthProvider';
 
-const HomeScreen = (props) => {
-
+const HomeScreen = ({navigation}) => {
+    const {user, setUser, logout} = useContext(AuthContext);
     // const [entityText, setEntityText] = useState('')
     // const [entities, setEntities] = useState([])
 
@@ -61,6 +62,11 @@ const HomeScreen = (props) => {
     //     )
     // }
 
+function pressLogOut() {
+    logout();
+    //navigation.navigate("Login")
+}
+
     return (
         <View style={styles.container}>
             {/* <View style={styles.formContainer}>
@@ -90,6 +96,7 @@ const HomeScreen = (props) => {
             <Text>
                 Home
             </Text>
+            <Button onPress={logout} title='log Out'/>
         </View>
     )
 }
