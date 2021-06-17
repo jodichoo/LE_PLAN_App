@@ -1,345 +1,345 @@
-// import { useState, useEffect, useContext } from "react";
-// import { db } from "../firebase/config";
-// import moment from "moment";
-// import { useAuth } from "../navigation/AuthProvider";
-// // import Checkbox from 'expo-checkbox';
-// import NumberPlease from "react-native-number-please";
-// import {
-//   FlatList,
-//   Keyboard,
-//   Text,
-//   TextInput,
-//   TouchableOpacity,
-//   View,
-//   Button,
-// } from "react-native";
-// // import styles from "./styles";
+import { useState, useEffect, useContext } from "react";
+import { db } from "../firebase/config";
+import moment from "moment";
+import { useAuth } from "../navigation/AuthProvider";
+// import Checkbox from 'expo-checkbox';
+import NumberPlease from "react-native-number-please";
+import {
+  FlatList,
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Button,
+} from "react-native";
+// import styles from "./styles";
 
-// function TaskForm() {
-// //   const {
-// //     addWorkClicked,
-// //     setAddWorkClicked,
-// //     setAddLifeClicked,
-// //     editTask,
-// //     edit,
-// //     setEdit,
-// //     selectedDate,
-// //   } = props;
-//   const currDate = new Date().toLocaleDateString("en-CA");
-//   const [taskName, setTaskName] = useState("");
-//   const [taskDesc, setTaskDesc] = useState("");
-//   //const [taskDate, setTaskDate] = useState(selectedDate);
-//   const [taskHrs, setTaskHrs] = useState(0);
-//   const [taskMins, setTaskMins] = useState(0);
-//   const [taskDur, setTaskDur] = useState("");
-//   const [check, setCheck] = useState(true);
-//   const [isWork, setIsWork] = useState(true);
-//   const { currentUser } = useAuth();
-//   const userTasks = db.collection("users").doc(currentUser.uid);
+function TaskForm() {
+//   const {
+//     addWorkClicked,
+//     setAddWorkClicked,
+//     setAddLifeClicked,
+//     editTask,
+//     edit,
+//     setEdit,
+//     selectedDate,
+//   } = props;
+  const currDate = new Date().toLocaleDateString("en-CA");
+  const [taskName, setTaskName] = useState("");
+  const [taskDesc, setTaskDesc] = useState("");
+  //const [taskDate, setTaskDate] = useState(selectedDate);
+  const [taskHrs, setTaskHrs] = useState(0);
+  const [taskMins, setTaskMins] = useState(0);
+  const [taskDur, setTaskDur] = useState("");
+  const [check, setCheck] = useState(true);
+  const [isWork, setIsWork] = useState(true);
+  const { currentUser } = useAuth();
+  const userTasks = db.collection("users").doc(currentUser.uid);
 
-//   const today = moment().format("DD-MM-YYY").split('-');
-//   const [taskDate, setTaskDate] = useState([
-//     { id: "day", value: today[0] },
-//     { id: "month", value: today[1] },
-//     { id: "year", value: today[2] },
-//   ]);
-//   const dateRange = [
-//     { id: "day", label: "", min: 0, max: 31 },
-//     { id: "month", label: "", min: 0, max: 12 },
-//     { id: "year", label: "", min: new Date().getFullYear(), max: 2100
-//   }];
+  const today = moment().format("DD-MM-YYY").split('-');
+  const [taskDate, setTaskDate] = useState([
+    { id: "day", value: today[0] },
+    { id: "month", value: today[1] },
+    { id: "year", value: today[2] },
+  ]);
+  const dateRange = [
+    { id: "day", label: "", min: 0, max: 31 },
+    { id: "month", label: "", min: 0, max: 12 },
+    { id: "year", label: "", min: new Date().getFullYear(), max: 2100
+  }];
 
-//   const [taskTime, setTaskTime] = useState([
-//     { id: "hour", value: 0 },
-//     { id: "min", value: 0 }, 
-//   ]);
-//   const timeRange = [
-//       {id: "hour", label: "h", min: 0, max: 23},
-//       {id: "min", label: "min", min: 0, max: 59},
-//   ]
+  const [taskTime, setTaskTime] = useState([
+    { id: "hour", value: 0 },
+    { id: "min", value: 0 }, 
+  ]);
+  const timeRange = [
+      {id: "hour", label: "h", min: 0, max: 23},
+      {id: "min", label: "min", min: 0, max: 59},
+  ]
 
-//   useEffect(() => {
-//     if (edit) {
-//       setTaskName(editTask.name);
-//       setTaskDesc(editTask.desc);
-//       setTaskDate(editTask.date);
-//       setTaskHrs(getHour(editTask.time));
-//       setTaskMins(getMin(editTask.time));
-//       setTaskDur(editTask.dur);
-//       setIsWork(editTask.isWork);
+  useEffect(() => {
+    if (edit) {
+      setTaskName(editTask.name);
+      setTaskDesc(editTask.desc);
+      setTaskDate(editTask.date);
+      setTaskHrs(getHour(editTask.time));
+      setTaskMins(getMin(editTask.time));
+      setTaskDur(editTask.dur);
+      setIsWork(editTask.isWork);
 
-//       if (editTask.isWork) {
-//         document.getElementById("work-radio-edit").checked = true;
-//       } else {
-//         document.getElementById("life-radio-edit").checked = true;
-//       }
-//     }
-//   }, []);
+      if (editTask.isWork) {
+        document.getElementById("work-radio-edit").checked = true;
+      } else {
+        document.getElementById("life-radio-edit").checked = true;
+      }
+    }
+  }, []);
 
-// //   function getHour(num) {
-// //     if (num === 0) {
-// //       return num;
-// //     } else {
-// //       const str = num.toString();
-// //       const split = str.split(".");
-// //       return parseInt(split[0]);
-// //     }
-// //   }
-
-// //   function getMin(num) {
-// //     if (num === 0) {
-// //       return num;
-// //     } else {
-// //       const str = num.toString();
-// //       const split = str.split(".");
-// //       return parseInt(split[1]);
-// //     }
-// //   }
-
-//   function removeTaskForm() {
-//     // e.preventDefault();
-//     if (edit) {
-//       setEdit(false);
+//   function getHour(num) {
+//     if (num === 0) {
+//       return num;
 //     } else {
-//       setAddWorkClicked(false);
-//       setAddLifeClicked(false);
+//       const str = num.toString();
+//       const split = str.split(".");
+//       return parseInt(split[0]);
 //     }
 //   }
 
-//   function initStates() {
-//     if (edit) {
-//       setEdit(false);
+//   function getMin(num) {
+//     if (num === 0) {
+//       return num;
 //     } else {
-//       setAddWorkClicked(false);
-//       setAddLifeClicked(false);
-//     }
-//     setTaskName("");
-//     setTaskDesc("");
-//     setTaskHrs(0);
-//     setTaskMins(0);
-//     setTaskDur("");
-//     setTaskDate(currDate);
-//     setIsWork(true);
-//   }
-
-//   function handleAddTask() {
-//     // e.preventDefault();
-//     const t = taskTime[0] + taskTime[1]/100;
-//     //create a new doc within the relevant collection
-//     const d = taskDate[2] + '-' + taskDate[1] +'-' + taskDate[0];
-//     const ref = userTasks.collection(d).doc();
-//     const work = edit ? isWork : addWorkClicked;
-//     // update tasks here
-//     const newTask = {
-//       id: ref.id, //id field necessary to delete task later
-//       date: d,
-//       isWork: work,
-//       name: taskName,
-//       desc: taskDesc,
-//       time: t,
-//       dur: parseFloat(taskDur),
-//     };
-//     //write to database here
-//     console.log(work);
-//     //add the new task to the database
-//     ref.set(newTask);
-
-//     //update work/lifeTime for the meter
-//     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
-//     const numDays = whatday - 1; // num of times to mathfloor
-//     const monDate = moment().subtract(numDays, "days");
-//     if (moment(taskDate, "YYYY-MM-DD").diff(monDate, "days") < 6) {
-//       //change below
-//       handleCounters(work, "+", taskDur);
-//     }
-//     initStates();
-//   }
-
-//   function handleEditTask(e) {
-//     e.preventDefault();
-//     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
-//     const numDays = whatday - 1; // num of times to mathfloor
-//     const monDate = moment().subtract(numDays, "days");
-//     userTasks
-//       .collection(editTask.date)
-//       .doc(editTask.id)
-//       .delete()
-//       .then(() => {
-//         if (moment(editTask.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
-//           //if editing, delete the previous task + subtract from work/lifeTime for meter
-//           console.log("subtract");
-//           handleCounters(editTask.isWork, "-", editTask.dur);
-//         }
-//       });
-//   }
-
-//   function handleCounters(work, operator, dur) {
-//     userTasks.get().then((doc) => {
-//       if (work) {
-//         const currWork = doc.data().workTime;
-//         userTasks.update({
-//           workTime: eval(
-//             currWork.toString() + operator + parseFloat(dur).toString()
-//           ),
-//         });
-//       } else {
-//         const currLife = doc.data().lifeTime;
-//         userTasks.update({
-//           lifeTime: eval(
-//             currLife.toString() + operator + parseFloat(dur).toString()
-//           ),
-//         });
-//       }
-//     });
-//   }
-
-//   function isChecked() {
-//     // e.preventDefault();
-//     setCheck(!check);
-//     let reminder = document.getElementById("rem-interval");
-//     if (check === true) {
-//       reminder.style.display = "block";
-//     } else {
-//       reminder.style.display = "none";
+//       const str = num.toString();
+//       const split = str.split(".");
+//       return parseInt(split[1]);
 //     }
 //   }
 
-//   return (
-//     <View>
-//       {/* <Text>{!edit && (addWorkClicked ? "work" : "life")}</Text> */}
-//       {/* <form
-//         onSubmit={(e) => {
-//           edit && handleEditTask(e);
-//           handleAddTask(e);
-//         }}
-//       > */}
-//         {/* {edit && (
-//           <View>
-//             <input
-//               type="radio"
-//               name="work-life-button"
-//               id="work-radio-edit"
-//               onChange={(e) => setIsWork(true)}
-//             />{" "}
-//             Work
-//             <input
-//               type="radio"
-//               name="work-life-button"
-//               id="life-radio-edit"
-//               onChange={(e) => setIsWork(false)}
-//             />{" "}
-//             Life
-//           </View>
-//         )} */}
+  function removeTaskForm() {
+    // e.preventDefault();
+    if (edit) {
+      setEdit(false);
+    } else {
+      setAddWorkClicked(false);
+      setAddLifeClicked(false);
+    }
+  }
 
-//         <View>
-//           <Text>Task Name: </Text>
-//           <TextInput
-//             value={taskName}
-//             onChange={(e) => setTaskName(e)}
-//             required
-//           />
-//         </View>
+  function initStates() {
+    if (edit) {
+      setEdit(false);
+    } else {
+      setAddWorkClicked(false);
+      setAddLifeClicked(false);
+    }
+    setTaskName("");
+    setTaskDesc("");
+    setTaskHrs(0);
+    setTaskMins(0);
+    setTaskDur("");
+    setTaskDate(currDate);
+    setIsWork(true);
+  }
 
-//         <View>
-//           <Text>Description: </Text>
-//           <TextInput
-//             defaultValue={taskDesc}
-//             onChange={(e) => setTaskDesc(e.target.value)}
-//           />
-//         </View>
+  function handleAddTask() {
+    // e.preventDefault();
+    const t = taskTime[0] + taskTime[1]/100;
+    //create a new doc within the relevant collection
+    const d = taskDate[2] + '-' + taskDate[1] +'-' + taskDate[0];
+    const ref = userTasks.collection(d).doc();
+    const work = edit ? isWork : addWorkClicked;
+    // update tasks here
+    const newTask = {
+      id: ref.id, //id field necessary to delete task later
+      date: d,
+      isWork: work,
+      name: taskName,
+      desc: taskDesc,
+      time: t,
+      dur: parseFloat(taskDur),
+    };
+    //write to database here
+    console.log(work);
+    //add the new task to the database
+    ref.set(newTask);
 
-//         <View>
-//           <Text>Date: </Text>
-//           {/* <input
-//             type="date"
-//             placeholder="yyyy-mm-dd"
-//             defaultValue={taskDate}
-//             min={currDate}
-//             onChange={(e) => setTaskDate(e)}
-//             required
-//           ></input> */}
-//           <NumberPlease
-//             digit={dateRange}
-//             values={taskDate}
-//             onChange={(values) => setTaskDate(values)}
-//           />
-//         </View>
+    //update work/lifeTime for the meter
+    const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
+    const numDays = whatday - 1; // num of times to mathfloor
+    const monDate = moment().subtract(numDays, "days");
+    if (moment(taskDate, "YYYY-MM-DD").diff(monDate, "days") < 6) {
+      //change below
+      handleCounters(work, "+", taskDur);
+    }
+    initStates();
+  }
 
-//         <View>
-//           {/* <Text>
-//             Time: {taskHrs} : {taskMins}{" "}
-//           </Text> */}
-//           {/* <input
-//             type="range"
-//             id="task-time-hour"
-//             defaultValue={taskHrs}
-//             max="23"
-//             min="0"
-//             onChange={(e) => setTaskHrs(e.target.value)}
-//             required
-//           ></input>
-//           <input
-//             type="range"
-//             id="task-time-min"
-//             defaultValue={taskMins}
-//             max="59"
-//             min="0"
-//             onChange={(e) => setTaskMins(e.target.value)}
-//             required
-//           ></input> */}
-//           <NumberPlease
-//             digit={timeRange}
-//             values={taskTime}
-//             onChange={(values) => setTaskTime(values)}
-//           />
-//         </View>
+  function handleEditTask(e) {
+    e.preventDefault();
+    const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
+    const numDays = whatday - 1; // num of times to mathfloor
+    const monDate = moment().subtract(numDays, "days");
+    userTasks
+      .collection(editTask.date)
+      .doc(editTask.id)
+      .delete()
+      .then(() => {
+        if (moment(editTask.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
+          //if editing, delete the previous task + subtract from work/lifeTime for meter
+          console.log("subtract");
+          handleCounters(editTask.isWork, "-", editTask.dur);
+        }
+      });
+  }
 
-//         <View>
-//           <Text>Duration: </Text>
-//           <TextInput
-//             keyboardType = 'numeric'
-//             value={taskDur}
-//             placeholder="E.g. 2.25"
-//             onChangText={e => setTaskDur(e)}
-//             required
-//           />
-//         </View>
+  function handleCounters(work, operator, dur) {
+    userTasks.get().then((doc) => {
+      if (work) {
+        const currWork = doc.data().workTime;
+        userTasks.update({
+          workTime: eval(
+            currWork.toString() + operator + parseFloat(dur).toString()
+          ),
+        });
+      } else {
+        const currLife = doc.data().lifeTime;
+        userTasks.update({
+          lifeTime: eval(
+            currLife.toString() + operator + parseFloat(dur).toString()
+          ),
+        });
+      }
+    });
+  }
 
-//         <View>
-//           {/* <Checkbox
-//             // style={styles.checkbox}
-//             onChangeValue={isChecked}
-//           />{" "} */}
-//           <Text>Set Reminders</Text>
-//         </View>
+  function isChecked() {
+    // e.preventDefault();
+    setCheck(!check);
+    let reminder = document.getElementById("rem-interval");
+    if (check === true) {
+      reminder.style.display = "block";
+    } else {
+      reminder.style.display = "none";
+    }
+  }
 
-//         <View
-//           style={{ display: "none" }}
-//         >
-//           {/* <Checkbox style={styles.checkbox} /> <Text>10 min</Text>
-//           <Checkbox style={styles.checkbox} /> <Text>30 min</Text>
-//           <Checkbox style={styles.checkbox} /> <Text>1 hour before</Text>
-//           <Checkbox style={styles.checkbox} /> <Text>3 hours before</Text>
-//           <Checkbox style={styles.checkbox} /> <Text>1 day before</Text>
-//           <Checkbox style={styles.checkbox} /> <Text>3 days before</Text>
-//           <Checkbox style={styles.checkbox} /> <Text>1 week before</Text>
-//           <Checkbox style={styles.checkbox} /> <Text>2 weeks before</Text> */}
-//         </View>
+  return (
+    <View>
+      {/* <Text>{!edit && (addWorkClicked ? "work" : "life")}</Text> */}
+      {/* <form
+        onSubmit={(e) => {
+          edit && handleEditTask(e);
+          handleAddTask(e);
+        }}
+      > */}
+        {/* {edit && (
+          <View>
+            <input
+              type="radio"
+              name="work-life-button"
+              id="work-radio-edit"
+              onChange={(e) => setIsWork(true)}
+            />{" "}
+            Work
+            <input
+              type="radio"
+              name="work-life-button"
+              id="life-radio-edit"
+              onChange={(e) => setIsWork(false)}
+            />{" "}
+            Life
+          </View>
+        )} */}
 
-//         <View>
-//           <Button onPress={handleAddTask}>
-//             Submit
-//           </Button>
-//           <Button
-//             onPress={removeTaskForm}
-//           >
-//             Cancel
-//           </Button>
-//         </View>
+        <View>
+          <Text>Task Name: </Text>
+          <TextInput
+            value={taskName}
+            onChange={(e) => setTaskName(e)}
+            required
+          />
+        </View>
+
+        <View>
+          <Text>Description: </Text>
+          <TextInput
+            defaultValue={taskDesc}
+            onChange={(e) => setTaskDesc(e.target.value)}
+          />
+        </View>
+
+        <View>
+          <Text>Date: </Text>
+          {/* <input
+            type="date"
+            placeholder="yyyy-mm-dd"
+            defaultValue={taskDate}
+            min={currDate}
+            onChange={(e) => setTaskDate(e)}
+            required
+          ></input> */}
+          <NumberPlease
+            digit={dateRange}
+            values={taskDate}
+            onChange={(values) => setTaskDate(values)}
+          />
+        </View>
+
+        <View>
+          {/* <Text>
+            Time: {taskHrs} : {taskMins}{" "}
+          </Text> */}
+          {/* <input
+            type="range"
+            id="task-time-hour"
+            defaultValue={taskHrs}
+            max="23"
+            min="0"
+            onChange={(e) => setTaskHrs(e.target.value)}
+            required
+          ></input>
+          <input
+            type="range"
+            id="task-time-min"
+            defaultValue={taskMins}
+            max="59"
+            min="0"
+            onChange={(e) => setTaskMins(e.target.value)}
+            required
+          ></input> */}
+          <NumberPlease
+            digit={timeRange}
+            values={taskTime}
+            onChange={(values) => setTaskTime(values)}
+          />
+        </View>
+
+        <View>
+          <Text>Duration: </Text>
+          <TextInput
+            keyboardType = 'numeric'
+            value={taskDur}
+            placeholder="E.g. 2.25"
+            onChangText={e => setTaskDur(e)}
+            required
+          />
+        </View>
+
+        <View>
+          {/* <Checkbox
+            // style={styles.checkbox}
+            onChangeValue={isChecked}
+          />{" "} */}
+          <Text>Set Reminders</Text>
+        </View>
+
+        <View
+          style={{ display: "none" }}
+        >
+          {/* <Checkbox style={styles.checkbox} /> <Text>10 min</Text>
+          <Checkbox style={styles.checkbox} /> <Text>30 min</Text>
+          <Checkbox style={styles.checkbox} /> <Text>1 hour before</Text>
+          <Checkbox style={styles.checkbox} /> <Text>3 hours before</Text>
+          <Checkbox style={styles.checkbox} /> <Text>1 day before</Text>
+          <Checkbox style={styles.checkbox} /> <Text>3 days before</Text>
+          <Checkbox style={styles.checkbox} /> <Text>1 week before</Text>
+          <Checkbox style={styles.checkbox} /> <Text>2 weeks before</Text> */}
+        </View>
+
+        <View>
+          <Button onPress={handleAddTask}>
+            Submit
+          </Button>
+          <Button
+            onPress={removeTaskForm}
+          >
+            Cancel
+          </Button>
+        </View>
       
-//     </View>
-//   );
-// }
+    </View>
+  );
+}
 
-// export default TaskForm;
+export default TaskForm;
