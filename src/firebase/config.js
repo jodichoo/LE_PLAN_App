@@ -18,6 +18,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDHVEgZAF13qqCmkAs-uoVXEz8t6ockCwQ",
   authDomain: "wlbbot-c1927.firebaseapp.com",
   projectId: "wlbbot-c1927",
+  databaseURL: 'https://wlbbot-c1927.firebaseio.com',
   storageBucket: "wlbbot-c1927.appspot.com",
   messagingSenderId: "560679851",
   appId: "1:560679851:web:8b77914fcb57787bc4e0ee",
