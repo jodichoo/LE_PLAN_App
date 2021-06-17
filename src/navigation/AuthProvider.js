@@ -1,17 +1,23 @@
-import React, {createContext, useState} from 'react';
-import '@firebase/auth';
-import '@firebase/firestore';
+import React, { createContext, useState, useContext } from "react";
+import "@firebase/auth";
+import "@firebase/firestore";
 import firebase from "firebase/app";
 export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-  const [user, setUser] = useState(null);
+export function useAuth() {
+  return useContext(AuthContext);
+}
+
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [username, setUsername] = useState('User'); 
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        setUser,
+        currentUser,
+        setCurrentUser,
+        username,
         login: async (email, password) => {
           try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -19,29 +25,38 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
-        register: async (email, password) => {
+        register: async (email, password, un) => {
+          setUsername(un)
           try {
-            await firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => {
-              // Once the user creation has happened successfully, we can add the currentUser into firestore
-              // with the appropriate details.
-              firestore().collection('users').doc(auth().currentUser.uid)
-              .set({
-                  fname: '',
-                  lname: '',
-                  email: email,
-                  createdAt: firestore.Timestamp.fromDate(new Date()),
-                  userImg: null,
+            await firebase
+              .auth()
+              .createUserWithEmailAndPassword(email, password)
+              .then(() => {
+                // Once the user creation has happened successfully, we can add the currentUser into firestore
+                // with the appropriate details.
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(firebase.auth().currentUser.uid)
+                  .set({
+                    storedDate: "2021-05-31",
+                    username: un,
+                    workTime: 0,
+                    lifeTime: 0,
+                  })
+                  .then(() => {console.log('set user data')})
+                  //ensure we catch any errors at this stage to advise us if something does go wrong
+                  .catch((error) => {
+                    console.log(
+                      "Something went wrong with added user to firestore: ",
+                      error
+                    );
+                  });
               })
-              //ensure we catch any errors at this stage to advise us if something does go wrong
-              .catch(error => {
-                  console.log('Something went wrong with added user to firestore: ', error);
-              })
-            })
-            //we need to catch the whole sign up process if it fails too.
-            .catch(error => {
-                console.log('Something went wrong with sign up: ', error);
-            });
+              //we need to catch the whole sign up process if it fails too.
+              .catch((error) => {
+                console.log("Something went wrong with sign up: ", error);
+              });
           } catch (e) {
             console.log(e);
           }
@@ -53,7 +68,8 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

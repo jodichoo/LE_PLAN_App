@@ -3,6 +3,7 @@ import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View, Button } f
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 import {AuthContext} from '../../navigation/AuthProvider';
+import TaskForm from '../../components/TaskForm';
 
 const HomeScreen = ({navigation}) => {
     const {user, setUser, logout} = useContext(AuthContext);
@@ -65,7 +66,7 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.formContainer}>
+            {/* <View style={styles.formContainer}>
                 <TextInput
                     style={styles.input}
                     placeholder='Add new entity'
@@ -91,7 +92,9 @@ const HomeScreen = ({navigation}) => {
             )}
             <Text>
                 Home
-            </Text>
+            </Text> */}
+            {/* <TaskForm /> */}
+            <Text>home</Text>
             <Button onPress={logout} title='log Out'/>
         </View>
     )
