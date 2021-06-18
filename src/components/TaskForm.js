@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { db } from "../firebase/config";
 import moment from "moment";
 import { useAuth } from "../navigation/AuthProvider";
@@ -15,20 +15,20 @@ import {
 } from "react-native";
 // import styles from "./styles";
 
-function TaskForm() {
-//   const {
-//     addWorkClicked,
-//     setAddWorkClicked,
-//     setAddLifeClicked,
-//     editTask,
-//     edit,
-//     setEdit,
-//     selectedDate,
-//   } = props;
+function TaskForm(props) {
+    const {
+      addWorkClicked,
+      setAddWorkClicked,
+      setAddLifeClicked,
+      editTask,
+      edit,
+      setEdit,
+      selectedDate,
+    } = props;
   const currDate = new Date().toLocaleDateString("en-CA");
   const [taskName, setTaskName] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
-  //const [taskDate, setTaskDate] = useState(selectedDate);
+  // const [taskDate, setTaskDate] = useState(selectedDate);
   const [taskHrs, setTaskHrs] = useState(0);
   const [taskMins, setTaskMins] = useState(0);
   const [taskDur, setTaskDur] = useState("");
@@ -37,26 +37,27 @@ function TaskForm() {
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
 
-  const today = moment().format("DD-MM-YYY").split('-');
+  const today = moment().format("DD-MM-YYYY").split("-");
+  console.log(today)
   const [taskDate, setTaskDate] = useState([
     { id: "day", value: today[0] },
-    { id: "month", value: today[1] },
+    { id: "month", value: today[1] }, //got bug if single digit dont show num but 0
     { id: "year", value: today[2] },
   ]);
   const dateRange = [
     { id: "day", label: "", min: 0, max: 31 },
     { id: "month", label: "", min: 0, max: 12 },
-    { id: "year", label: "", min: new Date().getFullYear(), max: 2100
-  }];
+    { id: "year", label: "", min: new Date().getFullYear(), max: 2100 },
+  ];
 
   const [taskTime, setTaskTime] = useState([
     { id: "hour", value: 0 },
-    { id: "min", value: 0 }, 
+    { id: "min", value: 0 },
   ]);
   const timeRange = [
-      {id: "hour", label: "h", min: 0, max: 23},
-      {id: "min", label: "min", min: 0, max: 59},
-  ]
+    { id: "hour", label: "h", min: 0, max: 23 },
+    { id: "min", label: "min", min: 0, max: 59 },
+  ];
 
   useEffect(() => {
     if (edit) {
@@ -76,25 +77,25 @@ function TaskForm() {
     }
   }, []);
 
-//   function getHour(num) {
-//     if (num === 0) {
-//       return num;
-//     } else {
-//       const str = num.toString();
-//       const split = str.split(".");
-//       return parseInt(split[0]);
-//     }
-//   }
+    function getHour(num) {
+      if (num === 0) {
+        return num;
+      } else {
+        const str = num.toString();
+        const split = str.split(".");
+        return parseInt(split[0]);
+      }
+    }
 
-//   function getMin(num) {
-//     if (num === 0) {
-//       return num;
-//     } else {
-//       const str = num.toString();
-//       const split = str.split(".");
-//       return parseInt(split[1]);
-//     }
-//   }
+    function getMin(num) {
+      if (num === 0) {
+        return num;
+      } else {
+        const str = num.toString();
+        const split = str.split(".");
+        return parseInt(split[1]);
+      }
+    }
 
   function removeTaskForm() {
     // e.preventDefault();
@@ -124,16 +125,19 @@ function TaskForm() {
 
   function handleAddTask() {
     // e.preventDefault();
-    const t = taskTime[0] + taskTime[1]/100;
+    const t = taskTime[0].value + taskTime[1].value / 100;
+    console.log(t)
     //create a new doc within the relevant collection
-    const d = taskDate[2] + '-' + taskDate[1] +'-' + taskDate[0];
+    const d = taskDate[2].value + "-" + taskDate[1].value + "-" + taskDate[0].value;
+    console.log(d)
     const ref = userTasks.collection(d).doc();
+    console.log(ref)
     const work = edit ? isWork : addWorkClicked;
     // update tasks here
     const newTask = {
       id: ref.id, //id field necessary to delete task later
       date: d,
-      isWork: work,
+      isWork: false, //work
       name: taskName,
       desc: taskDesc,
       time: t,
@@ -148,7 +152,7 @@ function TaskForm() {
     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
     const numDays = whatday - 1; // num of times to mathfloor
     const monDate = moment().subtract(numDays, "days");
-    if (moment(taskDate, "YYYY-MM-DD").diff(monDate, "days") < 6) {
+    if (moment(d, "YYYY-MM-DD").diff(monDate, "days") < 6) {
       //change below
       handleCounters(work, "+", taskDur);
     }
@@ -193,27 +197,21 @@ function TaskForm() {
     });
   }
 
-  function isChecked() {
-    // e.preventDefault();
-    setCheck(!check);
-    let reminder = document.getElementById("rem-interval");
-    if (check === true) {
-      reminder.style.display = "block";
-    } else {
-      reminder.style.display = "none";
-    }
-  }
+//   function isChecked() {
+//     // e.preventDefault();
+//     setCheck(!check);
+//     let reminder = document.getElementById("rem-interval");
+//     if (check === true) {
+//       reminder.style.display = "block";
+//     } else {
+//       reminder.style.display = "none";
+//     }
+//   }
 
   return (
     <View>
-      {/* <Text>{!edit && (addWorkClicked ? "work" : "life")}</Text> */}
-      {/* <form
-        onSubmit={(e) => {
-          edit && handleEditTask(e);
-          handleAddTask(e);
-        }}
-      > */}
-        {/* {edit && (
+      <Text>{!edit && (addWorkClicked ? "work" : "life")}</Text>
+      {/* {edit && (
           <View>
             <input
               type="radio"
@@ -232,92 +230,68 @@ function TaskForm() {
           </View>
         )} */}
 
-        <View>
-          <Text>Task Name: </Text>
-          <TextInput
-            value={taskName}
-            onChange={(e) => setTaskName(e)}
-            required
-          />
-        </View>
+      <View>
+        <Text>Task Name: </Text>
+        <TextInput value={taskName} onChange={(e) => setTaskName(e)} required />
+      </View>
 
-        <View>
-          <Text>Description: </Text>
-          <TextInput
-            defaultValue={taskDesc}
-            onChange={(e) => setTaskDesc(e.target.value)}
-          />
-        </View>
+      <View>
+        <Text>Description: </Text>
+        <TextInput
+          defaultValue={taskDesc}
+          onChange={(e) => setTaskDesc(e.target.value)}
+        />
+      </View>
 
-        <View>
-          <Text>Date: </Text>
-          {/* <input
-            type="date"
-            placeholder="yyyy-mm-dd"
-            defaultValue={taskDate}
-            min={currDate}
-            onChange={(e) => setTaskDate(e)}
-            required
-          ></input> */}
-          <NumberPlease
-            digit={dateRange}
-            values={taskDate}
-            onChange={(values) => setTaskDate(values)}
-          />
-        </View>
+      <View>
+        <Text>Date: </Text>
+        <NumberPlease
+          digits={dateRange}
+          values={taskDate}
+          onChange={(values) => setTaskDate(values)}
+        />
+      </View>
 
-        <View>
-          {/* <Text>
+      <View>
+        <Text>
             Time: {taskHrs} : {taskMins}{" "}
-          </Text> */}
-          {/* <input
-            type="range"
-            id="task-time-hour"
-            defaultValue={taskHrs}
-            max="23"
-            min="0"
-            onChange={(e) => setTaskHrs(e.target.value)}
-            required
-          ></input>
-          <input
-            type="range"
-            id="task-time-min"
-            defaultValue={taskMins}
-            max="59"
-            min="0"
-            onChange={(e) => setTaskMins(e.target.value)}
-            required
-          ></input> */}
-          <NumberPlease
-            digit={timeRange}
-            values={taskTime}
-            onChange={(values) => setTaskTime(values)}
-          />
-        </View>
+        </Text>
+        <NumberPlease
+          digits={timeRange}
+          values={taskTime}
+          onChange={(values) => setTaskTime(values)}
+        />
+      </View>
 
-        <View>
-          <Text>Duration: </Text>
-          <TextInput
-            keyboardType = 'numeric'
-            value={taskDur}
-            placeholder="E.g. 2.25"
-            onChangText={e => setTaskDur(e)}
-            required
-          />
-        </View>
+      <View>
+        <Text>Duration: </Text>
+        <TextInput
+          keyboardType="numeric"
+          value={taskDur}
+          placeholder="E.g. 2.25"
+          onChangText={(e) => setTaskDur(e)}
+          required
+        />
+      </View>
 
-        <View>
-          {/* <Checkbox
+      <View>
+        <Button title="Submit" onPress={() => {edit && handleEditTask(); handleAddTask();}} />
+        <Button title="Cancel" onPress={removeTaskForm} />
+      </View>
+    </View>
+  );
+}
+  {/* <View>
+        <Checkbox
             // style={styles.checkbox}
             onChangeValue={isChecked}
-          />{" "} */}
-          <Text>Set Reminders</Text>
-        </View>
+            value={false}
+          />{" "}
+        <Text>Set Reminders</Text>
+      </View>
 
-        <View
-          style={{ display: "none" }}
-        >
-          {/* <Checkbox style={styles.checkbox} /> <Text>10 min</Text>
+      <View style={{ display: "none" }}>
+        {/* <Checkbox style={styles.checkbox} /> <Text>10 min</Text>
           <Checkbox style={styles.checkbox} /> <Text>30 min</Text>
           <Checkbox style={styles.checkbox} /> <Text>1 hour before</Text>
           <Checkbox style={styles.checkbox} /> <Text>3 hours before</Text>
@@ -325,21 +299,6 @@ function TaskForm() {
           <Checkbox style={styles.checkbox} /> <Text>3 days before</Text>
           <Checkbox style={styles.checkbox} /> <Text>1 week before</Text>
           <Checkbox style={styles.checkbox} /> <Text>2 weeks before</Text> */}
-        </View>
-
-        <View>
-          <Button onPress={handleAddTask}>
-            Submit
-          </Button>
-          <Button
-            onPress={removeTaskForm}
-          >
-            Cancel
-          </Button>
-        </View>
-      
-    </View>
-  );
-}
+      {/* </View> */}
 
 export default TaskForm;
