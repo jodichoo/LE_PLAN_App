@@ -12,6 +12,7 @@ import {
   View,
   Button,
 } from "react-native";
+import Checkbox from "expo-checkbox";
 
 function TaskManager(props) {
   const { tasks, selectedDate } = props;
@@ -93,14 +94,14 @@ function TaskManager(props) {
 
   return (
     <View>
-      {tasks.map((task, index) => (
+     {tasks.map((task, index) => (
         <>
           <View
             // onMouseEnter={(e) => toggleTaskDesc(e, index, true)}
             // onMouseLeave={(e) => toggleTaskDesc(e, index, false)}
           >
             <View>
-              <View type="checkbox" id="completed-check" />
+              <Checkbox />
             </View>
             <View>{convertTime(task.time)}</View>
             <TouchableOpacity onPress={() => handleEditTask(index)}
@@ -117,7 +118,7 @@ function TaskManager(props) {
               ) : (
                 <BiJoystick style={iconsStyle} />
               )} */}
-              {isWork ? Work : Play}
+              {task.isWork ? "Work" : "Play"}
             </View>
             <View>
               <Button title="Delete" onPress={() => deleteTask(index)} />
@@ -138,6 +139,7 @@ function TaskManager(props) {
       {/* <div className='edit'>
                 {edit && <TaskForm editTask={editTask} edit={edit} setEdit={setEdit} />}
             </div> */}
+    
     </View>
     // <div>
     // <table className='task-table'>

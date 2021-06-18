@@ -7,13 +7,14 @@ import TaskForm from '../../components/TaskForm';
 import AddTaskTab from '../../components/AddTaskTab';
 import TaskManager from '../../components/TaskManager';
 import moment from 'moment';
+import { db } from "../../firebase/config";
 
 const HomeScreen = ({navigation}) => {
     const {currentUser, logout} = useContext(AuthContext);
     const currDate = moment().format('YYYY-MM-DD');
     const [selectedDate, setSelectedDate] = useState(currDate); 
     const [error, setError] = useState(""); 
-    const history = useHistory();
+    //const history = useHistory();
     const [tasks, setTasks] = useState([]);
     const [todayTasks, setTodayTasks] = useState([]); 
     const userTasks = db.collection("users").doc(currentUser.uid);
@@ -51,8 +52,10 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <TaskManager />
-            <AddTaskTab selectedDate={moment().format("YYY-MM-DD")}/>
+        <Text>Task List</Text>
+            <TaskManager selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
+            <Text>+Add Tasks</Text>
+            <AddTaskTab todayTasks={todayTasks} selectedDate={selectedDate}/>
             <Text>home</Text>
             <Button onPress={logout} title='log Out'/>
         </View>
