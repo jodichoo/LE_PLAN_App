@@ -45,8 +45,8 @@ function TaskForm(props) {
     { id: "year", value: today[2] },
   ]);
   const dateRange = [
-    { id: "day", label: "", min: 0, max: 31 },
-    { id: "month", label: "", min: 0, max: 12 },
+    { id: "day", label: "", min: 1, max: 31 },
+    { id: "month", label: "", min: 1, max: 12 },
     { id: "year", label: "", min: new Date().getFullYear(), max: 2100 },
   ];
 
@@ -125,23 +125,28 @@ function TaskForm(props) {
 
   function handleAddTask() {
     // e.preventDefault();
-    const t = taskTime[0].value + taskTime[1].value / 100;
-    console.log(t)
+    const t = parseFloat(taskTime[0].value) + parseFloat(taskTime[1].value / 100);
+    console.log()
     //create a new doc within the relevant collection
     const d = taskDate[2].value + "-" + taskDate[1].value + "-" + taskDate[0].value;
-    console.log(d)
-    const ref = userTasks.collection(d).doc();
+    
+    const formatDate = moment(d, "YYYY-MM-DD").format("YYYY-MM-DD");
+    console.log(formatDate)
+    const ref = userTasks.collection(formatDate).doc();
     console.log(ref)
     const work = edit ? isWork : addWorkClicked;
+    console.log(taskName)
+    console.log(taskDesc)
+    console.log(taskDur)
     // update tasks here
     const newTask = {
       id: ref.id, //id field necessary to delete task later
-      date: d,
+      date: formatDate,
       isWork: work, //work
       name: taskName,
       desc: taskDesc,
       time: t,
-      dur: parseFloat(taskDur),
+      dur: taskDur,
     };
     //write to database here
     console.log(work);
@@ -232,14 +237,14 @@ function TaskForm(props) {
 
       <View>
         <Text>Task Name: </Text>
-        <TextInput value={taskName} onChange={(e) => setTaskName(e)} required />
+        <TextInput value={taskName} onChangeText={(e) => setTaskName(e)} required />
       </View>
 
       <View>
         <Text>Description: </Text>
         <TextInput
-          defaultValue={taskDesc}
-          onChange={(e) => setTaskDesc(e.target.value)}
+          value={taskDesc}
+          onChangeText={(e) => setTaskDesc(e)}
         />
       </View>
 
@@ -266,11 +271,9 @@ function TaskForm(props) {
       <View>
         <Text>Duration: </Text>
         <TextInput
-          keyboardType="numeric"
           value={taskDur}
           placeholder="E.g. 2.25"
-          onChangText={(e) => setTaskDur(e)}
-          required
+          onChangeText={(e) => setTaskDur(e)}
         />
       </View>
 
