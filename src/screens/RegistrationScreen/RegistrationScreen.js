@@ -66,7 +66,7 @@ const RegistrationScreen = ({navigation}) => {
                 />
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => register(email, password)}>
+                    onPress={() => register(email, password, fullName)}>
                     <Text style={styles.buttonTitle}>Create account</Text>
                 </TouchableOpacity>
                 <View style={styles.footerView}>
