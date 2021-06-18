@@ -137,7 +137,7 @@ function TaskForm(props) {
     const newTask = {
       id: ref.id, //id field necessary to delete task later
       date: d,
-      isWork: false, //work
+      isWork: work, //work
       name: taskName,
       desc: taskDesc,
       time: t,
