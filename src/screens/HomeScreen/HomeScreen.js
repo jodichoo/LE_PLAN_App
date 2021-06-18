@@ -6,13 +6,13 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import TaskForm from '../../components/TaskForm';
 
 const HomeScreen = ({navigation}) => {
-    const {user, setUser, logout} = useContext(AuthContext);
-    console.log(user.l)
+    const {currentUser, logout} = useContext(AuthContext);
+    console.log(currentUser.l)
     const [entityText, setEntityText] = useState('')
     const [entities, setEntities] = useState([])
 
     const entityRef = firebase.firestore().collection('entities')
-    const userID = user.l;
+    const userID = currentUser.l;
 
     useEffect(() => {
         entityRef
@@ -93,7 +93,7 @@ const HomeScreen = ({navigation}) => {
             <Text>
                 Home
             </Text> */}
-            {/* <TaskForm /> */}
+            <TaskForm />
             <Text>home</Text>
             <Button onPress={logout} title='log Out'/>
         </View>

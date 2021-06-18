@@ -7,11 +7,11 @@ import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 
 const Routes = () => {
-  const {user, setUser} = useContext(AuthContext);
+  const {currentUser, setCurrentUser} = useContext(AuthContext);
   const [initializing, setInitializing] = useState(true);
 
   const onAuthStateChanged = (user) => {
-    setUser(user);
+    setCurrentUser(user);
     if (initializing) setInitializing(false);
   };
 
@@ -24,7 +24,7 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      {user ? <AppStack name="user"/> : <AuthStack />}
+      {currentUser ? <AppStack name="user"/> : <AuthStack />}
     </NavigationContainer>
   );
 };
