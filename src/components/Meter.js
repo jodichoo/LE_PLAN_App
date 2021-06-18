@@ -10,7 +10,7 @@ function Meter() {
   const [lifeTime, setLifeTime] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [hovered, setHovered] = useState("Work");
-  console.log(workTime)
+
   useEffect(() => {
     userTasks.onSnapshot((doc) => {
       if (doc.exists) {

@@ -1,8 +1,9 @@
 import TaskManager from "./TaskManager";
-import { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContexts";
-import { db } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../navigation/AuthProvider";
+import { db } from "../firebase/config";
 import moment from "moment";
+import { View , Text} from "react-native";
 
 function Greeting(props) {
   const { tasks, setTasks, selectedDate } = props; 
@@ -136,17 +137,24 @@ function Greeting(props) {
     });
   }, []);
 
+function styleDate(date) {
+  if (date === moment().format("YYYY-MM-DD")) {
+    return "today";
+  } 
+  return date;
+}
+
   return (
-    <div className="center-dash">
-      <h1>
+    <View>
+      <Text>
         {date.toLocaleTimeString()} {convertGreet(date)}, {greetName}!
-      </h1>
-      <h2>
+      </Text>
+      <Text>
         {/* Here are your tasks for {date.toLocaleDateString()} ecksdee ecksdee */}
-        Here are your tasks for {selectedDate} ecksdee ecksdee
-      </h2>
+        Here are your tasks for {styleDate(selectedDate)} 
+      </Text>
       {/* <TaskManager selectedDate={selectedDate} tasks={tasks} setTasks={setTasks}/> */}
-    </div>
+    </View>
   );
 }
 

@@ -13,9 +13,10 @@ import {
   Button,
 } from "react-native";
 import Checkbox from "expo-checkbox";
+import Greeting from "./Greeting";
 
 function TaskManager(props) {
-  const { tasks, selectedDate } = props;
+  const { setTasks, tasks, selectedDate } = props;
   // const [tasks, setTasks] = useState([]);
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
@@ -94,6 +95,7 @@ function TaskManager(props) {
 
   return (
     <View>
+    <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
       {tasks.map((task, index) => (
         <View key={index}>
           <View>
