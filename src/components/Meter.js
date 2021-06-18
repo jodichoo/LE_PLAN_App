@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContexts";
-import { db } from "../firebase";
-import { View } from "react-native";
+import { useAuth } from "../navigation/AuthProvider";
+import { db } from "../firebase/config";
+import { View , Text} from "react-native";
 
 function Meter() {
   const { currentUser } = useAuth();
@@ -10,7 +10,7 @@ function Meter() {
   const [lifeTime, setLifeTime] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [hovered, setHovered] = useState("Work");
-
+  console.log(workTime)
   useEffect(() => {
     userTasks.onSnapshot((doc) => {
       if (doc.exists) {
@@ -38,7 +38,7 @@ function Meter() {
 
   return (
     <View>
-      
+      <Text>{workTime}/{lifeTime}</Text>
     </View>
   );
 }

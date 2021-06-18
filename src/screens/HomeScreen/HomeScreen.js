@@ -53,6 +53,7 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
+        <Text>Meter:</Text>
         <Meter />
         <Text>Task List</Text>
             <TaskManager selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
