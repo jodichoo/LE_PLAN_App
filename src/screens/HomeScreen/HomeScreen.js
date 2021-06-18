@@ -5,14 +5,53 @@ import { firebase } from '../../firebase/config'
 import {AuthContext} from '../../navigation/AuthProvider';
 import TaskForm from '../../components/TaskForm';
 import AddTaskTab from '../../components/AddTaskTab';
+import TaskManager from '../../components/TaskManager';
 import moment from 'moment';
 
 const HomeScreen = ({navigation}) => {
     const {currentUser, logout} = useContext(AuthContext);
-    console.log(currentUser.l)
- 
+    const currDate = moment().format('YYYY-MM-DD');
+    const [selectedDate, setSelectedDate] = useState(currDate); 
+    const [error, setError] = useState(""); 
+    const history = useHistory();
+    const [tasks, setTasks] = useState([]);
+    const [todayTasks, setTodayTasks] = useState([]); 
+    const userTasks = db.collection("users").doc(currentUser.uid);
+
+    useEffect(() => {
+        //get collection of current date's tasks
+        const today = userTasks.collection(currDate); 
+        const unsubscribe = today.orderBy("time").onSnapshot((querySnapshot) => {
+          const t = [];
+          querySnapshot.forEach((doc) => {
+            t.push(doc.data());
+          });
+          //set local tasks variable to array t
+          setTodayTasks(t);
+        });
+        return () => unsubscribe();
+      }, [])
+    
+    
+      //gets and displays tasks based on date selected from left dashboard 
+      useEffect(() => {
+        //get collection of tasks to be displayed
+        const selected = userTasks.collection(selectedDate);
+        //order collection by time, then push each item in collection into array
+        const unsubscribe = selected.orderBy("time").onSnapshot((querySnapshot) => {
+          const t = [];
+          querySnapshot.forEach((doc) => {
+            t.push(doc.data());
+          });
+          //set local tasks variable to array t
+          setTasks(t);
+        });
+        return () => unsubscribe();
+      }, [selectedDate]);
+
     return (
         <View style={styles.container}>
+            <TaskManager />
             <AddTaskTab selectedDate={moment().format("YYY-MM-DD")}/>
             <Text>home</Text>
             <Button onPress={logout} title='log Out'/>
