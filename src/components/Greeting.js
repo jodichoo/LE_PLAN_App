@@ -19,11 +19,11 @@ function Greeting(props) {
     var lifeCount = 0;
 
     for (var i = 0; i <= 6; i++) {
-      console.log("getting the durations");
+      //console.log("getting the durations");
       const tempDate = moment(monDate);
       tempDate.add(i, "days"); //set date to next day of the week
       const str = tempDate.format("YYYY-MM-DD"); //to find tasks in database
-      console.log(i, str);
+      //console.log(i, str);
       await userTasks
         .collection(str)
         .get()
@@ -32,11 +32,12 @@ function Greeting(props) {
             if (doc.exists) {
               const isWork = doc.data().isWork;
               const dur = doc.data().dur;
-              console.log(doc.data().date, isWork, doc.data().name);
+              //console.log(doc.data().date, isWork, doc.data().name, dur);
               if (isWork) {
-                workCount += dur;
+                workCount += parseInt(dur);
               } else {
-                lifeCount += dur;
+                lifeCount += parseInt(dur);
+                console.log(lifeCount)
               }
             }
           });
