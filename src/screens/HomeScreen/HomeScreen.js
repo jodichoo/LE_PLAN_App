@@ -6,6 +6,7 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import TaskForm from '../../components/TaskForm';
 import AddTaskTab from '../../components/AddTaskTab';
 import TaskManager from '../../components/TaskManager';
+import Meter from '../../components/Meter';
 import moment from 'moment';
 import { db } from "../../firebase/config";
 
@@ -52,6 +53,7 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
+        <Meter />
         <Text>Task List</Text>
             <TaskManager selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
             <Text>+Add Tasks</Text>
