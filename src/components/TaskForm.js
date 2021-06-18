@@ -69,11 +69,11 @@ function TaskForm(props) {
       setTaskDur(editTask.dur);
       setIsWork(editTask.isWork);
 
-      if (editTask.isWork) {
-        document.getElementById("work-radio-edit").checked = true;
-      } else {
-        document.getElementById("life-radio-edit").checked = true;
-      }
+    //   if (editTask.isWork) {
+    //     document.getElementById("work-radio-edit").checked = true;
+    //   } else {
+    //     document.getElementById("life-radio-edit").checked = true;
+    //   }
     }
   }, []);
 
@@ -165,8 +165,7 @@ function TaskForm(props) {
   }
 
   function handleEditTask(e) {
-    e.preventDefault();
-    const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
+     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
     const numDays = whatday - 1; // num of times to mathfloor
     const monDate = moment().subtract(numDays, "days");
     userTasks
@@ -216,25 +215,6 @@ function TaskForm(props) {
   return (
     <View>
       <Text>{!edit && (addWorkClicked ? "work" : "life")}</Text>
-      {/* {edit && (
-          <View>
-            <input
-              type="radio"
-              name="work-life-button"
-              id="work-radio-edit"
-              onChange={(e) => setIsWork(true)}
-            />{" "}
-            Work
-            <input
-              type="radio"
-              name="work-life-button"
-              id="life-radio-edit"
-              onChange={(e) => setIsWork(false)}
-            />{" "}
-            Life
-          </View>
-        )} */}
-
       <View>
         <Text>Task Name: </Text>
         <TextInput value={taskName} onChangeText={(e) => setTaskName(e)} required />

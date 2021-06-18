@@ -13,7 +13,7 @@ import {
 function AddTaskTab(props) {
   const [addWorkClicked, setAddWorkClicked] = useState(false);
   const [addLifeClicked, setAddLifeClicked] = useState(false);
-  //const { todayTasks, selectedDate } = props;
+  //const { todayTasks, selectedDate } = props; for meter in reactjs
   const { selectedDate } = props;
 
   function showWorkTaskForm() {
@@ -32,7 +32,6 @@ function AddTaskTab(props) {
 
   return (
     <View>
-      {/* <h1 id="add-task"><BiCalendarPlus style={{verticalAlign:'top'}}/>{' '}Add Task</h1> */}
       <Button title="Work" onPress={showWorkTaskForm} />
       <Button title="Play" onPress={showLifeTaskForm} />
       <View>

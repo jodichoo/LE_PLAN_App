@@ -22,15 +22,15 @@ function TaskManager(props) {
   const [editTask, setEditTask] = useState({});
   const [edit, setEdit] = useState(false);
 
-//   function toggleTaskDesc(index, toggle) {
-//     // console.log(tasks[index].desc);
-//     let t = document.getElementById(index);
-//     if (toggle) {
-//       t.style.display = "block";
-//     } else {
-//       t.style.display = "none";
-//     }
-//   }
+  //   function toggleTaskDesc(index, toggle) {
+  //     // console.log(tasks[index].desc);
+  //     let t = document.getElementById(index);
+  //     if (toggle) {
+  //       t.style.display = "block";
+  //     } else {
+  //       t.style.display = "none";
+  //     }
+  //   }
 
   function deleteTask(index) {
     //delete task from database
@@ -65,7 +65,7 @@ function TaskManager(props) {
     const newTasks = [...first, ...last];
   }
 
-  function handleEditTask(e, index) {
+  function handleEditTask(index) {
     //setEdit(false);
     setEdit(true);
     setEditTask(tasks[index]);
@@ -94,41 +94,26 @@ function TaskManager(props) {
 
   return (
     <View>
-     {tasks.map((task, index) => (
-        <>
-          <View
-            // onMouseEnter={(e) => toggleTaskDesc(e, index, true)}
-            // onMouseLeave={(e) => toggleTaskDesc(e, index, false)}
-          >
-            <View>
-              <Checkbox />
-            </View>
-            <View>{convertTime(task.time)}</View>
-            <TouchableOpacity onPress={() => handleEditTask(index)}
-            //   onClick={(e) => {
-            //     changeForm(e);
-            //     handleEditTask(e, index);
-            //   }}
-            >
-              {task.name}
-            </TouchableOpacity>
-            <View>
-              {/* {task.isWork ? (
-                <BiPencil style={iconsStyle} />
-              ) : (
-                <BiJoystick style={iconsStyle} />
-              )} */}
-              {task.isWork ? "Work" : "Play"}
-            </View>
-            <View>
-              <Button title="Delete" onPress={() => deleteTask(index)} />
-            </View>
+      {tasks.map((task, index) => (
+        <View key={index}>
+          <View>
+            <Checkbox />
           </View>
-          {/* <View className="mouse-desc" id={index} style={{ display: "none" }}>
-            {task.desc}
-          </View> */}
-        </>
+          <View>
+            <Text>{convertTime(task.time)}</Text>
+          </View>
+          <TouchableOpacity onPress={() => handleEditTask(index)}>
+            <Text>{task.name}</Text>
+          </TouchableOpacity>
+          <View>
+            <Text>{task.isWork ? "Work" : "Play"}</Text>
+          </View>
+          <View>
+            <Button title="Delete" onPress={() => deleteTask(index)} />
+          </View>
+        </View>
       ))}
+
       {edit && (
         <View>
           <View>
@@ -136,10 +121,6 @@ function TaskManager(props) {
           </View>
         </View>
       )}
-      {/* <div className='edit'>
-                {edit && <TaskForm editTask={editTask} edit={edit} setEdit={setEdit} />}
-            </div> */}
-    
     </View>
     // <div>
     // <table className='task-table'>
