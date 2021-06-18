@@ -16,16 +16,17 @@ import {
 // import styles from "./styles";
 
 function TaskForm(props) {
-    const {
-      addWorkClicked,
-      setAddWorkClicked,
-      setAddLifeClicked,
-      editTask,
-      edit,
-      setEdit,
-      selectedDate,
-    } = props;
-  const currDate = new Date().toLocaleDateString("en-CA");
+  const {
+    addWorkClicked,
+    setAddWorkClicked,
+    setAddLifeClicked,
+    editTask,
+    edit,
+    setEdit,
+    selectedDate,
+  } = props;
+  const today = moment().format("YYYY-MM-DD").split('-');
+  const currDate = [today[2], today[1], today[0]];
   const [taskName, setTaskName] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
   // const [taskDate, setTaskDate] = useState(selectedDate);
@@ -37,12 +38,11 @@ function TaskForm(props) {
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
 
-  const today = moment().format("DD-MM-YYYY").split("-");
-  console.log(today)
+  const selectedD = selectedDate.split("-");
   const [taskDate, setTaskDate] = useState([
-    { id: "day", value: today[0] },
-    { id: "month", value: today[1] }, //got bug if single digit dont show num but 0
-    { id: "year", value: today[2] },
+    { id: "day", value: parseInt(selectedD[2]) },
+    { id: "month", value: parseInt(selectedD[1])}, 
+    { id: "year", value: parseInt(selectedD[0]) },
   ]);
   const dateRange = [
     { id: "day", label: "", min: 1, max: 31 },
@@ -69,33 +69,33 @@ function TaskForm(props) {
       setTaskDur(editTask.dur);
       setIsWork(editTask.isWork);
 
-    //   if (editTask.isWork) {
-    //     document.getElementById("work-radio-edit").checked = true;
-    //   } else {
-    //     document.getElementById("life-radio-edit").checked = true;
-    //   }
+      //   if (editTask.isWork) {
+      //     document.getElementById("work-radio-edit").checked = true;
+      //   } else {
+      //     document.getElementById("life-radio-edit").checked = true;
+      //   }
     }
   }, []);
 
-    function getHour(num) {
-      if (num === 0) {
-        return num;
-      } else {
-        const str = num.toString();
-        const split = str.split(".");
-        return parseInt(split[0]);
-      }
+  function getHour(num) {
+    if (num === 0) {
+      return num;
+    } else {
+      const str = num.toString();
+      const split = str.split(".");
+      return parseInt(split[0]);
     }
+  }
 
-    function getMin(num) {
-      if (num === 0) {
-        return num;
-      } else {
-        const str = num.toString();
-        const split = str.split(".");
-        return parseInt(split[1]);
-      }
+  function getMin(num) {
+    if (num === 0) {
+      return num;
+    } else {
+      const str = num.toString();
+      const split = str.split(".");
+      return parseInt(split[1]);
     }
+  }
 
   function removeTaskForm() {
     // e.preventDefault();
@@ -125,19 +125,21 @@ function TaskForm(props) {
 
   function handleAddTask() {
     // e.preventDefault();
-    const t = parseFloat(taskTime[0].value) + parseFloat(taskTime[1].value / 100);
-    console.log()
+    const t =
+      parseFloat(taskTime[0].value) + parseFloat(taskTime[1].value / 100);
+    console.log();
     //create a new doc within the relevant collection
-    const d = taskDate[2].value + "-" + taskDate[1].value + "-" + taskDate[0].value;
-    
+    const d =
+      taskDate[2].value + "-" + taskDate[1].value + "-" + taskDate[0].value;
+
     const formatDate = moment(d, "YYYY-MM-DD").format("YYYY-MM-DD");
-    console.log(formatDate)
+    console.log(formatDate);
     const ref = userTasks.collection(formatDate).doc();
-    console.log(ref)
+    console.log(ref);
     const work = edit ? isWork : addWorkClicked;
-    console.log(taskName)
-    console.log(taskDesc)
-    console.log(taskDur)
+    console.log(taskName);
+    console.log(taskDesc);
+    console.log(taskDur);
     // update tasks here
     const newTask = {
       id: ref.id, //id field necessary to delete task later
@@ -165,7 +167,7 @@ function TaskForm(props) {
   }
 
   function handleEditTask(e) {
-     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
+    const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
     const numDays = whatday - 1; // num of times to mathfloor
     const monDate = moment().subtract(numDays, "days");
     userTasks
@@ -201,31 +203,45 @@ function TaskForm(props) {
     });
   }
 
-//   function isChecked() {
-//     // e.preventDefault();
-//     setCheck(!check);
-//     let reminder = document.getElementById("rem-interval");
-//     if (check === true) {
-//       reminder.style.display = "block";
-//     } else {
-//       reminder.style.display = "none";
-//     }
-//   }
+function styleTime(value) {
+    if (value < 10) {
+        return "0" + value;
+    } else {
+        return value;
+    }
+}
+
+  function configureTime(values) {
+      setTaskTime(values);
+      setTaskHrs(styleTime(values[0].value));
+      setTaskMins(styleTime(values[1].value));
+  }
+
+  //   function isChecked() {
+  //     // e.preventDefault();
+  //     setCheck(!check);
+  //     let reminder = document.getElementById("rem-interval");
+  //     if (check === true) {
+  //       reminder.style.display = "block";
+  //     } else {
+  //       reminder.style.display = "none";
+  //     }
+  //   }
 
   return (
     <View>
-      <Text>{!edit && (addWorkClicked ? "work" : "life")}</Text>
       <View>
         <Text>Task Name: </Text>
-        <TextInput value={taskName} onChangeText={(e) => setTaskName(e)} required />
+        <TextInput
+          value={taskName}
+          onChangeText={(e) => setTaskName(e)}
+          required
+        />
       </View>
 
       <View>
         <Text>Description: </Text>
-        <TextInput
-          value={taskDesc}
-          onChangeText={(e) => setTaskDesc(e)}
-        />
+        <TextInput value={taskDesc} onChangeText={(e) => setTaskDesc(e)} />
       </View>
 
       <View>
@@ -239,12 +255,12 @@ function TaskForm(props) {
 
       <View>
         <Text>
-            Time: {taskHrs} : {taskMins}{" "}
+          Time: {taskHrs} : {taskMins}{" "}
         </Text>
         <NumberPlease
           digits={timeRange}
           values={taskTime}
-          onChange={(values) => setTaskTime(values)}
+          onChange={(values) => configureTime(values)}
         />
       </View>
 
@@ -258,13 +274,20 @@ function TaskForm(props) {
       </View>
 
       <View>
-        <Button title="Submit" onPress={() => {edit && handleEditTask(); handleAddTask();}} />
+        <Button
+          title="Submit"
+          onPress={() => {
+            edit && handleEditTask();
+            handleAddTask();
+          }}
+        />
         <Button title="Cancel" onPress={removeTaskForm} />
       </View>
     </View>
   );
 }
-  {/* <View>
+{
+  /* <View>
         <Checkbox
             // style={styles.checkbox}
             onChangeValue={isChecked}
@@ -281,7 +304,10 @@ function TaskForm(props) {
           <Checkbox style={styles.checkbox} /> <Text>1 day before</Text>
           <Checkbox style={styles.checkbox} /> <Text>3 days before</Text>
           <Checkbox style={styles.checkbox} /> <Text>1 week before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>2 weeks before</Text> */}
-      {/* </View> */}
+          <Checkbox style={styles.checkbox} /> <Text>2 weeks before</Text> */
+}
+{
+  /* </View> */
+}
 
 export default TaskForm;

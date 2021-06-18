@@ -117,7 +117,7 @@ function TaskManager(props) {
       {edit && (
         <View>
           <View>
-            <TaskForm editTask={editTask} edit={edit} setEdit={setEdit} />
+            <TaskForm selectedDate={selectedDate} editTask={editTask} edit={edit} setEdit={setEdit} />
           </View>
         </View>
       )}
