@@ -7,6 +7,7 @@ import TaskForm from '../../components/TaskForm';
 import AddTaskTab from '../../components/AddTaskTab';
 import TaskManager from '../../components/TaskManager';
 import Meter from '../../components/Meter';
+import CalendarTab from '../../components/CalenderTab';
 import moment from 'moment';
 import { db } from "../../firebase/config";
 
@@ -55,6 +56,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.container}>
         <Text>Meter:</Text>
         <Meter />
+        <CalendarTab />
         <Text>Task List</Text>
             <TaskManager selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
             <Text>+Add Tasks</Text>
