@@ -57,22 +57,22 @@ function CalenderTab() {
     );
   };
 
-  return (
-    <View >
-      {/* <Calendar
+  return (   
+    //   <Agenda style={{flex:1, height: 600}}
+    //     items={items}
+    //     loadItemsForMonth={loadItems}
+    //     renderItem={renderItem}
+    //   />
+    <Agenda 
+       items={items}
+        loadItemsForMonth={loadItems}
+        renderItem={renderItem}
+    />
+  );
+}
+{/* <Calendar
          onDayPress={(date) => handleSelectedDate(date)}
         enableSwipeMonths={true}
         firstDay={1}
       /> */}
-      <Agenda style={{flex:1}}
-        items={items}
-        loadItemsForMonth={loadItems}
-        renderItem={renderItem}
-        pastScrollRange={0}
-        futureScrollRange={0}
-      />
-    </View>
-  );
-}
-
 export default CalenderTab;
