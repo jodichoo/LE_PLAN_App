@@ -15,7 +15,7 @@ import {
 import Checkbox from "expo-checkbox";
 import Greeting from "./Greeting";
 
-function TaskManager(props) {
+function TaskManagerTab(props) {
   const { setTasks, tasks, selectedDate } = props;
   // const [tasks, setTasks] = useState([]);
   const { currentUser } = useAuth();
@@ -153,4 +153,4 @@ function TaskManager(props) {
   );
 }
 
-export default TaskManager;
+export default TaskManagerTab;
