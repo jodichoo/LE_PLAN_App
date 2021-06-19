@@ -65,7 +65,14 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <Tabs.Navigator initialRouteName="TaskManager" >
-      <Tabs.Screen name="Calendar" component={CalendarTab} />
+      <Tabs.Screen name="Calendar">
+      {(props) => (
+          <CalendarTab
+            {...props}
+            selectedDate={selectedDate}
+          />
+        )}
+        </Tabs.Screen>
       <Tabs.Screen name="TaskManager">
         {(props) => (
           <TaskManagerTab
