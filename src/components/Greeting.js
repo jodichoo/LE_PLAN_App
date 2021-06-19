@@ -1,4 +1,3 @@
-import TaskManager from "./TaskManager";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
