@@ -111,26 +111,20 @@ function TaskManagerTab(props) {
   }
 
   function renderTask(task) {
-    // const [complete, setComplete] = useState(task.isComplete);
-
-    // function handleCheck(currTask) {
-    //   //toggle isComplete for the selected task
-    //   userTasks.collection(selectedDate).doc(currTask.id).update({
-    //     isComplete: !currTask.isComplete,
-    //   });
-    //   setComplete(!complete)
-    // }
-
     return (
       <>
         <View>
-          <Checkbox value={task.isComplete} onValueChange={() => handleCheck(task)}/>
-        </View>
-        <View>
-          <Text>{convertTime(task.time)}</Text>
-        </View>
-        <TouchableOpacity onPress={() => handleEditTask(task)}>
-            <Text>{task.name}</Text>
+          <View>
+            <Checkbox
+              value={task.isComplete}
+              onValueChange={() => handleCheck(task)}
+            />
+          </View>
+          <View>
+            <Text>{convertTime(task.time)}</Text>
+          </View>
+          <TouchableOpacity onPress={() => handleEditTask(task)}>
+            <Text style={{ fontSize: 15 }}>{task.name}</Text>
           </TouchableOpacity>
           <View>
             <Text>{task.isWork ? "Work" : "Play"}</Text>
@@ -138,6 +132,7 @@ function TaskManagerTab(props) {
           <View>
             <Button title="Delete" onPress={() => deleteTask(task)} />
           </View>
+        </View>
       </>
     );
   }
@@ -145,31 +140,12 @@ function TaskManagerTab(props) {
   return (
     <View>
       <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
-      {/* {tasks.map((task, index) => (
-        <View key={index}>
-          <View>
-            <Checkbox />
-          </View>
-          <View>
-            <Text>{convertTime(task.time)}</Text>
-          </View>
-          <TouchableOpacity onPress={() => handleEditTask(index)}>
-            <Text>{task.name}</Text>
-          </TouchableOpacity>
-          <View>
-            <Text>{task.isWork ? "Work" : "Play"}</Text>
-          </View>
-          <View>
-            <Button title="Delete" onPress={() => deleteTask(index)} />
-          </View>
-        </View>
-      ))} */}
-
-      {/* incomplete tasks  */}
-      {separateTasks(tasks)[0].map((task) => renderTask(task))}
-      {/* complete tasks */}
-      {separateTasks(tasks)[1].map((task) => renderTask(task))}
-
+      <View>
+        {/* incomplete tasks  */}
+        {separateTasks(tasks)[0].map((task) => renderTask(task))}
+        {/* complete tasks */}
+        {separateTasks(tasks)[1].map((task) => renderTask(task))}
+      </View>
       {edit && (
         <View>
           <View>
