@@ -256,6 +256,7 @@ const styles = StyleSheet.create({
   }, 
 
   input: {
+    paddingHorizontal: 100,
     margin: 3,
     backgroundColor: 'white', 
     padding: 1, 

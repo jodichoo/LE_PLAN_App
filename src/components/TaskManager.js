@@ -119,6 +119,7 @@ function TaskManagerTab(props) {
     },  
 
     tasksContainer: {
+      zIndex: 0,
       width: '100%',
       flex: 1, 
       flexDirection: 'column',
@@ -156,8 +157,26 @@ function TaskManagerTab(props) {
     bolded: {
       fontWeight: 'bold',
       fontSize: 16
-    }
+    },
 
+    edit: {
+      zIndex: 1,
+      height: '100%',
+      width: '100%',
+      position: 'absolute', 
+      top: 0, 
+      left: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      alignItems: 'center', 
+      justifyContent: 'center'
+    },
+
+    formContainer: {
+      margin: 50,
+      padding: 15,
+      backgroundColor: 'whitesmoke',
+      borderRadius: 15
+    }
   })
 
   function renderTask(task) {
@@ -197,8 +216,8 @@ function TaskManagerTab(props) {
         {separateTasks(tasks)[1].map((task) => renderTask(task))}
       </View>
       {edit && (
-        <View>
-          <View>
+        <View style={styles.edit}>
+          <View style={styles.formContainer}>
             <TaskForm
               selectedDate={selectedDate}
               editTask={editTask}
