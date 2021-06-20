@@ -64,15 +64,10 @@ const HomeScreen = ({ navigation }) => {
   const Tabs = createBottomTabNavigator();
 
   return (
-    <Tabs.Navigator initialRouteName="TaskManager" >
+    <Tabs.Navigator initialRouteName="TaskManager">
       <Tabs.Screen name="Calendar">
-      {(props) => (
-          <CalendarTab
-            {...props}
-            selectedDate={selectedDate}
-          />
-        )}
-        </Tabs.Screen>
+        {(props) => <CalendarTab {...props} selectedDate={selectedDate} />}
+      </Tabs.Screen>
       <Tabs.Screen name="TaskManager">
         {(props) => (
           <TaskManagerTab
@@ -86,8 +81,7 @@ const HomeScreen = ({ navigation }) => {
       <Tabs.Screen name="AddTask">
         {(props) => (
           <AddTaskTab
-                    {...props}
-
+            {...props}
             todayTasks={todayTasks}
             selectedDate={selectedDate}
           />

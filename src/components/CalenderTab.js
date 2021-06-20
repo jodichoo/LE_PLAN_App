@@ -112,6 +112,7 @@ function CalenderTab() {
           height: 70,
           marginTop: 30,
           marginRight: 10,
+          marginBottom: 20,
           padding: 10,
           borderRadius: 5,
         }}
