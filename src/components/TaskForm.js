@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
   Button,
+  ScrollView
 } from "react-native";
 // import styles from "./styles";
 import { useNavigation } from '@react-navigation/native';
@@ -240,8 +241,8 @@ function returnHome() {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    flexGrow: 1
   }, 
 
   field: { 
@@ -284,7 +285,7 @@ const styles = StyleSheet.create({
 })
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.field}>
         <Text style={styles.text}>Task Name: </Text>
         <TextInput style={styles.input}
@@ -350,7 +351,7 @@ const styles = StyleSheet.create({
           <Text style={styles.buttonText}>Cancel</Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 {
