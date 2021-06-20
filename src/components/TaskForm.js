@@ -5,6 +5,8 @@ import { useAuth } from "../navigation/AuthProvider";
 // import Checkbox from 'expo-checkbox';
 import NumberPlease from "react-native-number-please";
 import {
+  StyleSheet,
+  Pressable,
   FlatList,
   Keyboard,
   Text,
@@ -235,24 +237,69 @@ function returnHome() {
   navigation.navigate("TaskManager")
 }
 
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    flex: 1,
+    alignItems: 'center'
+  }, 
+
+  field: { 
+    margin: 8, 
+    width: '100%'
+    // backgroundColor: 'grey'
+  },
+
+  text: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  }, 
+
+  input: {
+    margin: 3,
+    backgroundColor: 'white', 
+    padding: 1, 
+  },
+
+  buttons: {
+    margin: 12, 
+    flexDirection: 'row', 
+    width: '100%',
+    justifyContent: 'space-evenly'
+  }, 
+
+  formButton: {
+    backgroundColor: 'grey', 
+    paddingHorizontal: 20, 
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+
+  buttonText: {
+    color: 'whitesmoke', 
+    fontSize: 14,
+    fontWeight: 'bold'
+  }
+})
+
   return (
-    <View>
-      <View>
-        <Text>Task Name: </Text>
-        <TextInput
+    <View style={styles.container}>
+      <View style={styles.field}>
+        <Text style={styles.text}>Task Name: </Text>
+        <TextInput style={styles.input}
           value={taskName}
           onChangeText={(e) => setTaskName(e)}
           required
         />
       </View>
 
-      <View>
-        <Text>Description: </Text>
-        <TextInput value={taskDesc} onChangeText={(e) => setTaskDesc(e)} />
+      <View style={styles.field}>
+        <Text style={styles.text}>Description: </Text>
+        <TextInput style={styles.input} value={taskDesc} onChangeText={(e) => setTaskDesc(e)} />
       </View>
 
-      <View>
-        <Text>Date: </Text>
+      <View style={styles.field}>
+        <Text style={styles.text}>Date: </Text>
         <NumberPlease
           digits={dateRange}
           values={taskDate}
@@ -260,8 +307,8 @@ function returnHome() {
         />
       </View>
 
-      <View>
-        <Text>
+      <View style={styles.field}>
+        <Text style={styles.text}>
           Time: {taskHrs} : {taskMins}{" "}
         </Text>
         <NumberPlease
@@ -271,17 +318,17 @@ function returnHome() {
         />
       </View>
 
-      <View>
-        <Text>Duration: </Text>
-        <TextInput
+      <View style={styles.field}>
+        <Text style={styles.text}>Duration: </Text>
+        <TextInput style={styles.input}
           value={taskDur}
           placeholder="E.g. 2.25"
           onChangeText={(e) => setTaskDur(e)}
         />
       </View>
 
-      <View>
-        <Button
+      <View style={styles.buttons}>
+        {/* <Button
           title="Submit"
           onPress={() => {
             edit && handleEditTask();
@@ -289,7 +336,18 @@ function returnHome() {
             returnHome();
           }}
         />
-        <Button title="Cancel" onPress={removeTaskForm} />
+        <Button title="Cancel" onPress={removeTaskForm} /> */}
+        <Pressable style={styles.formButton}
+        onPress={() => {
+          edit && handleEditTask();
+          handleAddTask();
+          returnHome();
+        }}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </Pressable>
+        <Pressable style={styles.formButton} onPress={removeTaskForm}>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </Pressable>
       </View>
     </View>
   );
