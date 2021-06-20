@@ -112,7 +112,7 @@ function TaskManagerTab(props) {
 
   function renderTask(task) {
     return (
-      <View>
+      <>
         <View>
           <Checkbox onChange={handleCheck}/>
         </View>
@@ -128,7 +128,7 @@ function TaskManagerTab(props) {
           <View>
             <Button title="Delete" onPress={() => deleteTask(task)} />
           </View>
-      </View>
+      </>
     );
   }
 

@@ -60,41 +60,37 @@ function CalenderTab() {
   //   return ()=> unsubscribe;
   // }, [])
 
-const loadOnMonth = (day) => {
+async function loadOnMonth(day) {
     
-    setTimeout(() => {
+    // setTimeout(() => {
     for (let i = -10; i < 10; i++) {
       const tempDate = moment(day.dateString)
         .subtract(i, "days")
         .format("YYYY-MM-DD");
         console.log(tempDate)
-      userTasks
+      await userTasks
         .collection(tempDate)
         .get()
         .then((sub) => {
           // console.log(sub)
           if (sub.docs.length > 0) {
             if (!items[tempDate]) {
-              items[tempDate] = [];
+              const t = [];
               userTasks
                 .collection(tempDate)
                 .orderBy("time")
-                .onSnapshot((querySnapshot) => {
+                .get().then((querySnapshot) => {
                   querySnapshot.forEach((doc) => {
-                    const t = doc.data();
-                    console.log(t)
-                    items[tempDate].push({
-                      name: 'tom',
-                    //   start: t.time,
-                    //   end: t.dur + t.time,
-                    //   desc: t.desc,
-                    //   genre: t.isWork,
-                    //   height: 100,
-                    });
+                    if (doc.exists) {
+                    t.push(doc.data());
+                    } 
                   });
                 });
+                items[tempDate] = t;
             }
-          }
+        } else {
+            items[tempDate] = []; 
+        }
           // } else {
           //     items[tempDate] = []
           // }
@@ -105,41 +101,42 @@ const loadOnMonth = (day) => {
       newItems[key] = items[key];
     });
     setItems(newItems);
-}, 1000);
+    console.log(items)
+// }, 1000);
     // console.log(items)
   }
 
-  const loadItems = (day) => {
+//   const loadItems = (day) => {
 
-      setTimeout(() => {
-        for (let i = -15; i < 85; i++) {
-          const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-          const strTime = timeToString(time);
-          if (!items[strTime]) {
-            items[strTime] = [];
-            const numItems = Math.floor(Math.random() * 3 + 1);
-            for (let j = 0; j < numItems; j++) {
-              items[strTime].push({
-                  duration: '',
-                name: "Item for " + strTime + " #" + j,
-                desc: '',
-                isWork:'' ,
-                height: Math.max(50, Math.floor(Math.random() * 150)),
-              });
-            }
-          }
-        }
-        const newItems = {};
-        Object.keys(items).forEach((key) => {
-          newItems[key] = items[key];
-        });
-        setItems(newItems);
-      }, 1000);
-     };
+//       setTimeout(() => {
+//         for (let i = -15; i < 85; i++) {
+//           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+//           const strTime = timeToString(time);
+//           if (!items[strTime]) {
+//             items[strTime] = [];
+//             const numItems = Math.floor(Math.random() * 3 + 1);
+//             for (let j = 0; j < numItems; j++) {
+//               items[strTime].push({
+//                   duration: '',
+//                 name: "Item for " + strTime + " #" + j,
+//                 desc: '',
+//                 isWork:'' ,
+//                 height: Math.max(50, Math.floor(Math.random() * 150)),
+//               });
+//             }
+//           }
+//         }
+//         const newItems = {};
+//         Object.keys(items).forEach((key) => {
+//           newItems[key] = items[key];
+//         });
+//         setItems(newItems);
+//       }, 1000);
+//      };
 
   const renderItem = (item) => {
     // console.log(items[tempDate][0].name);
-    console.log(items);
+    // console.log(item);
     return (
       <TouchableOpacity>
         {/* <Card>
@@ -175,7 +172,7 @@ const loadOnMonth = (day) => {
         return renderItem(item);
       }}
       selected={moment().format("YYYY-MM-DD")}
-      //   renderEmptyDate={renderEmptyDate}
+        renderEmptyDate={renderEmptyDate}
     />
   );
 }
