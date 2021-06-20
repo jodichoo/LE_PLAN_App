@@ -4,33 +4,11 @@ import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import moment from "moment";
 import { View, Text, TouchableOpacity } from "react-native";
-// function CalendarTab(props) {
-//     const {navigation, selectedDate, setSelectedDate} = props;
 
-//     function handleDay(day) {
-//         console.log(day)
-//         setSelectedDate(day.dateString);
-
-//         navigation.navigate("TaskManager", {selectedDate})
-//     }
-
-//     return (
-//         <Calendar
-//             onDayPress={(day) => handleDay(day)}
-//         />
-//     )
-// }
-
-// export default CalendarTab;
 function CalenderTab() {
   const [items, setItems] = useState({});
   const { currentUser, logout } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
-
-  const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split("T")[0];
-  };
 
   //   Object {
   //     "dateString": "2021-05-19",
@@ -40,60 +18,44 @@ function CalenderTab() {
   //     "year": 2021,
   //   }
 
-  // useEffect (() => {
-  //     const arr = [];
-  //     const unsubscribe = userTasks.onSnapshot((querySnapshot) => {
-  //         querySnapshot.forEach((col) => {
-  //           col.orderBy("time").onSnapshot((querySnapshot) => {
-  //               const t = [];
-  //               querySnapshot.forEach((doc) => {
-  //                   if (doc.exists) {
-  //                 t.push(doc.data());
-  //                   }
-  //               });
-  //               arr.push(t);
-  //           });
-  //        })
-  //        setItems(arr);
-  //        console.log(items)
-  //   })
-  //   return ()=> unsubscribe;
-  // }, [])
+  function convertTime(num) {
+    const s = parseFloat(num).toFixed(2).toString();
+    const split = s.split(".");
+    if (split[0] < 10) {
+      return "0" + split[0] + ":" + split[1];
+    } else {
+      return split[0] + ":" + split[1];
+    }
+  }
 
-async function loadOnMonth(day) {
-    
-    // setTimeout(() => {
+  async function loadOnMonth(day) {
     for (let i = -10; i < 10; i++) {
       const tempDate = moment(day.dateString)
         .subtract(i, "days")
         .format("YYYY-MM-DD");
-        console.log(tempDate)
       await userTasks
         .collection(tempDate)
         .get()
         .then((sub) => {
-          // console.log(sub)
           if (sub.docs.length > 0) {
             if (!items[tempDate]) {
               const t = [];
               userTasks
                 .collection(tempDate)
                 .orderBy("time")
-                .get().then((querySnapshot) => {
+                .get()
+                .then((querySnapshot) => {
                   querySnapshot.forEach((doc) => {
                     if (doc.exists) {
-                    t.push(doc.data());
-                    } 
+                      t.push(doc.data());
+                    }
                   });
                 });
-                items[tempDate] = t;
+              items[tempDate] = t;
             }
-        } else {
-            items[tempDate] = []; 
-        }
-          // } else {
-          //     items[tempDate] = []
-          // }
+          } else {
+            items[tempDate] = [];
+          }
         });
     }
     const newItems = {};
@@ -101,69 +63,48 @@ async function loadOnMonth(day) {
       newItems[key] = items[key];
     });
     setItems(newItems);
-    console.log(items)
-// }, 1000);
-    // console.log(items)
   }
 
-//   const loadItems = (day) => {
-
-//       setTimeout(() => {
-//         for (let i = -15; i < 85; i++) {
-//           const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-//           const strTime = timeToString(time);
-//           if (!items[strTime]) {
-//             items[strTime] = [];
-//             const numItems = Math.floor(Math.random() * 3 + 1);
-//             for (let j = 0; j < numItems; j++) {
-//               items[strTime].push({
-//                   duration: '',
-//                 name: "Item for " + strTime + " #" + j,
-//                 desc: '',
-//                 isWork:'' ,
-//                 height: Math.max(50, Math.floor(Math.random() * 150)),
-//               });
-//             }
-//           }
-//         }
-//         const newItems = {};
-//         Object.keys(items).forEach((key) => {
-//           newItems[key] = items[key];
-//         });
-//         setItems(newItems);
-//       }, 1000);
-//      };
-
   const renderItem = (item) => {
-    // console.log(items[tempDate][0].name);
-    // console.log(item);
     return (
-      <TouchableOpacity>
-        {/* <Card>
-          <Card.Content> */}
-        {/* <View
-        //   style={{
-        //     flexDirection: "row",
-        //     justifyContent: "space-between",
-        //     alignItems: "center",
-        //   }}
-        > */}
-          <Text>{item.name}</Text>
-        {/* </View> */}
-        {/* </Card.Content>
-        </Card> */}
+      <TouchableOpacity
+        style={{
+          flex: 1,
+          height: 70,
+          marginTop: 30,
+          marginRight: 10,
+          padding: 10,
+          borderRadius: 5,
+        }}
+      >
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+          {convertTime(item.time)}
+          {"-"}
+          {convertTime(item.time + item.dur)}
+        </Text>
+        <Text style={{fontSize: 17}}>{item.name}</Text>
+        <Text style={{fontSize: 14}}>{item.desc}</Text>
+        <Text>{item.isWork ? "WORK" : "PLAY"}</Text>
       </TouchableOpacity>
     );
   };
 
   function renderEmptyDate() {
     return (
-      <View>
-        <Text>No tasks for the day!</Text>
+      <View
+        style={{
+          height: 15,
+          paddingTop: 30,
+          marginTop: 10,
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
+        <Text style={{fontSize: 20}}>No tasks for the day!</Text>
       </View>
     );
   }
- 
+
   return (
     <Agenda
       items={items}
@@ -172,7 +113,7 @@ async function loadOnMonth(day) {
         return renderItem(item);
       }}
       selected={moment().format("YYYY-MM-DD")}
-        renderEmptyDate={renderEmptyDate}
+      renderEmptyDate={renderEmptyDate}
     />
   );
 }
