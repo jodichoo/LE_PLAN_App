@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import moment from "moment";
-import { View , Text} from "react-native";
+import { View , Text, StyleSheet } from "react-native";
 
 function Greeting(props) {
   const { tasks, setTasks, selectedDate } = props; 
@@ -144,12 +144,28 @@ function styleDate(date) {
   return date;
 }
 
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    margin: 20,
+    alignItems: 'center'
+  },
+
+  greetText: {
+    fontSize: 28
+  },
+
+  statement :{
+    fontSize: 18
+  }
+})
+
   return (
-    <View>
-      <Text>
+    <View style={styles.container}>
+      <Text style={styles.greetText}>
         {date.toLocaleTimeString()} {convertGreet(date)}, {greetName}!
       </Text>
-      <Text>
+      <Text style={styles.statement}>
         {/* Here are your tasks for {date.toLocaleDateString()} ecksdee ecksdee */}
         Here are your tasks for {styleDate(selectedDate)} 
       </Text>

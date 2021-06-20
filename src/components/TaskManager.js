@@ -4,6 +4,7 @@ import { db } from "../firebase/config";
 import TaskForm from "./TaskForm";
 import moment from "moment";
 import {
+  StyleSheet, 
   FlatList,
   Keyboard,
   Text,
@@ -110,26 +111,75 @@ function TaskManagerTab(props) {
     return [incomplete, completed]; //return separated tasks
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },  
+
+    tasksContainer: {
+      width: '100%',
+      flex: 1, 
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+
+    task: {
+      padding: 0,
+      width: '100%',
+      flexDirection: 'row'
+    },
+
+    taskName: {
+      flex: 0.5,
+      alignItems: 'center',
+      justifyContent: 'center'
+    }, 
+
+    taskField: {
+      flex: 0.1,
+      alignItems: 'center',
+      justifyContent: 'center'
+    }, 
+
+    deleteButton: {
+      flex: 0.2, 
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+
+    text: {
+      fontSize: 16
+    },
+
+    bolded: {
+      fontWeight: 'bold',
+      fontSize: 16
+    }
+
+  })
+
   function renderTask(task) {
     return (
       <>
-        <View>
-          <View>
+        <View style={styles.task}>
+          <View style={styles.taskField}>
             <Checkbox
               value={task.isComplete}
               onValueChange={() => handleCheck(task)}
             />
           </View>
-          <View>
-            <Text>{convertTime(task.time)}</Text>
+          <View style={styles.taskField}>
+            <Text style={styles.bolded}>{convertTime(task.time)}</Text>
           </View>
-          <TouchableOpacity onPress={() => handleEditTask(task)}>
-            <Text style={{ fontSize: 15 }}>{task.name}</Text>
+          <TouchableOpacity style={styles.taskName} onPress={() => handleEditTask(task)}>
+            <Text style={styles.text}>{task.name}</Text>
           </TouchableOpacity>
-          <View>
-            <Text>{task.isWork ? "Work" : "Play"}</Text>
+          <View style={styles.taskField}>
+            <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
           </View>
-          <View>
+          <View style={styles.deleteButton}>
             <Button title="Delete" onPress={() => deleteTask(task)} />
           </View>
         </View>
@@ -138,9 +188,9 @@ function TaskManagerTab(props) {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
-      <View>
+      <View style={styles.tasksContainer}>
         {/* incomplete tasks  */}
         {separateTasks(tasks)[0].map((task) => renderTask(task))}
         {/* complete tasks */}
