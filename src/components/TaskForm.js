@@ -14,6 +14,7 @@ import {
   Button,
 } from "react-native";
 // import styles from "./styles";
+import { useNavigation } from '@react-navigation/native';
 
 function TaskForm(props) {
   const {
@@ -25,6 +26,7 @@ function TaskForm(props) {
     setEdit,
     selectedDate,
   } = props;
+  const navigation = useNavigation();
   const today = moment().format("YYYY-MM-DD").split('-');
   const currDate = [today[2], today[1], today[0]];
   const [taskName, setTaskName] = useState("");
@@ -229,6 +231,10 @@ function styleTime(value) {
   //     }
   //   }
 
+function returnHome() {
+  navigation.navigate("TaskManager")
+}
+
   return (
     <View>
       <View>
@@ -280,6 +286,7 @@ function styleTime(value) {
           onPress={() => {
             edit && handleEditTask();
             handleAddTask();
+            returnHome();
           }}
         />
         <Button title="Cancel" onPress={removeTaskForm} />

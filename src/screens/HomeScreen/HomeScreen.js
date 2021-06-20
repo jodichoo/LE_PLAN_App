@@ -86,6 +86,8 @@ const HomeScreen = ({ navigation }) => {
       <Tabs.Screen name="AddTask">
         {(props) => (
           <AddTaskTab
+                    {...props}
+
             todayTasks={todayTasks}
             selectedDate={selectedDate}
           />

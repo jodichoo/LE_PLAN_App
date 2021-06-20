@@ -111,10 +111,20 @@ function TaskManagerTab(props) {
   }
 
   function renderTask(task) {
+    // const [complete, setComplete] = useState(task.isComplete);
+
+    // function handleCheck(currTask) {
+    //   //toggle isComplete for the selected task
+    //   userTasks.collection(selectedDate).doc(currTask.id).update({
+    //     isComplete: !currTask.isComplete,
+    //   });
+    //   setComplete(!complete)
+    // }
+
     return (
       <>
         <View>
-          <Checkbox value={task.isComplete} onValueChange={handleCheck}/>
+          <Checkbox value={task.isComplete} onValueChange={() => handleCheck(task)}/>
         </View>
         <View>
           <Text>{convertTime(task.time)}</Text>
