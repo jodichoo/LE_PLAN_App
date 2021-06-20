@@ -33,18 +33,18 @@ function TaskManagerTab(props) {
   //     }
   //   }
 
-  function deleteTask(index) {
+  function deleteTask(task) {
     //delete task from database
-    userTasks.collection(selectedDate).doc(tasks[index].id).delete();
+    userTasks.collection(selectedDate).doc(task.id).delete();
     //update work/life time in database
-    const isWork = tasks[index].isWork;
-    const dur = tasks[index].dur;
+    const isWork = task.isWork;
+    const dur = task.dur;
 
     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
     const numDays = whatday - 1; // num of times to mathfloor
     const monDate = moment().subtract(numDays, "days");
 
-    if (moment(tasks[index].date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
+    if (moment(task.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
       userTasks.get().then((doc) => {
         if (isWork) {
           const currWork = doc.data().workTime;
@@ -59,24 +59,19 @@ function TaskManagerTab(props) {
         }
       });
     }
-
-    //update local task variable
-    const first = tasks.slice(0, index);
-    const last = tasks.slice(index + 1, tasks.length);
-    const newTasks = [...first, ...last];
   }
 
-  function handleEditTask(index) {
+  function handleEditTask(task) {
     //setEdit(false);
     setEdit(true);
-    setEditTask(tasks[index]);
+    setEditTask(task);
     console.log("call edit");
   }
 
-  function changeForm(e) {
-    setEdit(false);
-    console.log("change form");
-  }
+  // function changeForm(e) {
+  //   setEdit(false);
+  //   console.log("change form");
+  // }
 
   function convertTime(num) {
     const s = parseFloat(num).toFixed(2).toString();
@@ -88,15 +83,59 @@ function TaskManagerTab(props) {
     }
   }
 
+  function handleCheck(task) {
+    //toggle isComplete for the selected task
+    userTasks.collection(selectedDate).doc(task.id).update({
+      isComplete: !task.isComplete,
+    });
+  }
   // const iconsStyle = {
   //     color: 'black',
   //     fontSize: '20px'
   // }
+  function separateTasks(arr) {
+    const len = arr.length;
+    const completed = [];
+    const incomplete = [];
+    //go through array of tasks
+    for (var i = 0; i < len; i++) {
+      if (arr[i].isComplete) {
+        //if task is complete, push into complete array
+        completed.push(arr[i]);
+      } else {
+        //else, push into incomplete array
+        incomplete.push(arr[i]);
+      }
+    }
+    return [incomplete, completed]; //return separated tasks
+  }
+
+  function renderTask(task) {
+    return (
+      <View>
+        <View>
+          <Checkbox onChange={handleCheck}/>
+        </View>
+        <View>
+          <Text>{convertTime(task.time)}</Text>
+        </View>
+        <TouchableOpacity onPress={() => handleEditTask(task)}>
+            <Text>{task.name}</Text>
+          </TouchableOpacity>
+          <View>
+            <Text>{task.isWork ? "Work" : "Play"}</Text>
+          </View>
+          <View>
+            <Button title="Delete" onPress={() => deleteTask(task)} />
+          </View>
+      </View>
+    );
+  }
 
   return (
     <View>
-    <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
-      {tasks.map((task, index) => (
+      <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
+      {/* {tasks.map((task, index) => (
         <View key={index}>
           <View>
             <Checkbox />
@@ -114,12 +153,22 @@ function TaskManagerTab(props) {
             <Button title="Delete" onPress={() => deleteTask(index)} />
           </View>
         </View>
-      ))}
+      ))} */}
+
+      {/* incomplete tasks  */}
+      {separateTasks(tasks)[0].map((task) => renderTask(task))}
+      {/* complete tasks */}
+      {separateTasks(tasks)[1].map((task) => renderTask(task))}
 
       {edit && (
         <View>
           <View>
-            <TaskForm selectedDate={selectedDate} editTask={editTask} edit={edit} setEdit={setEdit} />
+            <TaskForm
+              selectedDate={selectedDate}
+              editTask={editTask}
+              edit={edit}
+              setEdit={setEdit}
+            />
           </View>
         </View>
       )}

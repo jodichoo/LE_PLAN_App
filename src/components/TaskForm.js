@@ -149,6 +149,7 @@ function TaskForm(props) {
       desc: taskDesc,
       time: t,
       dur: taskDur,
+      isComplete: false,
     };
     //write to database here
     console.log(work);
