@@ -114,7 +114,7 @@ function TaskManagerTab(props) {
     return (
       <>
         <View>
-          <Checkbox onChange={handleCheck}/>
+          <Checkbox value={task.isComplete} onValueChange={handleCheck}/>
         </View>
         <View>
           <Text>{convertTime(task.time)}</Text>
