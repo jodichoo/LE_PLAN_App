@@ -105,8 +105,8 @@ function TaskForm(props) {
     } else {
       setAddWorkClicked(false);
       setAddLifeClicked(false);
+      setShowAdd(false);
     }
-    setShowAdd(false);
   }
 
   function initStates() {
@@ -166,11 +166,10 @@ function TaskForm(props) {
       //change below
       handleCounters(work, "+", taskDur);
     }
-    setShowAdd(false);
     initStates();
   }
 
-  function handleEditTask(e) {
+  function handleEditTask() {
     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
     const numDays = whatday - 1; // num of times to mathfloor
     const monDate = moment().subtract(numDays, "days");
@@ -185,7 +184,7 @@ function TaskForm(props) {
           handleCounters(editTask.isWork, "-", editTask.dur);
         }
       });
-  }
+    }
 
   function handleCounters(work, operator, dur) {
     userTasks.get().then((doc) => {

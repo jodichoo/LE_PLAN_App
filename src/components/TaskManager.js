@@ -55,17 +55,6 @@ function TaskManagerTab(props) {
     }
   }
 
-  function handleEditTask(task) {
-    setEdit(true);
-    setEditTask(task);
-    console.log("call edit");
-  }
-
-  // function changeForm(e) {
-  //   setEdit(false);
-  //   console.log("change form");
-  // }
-
   function convertTime(num) {
     const s = parseFloat(num).toFixed(2).toString();
     const split = s.split(".");
@@ -100,10 +89,18 @@ function TaskManagerTab(props) {
     return [incomplete, completed]; //return separated tasks
   }
 
+  function triggerEdit(task) {
+    setEdit(true);
+    setEditTask(task);
+  }
+
   function renderTask(task) {
     return (
       <>
-        <View style={styles.task}>
+        <TouchableOpacity
+          onLongPress={() => triggerEdit(task)}
+          style={styles.task}
+        >
           <View style={styles.taskField}>
             <Checkbox
               value={task.isComplete}
@@ -113,19 +110,16 @@ function TaskManagerTab(props) {
           <View style={styles.taskField}>
             <Text style={styles.bolded}>{convertTime(task.time)}</Text>
           </View>
-          <TouchableOpacity
-            style={styles.taskName}
-            onPress={() => handleEditTask(task)}
-          >
+          <View style={styles.taskName}>
             <Text style={styles.text}>{task.name}</Text>
-          </TouchableOpacity>
+          </View>
           <View style={styles.taskField}>
             <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
           </View>
           <View style={styles.deleteButton}>
             <Button title="Delete" onPress={() => deleteTask(task)} />
           </View>
-        </View>
+        </TouchableOpacity>
       </>
     );
   }
@@ -139,8 +133,8 @@ function TaskManagerTab(props) {
         {/* complete tasks */}
         {separateTasks(tasks)[1].map((task) => renderTask(task))}
       </View>
-      {/* toggle edit */}
-      {edit && (
+      {/* toggle edit but "deletes" as date somehow becomes invalid in db*/}
+      {/* {edit && (
         <View style={styles.edit}>
           <View style={styles.formContainer}>
             <TaskForm
@@ -151,13 +145,43 @@ function TaskManagerTab(props) {
             />
           </View>
         </View>
-      )}
+      )} */}
+      <Modal transparent={true} visible={edit}>
+        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+          <View
+            style={{
+              backgroundColor: "#ffffff",
+              margin: 50,
+              padding: 40,
+              borderRadius: 10,
+              flex: 1,
+            }}
+          >
+            <TaskForm
+              selectedDate={selectedDate}
+              editTask={editTask}
+              edit={edit}
+              setEdit={setEdit}
+            />
+          </View>
+        </View>
+      </Modal>
       {/* toggle add task */}
-      <Pressable onPress={() => setShowAdd(!showAdd)}><Text>+</Text></Pressable>
+      <Pressable onPress={() => setShowAdd(!showAdd)}>
+        <Text>+</Text>
+      </Pressable>
       <Modal transparent={true} visible={showAdd}>
         <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-          <View style={{ backgroundColor: "#ffffff", margin: 50, padding: 40, borderRadius: 10, flex: 1 }}>
-            <AddTaskBar selectedDate={selectedDate} setShowAdd={setShowAdd}/>
+          <View
+            style={{
+              backgroundColor: "#ffffff",
+              margin: 50,
+              padding: 40,
+              borderRadius: 10,
+              flex: 1,
+            }}
+          >
+            <AddTaskBar selectedDate={selectedDate} setShowAdd={setShowAdd} />
           </View>
         </View>
       </Modal>
