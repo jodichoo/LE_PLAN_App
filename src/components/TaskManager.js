@@ -4,6 +4,7 @@ import { db } from "../firebase/config";
 import Greeting from "./Greeting";
 import TaskForm from "./TaskForm";
 import AddTaskBar from "./AddTaskBar";
+import Event from "./Event";
 import moment from "moment";
 import {
   StyleSheet,
@@ -17,7 +18,6 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import Checkbox from "expo-checkbox";
 
 function TaskManagerTab(props) {
   const { setTasks, tasks, selectedDate } = props;
@@ -26,52 +26,51 @@ function TaskManagerTab(props) {
   const [editTask, setEditTask] = useState({});
   const [edit, setEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
-  const [showDesc, setshowDesc] = useState(false);
 
-  function deleteTask(task) {
-    //delete task from database
-    userTasks.collection(selectedDate).doc(task.id).delete();
-    //update work/life time in database
-    const isWork = task.isWork;
-    const dur = task.dur;
+  // function deleteTask(task) {
+  //   //delete task from database
+  //   userTasks.collection(selectedDate).doc(task.id).delete();
+  //   //update work/life time in database
+  //   const isWork = task.isWork;
+  //   const dur = task.dur;
 
-    const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
-    const numDays = whatday - 1; // num of times to mathfloor
-    const monDate = moment().subtract(numDays, "days");
+  //   const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
+  //   const numDays = whatday - 1; // num of times to mathfloor
+  //   const monDate = moment().subtract(numDays, "days");
 
-    if (moment(task.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
-      userTasks.get().then((doc) => {
-        if (isWork) {
-          const currWork = doc.data().workTime;
-          userTasks.update({
-            workTime: currWork - dur,
-          });
-        } else {
-          const currLife = doc.data().lifeTime;
-          userTasks.update({
-            lifeTime: currLife - dur,
-          });
-        }
-      });
-    }
-  }
+  //   if (moment(task.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
+  //     userTasks.get().then((doc) => {
+  //       if (isWork) {
+  //         const currWork = doc.data().workTime;
+  //         userTasks.update({
+  //           workTime: currWork - dur,
+  //         });
+  //       } else {
+  //         const currLife = doc.data().lifeTime;
+  //         userTasks.update({
+  //           lifeTime: currLife - dur,
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
-  function convertTime(num) {
-    const s = parseFloat(num).toFixed(2).toString();
-    const split = s.split(".");
-    if (split[0] < 10) {
-      return "0" + split[0] + ":" + split[1];
-    } else {
-      return split[0] + ":" + split[1];
-    }
-  }
+  // function convertTime(num) {
+  //   const s = parseFloat(num).toFixed(2).toString();
+  //   const split = s.split(".");
+  //   if (split[0] < 10) {
+  //     return "0" + split[0] + ":" + split[1];
+  //   } else {
+  //     return split[0] + ":" + split[1];
+  //   }
+  // }
 
-  function handleCheck(task) {
-    //toggle isComplete for the selected task
-    userTasks.collection(selectedDate).doc(task.id).update({
-      isComplete: !task.isComplete,
-    });
-  }
+  // function handleCheck(task) {
+  //   //toggle isComplete for the selected task
+  //   userTasks.collection(selectedDate).doc(task.id).update({
+  //     isComplete: !task.isComplete,
+  //   });
+  // }
 
   function separateTasks(arr) {
     const len = arr.length;
@@ -90,39 +89,47 @@ function TaskManagerTab(props) {
     return [incomplete, completed]; //return separated tasks
   }
 
-  function triggerEdit(task) {
-    setEdit(true);
-    setEditTask(task);
-  }
+  // function triggerEdit(task) {
+  //   setEdit(true);
+  //   setEditTask(task);
+  // }
+
+  // function renderTask(task) {
+  //   return (
+  //     <>
+  //       <TouchableOpacity
+  //         onLongPress={() => triggerEdit(task)}
+  //         style={styles.task}
+  //       >
+  //         <View style={styles.taskField}>
+  //           <Checkbox
+  //             value={task.isComplete}
+  //             onValueChange={() => handleCheck(task)}
+  //           />
+  //         </View>
+  //         <View style={styles.taskField}>
+  //           <Text style={styles.bolded}>{convertTime(task.time)}</Text>
+  //         </View>
+  //         <View style={styles.taskName}>
+  //           <Text style={styles.text}>{task.name}</Text>
+  //         </View>
+  //         <View style={styles.taskField}>
+  //           <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
+  //         </View>
+  //         <View style={styles.deleteButton}>
+  //           <Button title="Delete" onPress={() => deleteTask(task)} />
+  //         </View>
+  //       </TouchableOpacity>
+  //     </>
+  //   );
+  // }
 
   function renderTask(task) {
     return (
-      <>
-        <TouchableOpacity
-          onLongPress={() => triggerEdit(task)}
-          style={styles.task}
-        >
-          <View style={styles.taskField}>
-            <Checkbox
-              value={task.isComplete}
-              onValueChange={() => handleCheck(task)}
-            />
-          </View>
-          <View style={styles.taskField}>
-            <Text style={styles.bolded}>{convertTime(task.time)}</Text>
-          </View>
-          <View style={styles.taskName}>
-            <Text style={styles.text}>{task.name}</Text>
-          </View>
-          <View style={styles.taskField}>
-            <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
-          </View>
-          <View style={styles.deleteButton}>
-            <Button title="Delete" onPress={() => deleteTask(task)} />
-          </View>
-        </TouchableOpacity>
-      </>
-    );
+      <View>
+        <Event selectedDate={selectedDate} task={task}/>
+      </View>
+    )
   }
 
   return (
@@ -147,12 +154,12 @@ function TaskManagerTab(props) {
           </View>
         </View>
       )} */}
-      <Modal transparent={true} visible={edit}>
+      {/* <Modal transparent={true} visible={edit}>
         <TouchableOpacity
           onPress={() => setEdit(false)}
           style={{ backgroundColor: "#000000aa", flex: 1 }}
         >
-          {/* //to implement touch outside => remove modal */}
+          //to implement touch outside => remove modal
           <TouchableOpacity
             onPress={() => console.log("")}
             activeOpacity={1}
@@ -172,7 +179,7 @@ function TaskManagerTab(props) {
             />
           </TouchableOpacity>
         </TouchableOpacity>
-      </Modal>
+      </Modal> */}
       {/* toggle add task */}
       <Pressable onPress={() => setShowAdd(!showAdd)}>
         <Text style={{fontSize: 30}}>+</Text>

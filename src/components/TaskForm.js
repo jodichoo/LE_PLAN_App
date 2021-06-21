@@ -115,6 +115,7 @@ function TaskForm(props) {
     } else {
       setAddWorkClicked(false);
       setAddLifeClicked(false);
+      setShowAdd(false);
     }
     setTaskName("");
     setTaskDesc("");
