@@ -26,6 +26,7 @@ function TaskManagerTab(props) {
   const [editTask, setEditTask] = useState({});
   const [edit, setEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
+  const [showDesc, setshowDesc] = useState(false);
 
   function deleteTask(task) {
     //delete task from database
@@ -147,8 +148,14 @@ function TaskManagerTab(props) {
         </View>
       )} */}
       <Modal transparent={true} visible={edit}>
-        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-          <View
+        <TouchableOpacity
+          onPress={() => setEdit(false)}
+          style={{ backgroundColor: "#000000aa", flex: 1 }}
+        >
+          {/* //to implement touch outside => remove modal */}
+          <TouchableOpacity
+            onPress={() => console.log("")}
+            activeOpacity={1}
             style={{
               backgroundColor: "#ffffff",
               margin: 50,
@@ -163,16 +170,22 @@ function TaskManagerTab(props) {
               edit={edit}
               setEdit={setEdit}
             />
-          </View>
-        </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Modal>
       {/* toggle add task */}
       <Pressable onPress={() => setShowAdd(!showAdd)}>
         <Text>+</Text>
       </Pressable>
       <Modal transparent={true} visible={showAdd}>
-        <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-          <View
+        <TouchableOpacity
+          onPress={() => setShowAdd(false)}
+          style={{ backgroundColor: "#000000aa", flex: 1 }}
+        >
+          {/* to implement touch outside => remove modal */}
+          <TouchableOpacity
+            onPress={() => console.log("")}
+            activeOpacity={1}
             style={{
               backgroundColor: "#ffffff",
               margin: 50,
@@ -182,8 +195,8 @@ function TaskManagerTab(props) {
             }}
           >
             <AddTaskBar selectedDate={selectedDate} setShowAdd={setShowAdd} />
-          </View>
-        </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Modal>
     </View>
   );
