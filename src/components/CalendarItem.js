@@ -66,11 +66,10 @@ function CalendarItem(props) {
       onPress={triggerEdit}
       style={{
         flex: 1,
-        height: 400,
-        marginTop: 30,
+        marginTop: 15,
         marginRight: 10,
-        marginBottom: 20,
-        padding: 10,
+        marginBottom: -15,
+        padding: 8,
         borderRadius: 5,
       }}
     >
