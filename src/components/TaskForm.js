@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { db } from "../firebase/config";
 import moment from "moment";
 import { useAuth } from "../navigation/AuthProvider";
-// import Checkbox from 'expo-checkbox';
 import NumberPlease from "react-native-number-please";
 import {
   StyleSheet,
@@ -16,20 +15,18 @@ import {
   Button,
   ScrollView
 } from "react-native";
-// import styles from "./styles";
-import { useNavigation } from '@react-navigation/native';
 
 function TaskForm(props) {
   const {
     addWorkClicked,
     setAddWorkClicked,
     setAddLifeClicked,
+    setShowAdd,
     editTask,
     edit,
     setEdit,
     selectedDate,
   } = props;
-  const navigation = useNavigation();
   const today = moment().format("YYYY-MM-DD").split('-');
   const currDate = [today[2], today[1], today[0]];
   const [taskName, setTaskName] = useState("");
@@ -103,13 +100,13 @@ function TaskForm(props) {
   }
 
   function removeTaskForm() {
-    // e.preventDefault();
     if (edit) {
       setEdit(false);
     } else {
       setAddWorkClicked(false);
       setAddLifeClicked(false);
     }
+    setShowAdd(false);
   }
 
   function initStates() {
@@ -169,6 +166,7 @@ function TaskForm(props) {
       //change below
       handleCounters(work, "+", taskDur);
     }
+    setShowAdd(false);
     initStates();
   }
 
@@ -234,55 +232,9 @@ function styleTime(value) {
   //     }
   //   }
 
-function returnHome() {
-  navigation.navigate("TaskManager")
-}
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    alignItems: 'center',
-    flexGrow: 1
-  }, 
-
-  field: { 
-    margin: 8, 
-    width: '100%'
-    // backgroundColor: 'grey'
-  },
-
-  text: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  }, 
-
-  input: {
-    paddingHorizontal: 100,
-    margin: 3,
-    backgroundColor: 'white', 
-    padding: 1, 
-  },
-
-  buttons: {
-    margin: 12, 
-    flexDirection: 'row', 
-    width: '100%',
-    justifyContent: 'space-evenly'
-  }, 
-
-  formButton: {
-    backgroundColor: 'grey', 
-    paddingHorizontal: 20, 
-    paddingVertical: 8,
-    borderRadius: 6,
-  },
-
-  buttonText: {
-    color: 'whitesmoke', 
-    fontSize: 14,
-    fontWeight: 'bold'
-  }
-})
+// function returnHome() {
+//   navigation.navigate("TaskManager")
+// }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -330,20 +282,10 @@ const styles = StyleSheet.create({
       </View>
 
       <View style={styles.buttons}>
-        {/* <Button
-          title="Submit"
-          onPress={() => {
-            edit && handleEditTask();
-            handleAddTask();
-            returnHome();
-          }}
-        />
-        <Button title="Cancel" onPress={removeTaskForm} /> */}
         <Pressable style={styles.formButton}
         onPress={() => {
           edit && handleEditTask();
           handleAddTask();
-          returnHome();
         }}>
           <Text style={styles.buttonText}>Submit</Text>
         </Pressable>
@@ -354,28 +296,51 @@ const styles = StyleSheet.create({
     </ScrollView>
   );
 }
-{
-  /* <View>
-        <Checkbox
-            // style={styles.checkbox}
-            onChangeValue={isChecked}
-            value={false}
-          />{" "}
-        <Text>Set Reminders</Text>
-      </View>
-
-      <View style={{ display: "none" }}>
-        {/* <Checkbox style={styles.checkbox} /> <Text>10 min</Text>
-          <Checkbox style={styles.checkbox} /> <Text>30 min</Text>
-          <Checkbox style={styles.checkbox} /> <Text>1 hour before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>3 hours before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>1 day before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>3 days before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>1 week before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>2 weeks before</Text> */
-}
-{
-  /* </View> */
-}
 
 export default TaskForm;
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    alignItems: 'center',
+    flexGrow: 1
+  }, 
+
+  field: { 
+    margin: 8, 
+    width: '100%'
+    // backgroundColor: 'grey'
+  },
+
+  text: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  }, 
+
+  input: {
+    paddingHorizontal: 100,
+    margin: 3,
+    backgroundColor: 'white', 
+    padding: 1, 
+  },
+
+  buttons: {
+    margin: 12, 
+    flexDirection: 'row', 
+    width: '100%',
+    justifyContent: 'space-evenly'
+  }, 
+
+  formButton: {
+    backgroundColor: 'grey', 
+    paddingHorizontal: 20, 
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+
+  buttonText: {
+    color: 'whitesmoke', 
+    fontSize: 14,
+    fontWeight: 'bold'
+  }
+})
