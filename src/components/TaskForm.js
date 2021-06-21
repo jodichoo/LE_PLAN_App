@@ -307,13 +307,15 @@ function showTimePicker() {
         />
       </View> */}
       <View style={styles.field}>
-        <Pressable style={styles.formButton} onPress={showDatePicker}>
-        <Text style={styles.buttonText}>Date: {dateTime.toLocaleDateString('en-CA')}</Text>
-        </Pressable>
-        {show && <DateTimePicker 
+      {show && <DateTimePicker 
           mode= {mode}
           value={dateTime}
           onChange={handleDateTime}/>}
+      </View>
+      <View style={styles.field}>
+        <Pressable style={styles.formButton} onPress={showDatePicker}>
+        <Text style={styles.buttonText}>Date: {dateTime.toLocaleDateString('en-CA')}</Text>
+        </Pressable>
       </View>
 
       <View style={styles.field}>
@@ -336,6 +338,7 @@ function showTimePicker() {
       <View style={styles.field}>
         <Text style={styles.text}>Duration: </Text>
         <TextInput
+          keyboardType='numeric'
           style={styles.input}
           value={taskDur}
           placeholder="E.g. 2.25"
@@ -365,6 +368,7 @@ export default TaskForm;
 
 const styles = StyleSheet.create({
   container: {
+    zIndex: 99,
     width: "100%",
     alignItems: "center",
     flexGrow: 1,
@@ -382,10 +386,10 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    paddingHorizontal: 100,
-    margin: 3,
-    backgroundColor: "white",
+    // margin: 3,
     padding: 1,
+    borderRadius: 3,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)'
   },
 
   buttons: {
