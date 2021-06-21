@@ -80,34 +80,39 @@ function Event(props) {
   }
 
   return (
-    <View >
-      <TouchableOpacity
-        onLongPress={() => triggerEdit(task)}
-        onPress={() => toggleDesc()}
-        style={styles.task}
-      >
-        <View style={styles.taskField}>
-          <Checkbox
-            value={task.isComplete}
-            onValueChange={() => handleCheck(task)}
-          />
-        </View>
-        <View style={styles.taskField}>
-          <Text style={styles.bolded}>{convertTime(task.time)}</Text>
-        </View>
-        <View style={styles.taskName}>
-          <Text style={styles.text}>{task.name}</Text>
-        </View>
-        <View style={styles.taskField}>
-          <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
-        </View>
-        <View style={styles.deleteButton}>
-          <Button title="Delete" onPress={() => deleteTask(task)} />
-        </View>
-        {showDesc && <View>
-          <Text style={styles.bolded}>{task.desc}</Text>
-        </View>}
-      </TouchableOpacity>
+    <>
+    <View style={styles.taskWDesc}>
+      <View style={styles.task}>
+        <TouchableOpacity
+          onLongPress={() => triggerEdit(task)}
+          onPress={() => toggleDesc()}
+          style={styles.task}
+        >
+          <View style={styles.taskField}>
+            <Checkbox
+              value={task.isComplete}
+              onValueChange={() => handleCheck(task)}
+            />
+          </View>
+          <View style={styles.taskField}>
+            <Text style={styles.bolded}>{convertTime(task.time)}</Text>
+          </View>
+          <View style={styles.taskName}>
+            <Text style={styles.text}>{task.name}</Text>
+          </View>
+          <View style={styles.taskField}>
+            <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
+          </View>
+          <View style={styles.deleteButton}>
+            <Button title="Delete" onPress={() => deleteTask(task)} />
+          </View>
+        </TouchableOpacity>
+        
+      </View>
+      {showDesc && <View style={styles.taskDesc}>
+            <Text style={styles.bolded}>{task.desc}</Text>
+          </View>}
+    </View>
 
       <Modal transparent={true} visible={edit}>
         <TouchableOpacity
@@ -135,31 +140,22 @@ function Event(props) {
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
-    </View>
+      </>
   );
 }
 
 export default Event;
 
 const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-
-//   tasksContainer: {
-//     zIndex: 0,
-//     width: "100%",
-//     flex: 1,
-//     flexDirection: "column",
-//     alignItems: "center",
-//   },
+  taskWDesc: {
+    flexDirection: 'column', 
+  },
 
   task: {
     padding: 0,
     width: "100%",
     flexDirection: "row",
+    justifyContent: 'space-evenly'
   },
 
   taskName: {
@@ -168,17 +164,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-//   taskField: {
-//     flex: 0.1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
+  taskField: {
+    flex: 0.1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-//   deleteButton: {
-//     flex: 0.2,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
+  deleteButton: {
+    flex: 0.2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  taskDesc: {
+    alignItems: 'center'
+  },
 
   text: {
     fontSize: 16,

@@ -181,9 +181,11 @@ function TaskManagerTab(props) {
         </TouchableOpacity>
       </Modal> */}
       {/* toggle add task */}
-      <Pressable onPress={() => setShowAdd(!showAdd)}>
-        <Text style={{fontSize: 30}}>+</Text>
-      </Pressable>
+      <View style={styles.addTask}>
+        <Pressable style={styles.addTaskButton} onPress={() => setShowAdd(!showAdd)}>
+          <Text style={{fontSize: 30, color:'whitesmoke'}}>+</Text>
+        </Pressable>
+      </View>
       <Modal transparent={true} visible={showAdd}>
         <TouchableOpacity
           onPress={() => setShowAdd(false)}
@@ -194,7 +196,7 @@ function TaskManagerTab(props) {
             onPress={() => console.log("")}
             activeOpacity={1}
             style={{
-              backgroundColor: "#ffffff",
+              backgroundColor: "whitesmoke",
               margin: 50,
               padding: 40,
               borderRadius: 10,
@@ -277,4 +279,19 @@ const styles = StyleSheet.create({
     backgroundColor: "whitesmoke",
     borderRadius: 15,
   },
+
+  addTask: {
+    width: '100%', 
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+  },
+
+  addTaskButton: {
+    marginHorizontal: 20,
+    marginVertical: 10, 
+    paddingHorizontal: 10,
+    backgroundColor: 'turquoise',
+    borderRadius: 10,
+  }
 });
