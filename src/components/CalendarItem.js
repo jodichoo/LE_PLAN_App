@@ -66,7 +66,7 @@ function CalendarItem(props) {
       onPress={triggerEdit}
       style={{
         flex: 1,
-        height: 70,
+        height: 400,
         marginTop: 30,
         marginRight: 10,
         marginBottom: 20,
