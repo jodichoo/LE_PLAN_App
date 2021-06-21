@@ -3,11 +3,13 @@ import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import moment from "moment";
 import TaskForm from "./TaskForm";
+import Swipeable from 'react-native-swipeable-row'; 
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   Pressable,
   Button,
   Alert,
@@ -62,49 +64,21 @@ function CalendarItem(props) {
     setEdit(!edit);
   }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'row',
-    },
-
-    left: {
-      flex: 0.7,
-    }, 
-
-    right: {
-      flex: 0.3,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-      alignItems: 'center', 
-      justifyContent: 'space-between'
-    }, 
-
-    delete: {
-      paddingVertical: 10,
-      paddingHorizontal: 10,
-      backgroundColor: '#c95353',
-      borderRadius: 10,
-    },
-
-    buttonText: {
-      color: 'whitesmoke',
-      fontWeight: 'bold'
-    }
-  })
+  const rightButtons = [
+    <TouchableHighlight style={styles.delete} onPress={() => {
+      deleteTask(item);
+      Alert.alert("Are you sure you want to delete?");
+    }}>
+      <Text style={styles.buttonText}>Delete</Text>
+    </TouchableHighlight>
+  ]; 
 
   return (
+    <Swipeable rightButtons={rightButtons}>
+
     <TouchableOpacity
       onPress={triggerEdit}
-      style={{
-        flex: 1,
-        marginTop: 15,
-        marginRight: 10,
-        marginBottom: -15,
-        padding: 8,
-        borderRadius: 5,
-      }}
+      style={styles.touchable}
     >
       {!edit && (
         <View style={styles.container}>
@@ -122,16 +96,9 @@ function CalendarItem(props) {
 
           <View style={styles.right}>
             <Text style={{fontWeight: 'bold', color: 'grey'}}>{item.isWork ? "WORK" : "PLAY"}</Text> 
-            <Pressable style={styles.delete}
-              onPress={() => {
-                deleteTask(item);
-                Alert.alert("Are you sure you want to delete?");
-              }}
-            >
-              <Text style={styles.buttonText}>Delete</Text>
-            </Pressable>
           </View>
         </View>
+        
       )}
       {edit && (
         <TaskForm
@@ -144,7 +111,52 @@ function CalendarItem(props) {
         />
       )}
     </TouchableOpacity>
+    </Swipeable>
+
   );
 }
 
 export default CalendarItem;
+
+const styles = StyleSheet.create({
+  touchable: {
+      flex: 1,
+      marginTop: 15,
+      marginRight: 10,
+      marginBottom: -15,
+      padding: 8,
+      borderRadius: 5,
+  },
+
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+
+  left: {
+    flex: 0.7,
+  }, 
+
+  right: {
+    flex: 0.3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'center'
+  }, 
+
+  delete: {
+    marginTop: 15,
+    zIndex: 0,
+    height: '100%',
+    backgroundColor: '#c95353',
+    justifyContent: 'center'
+  },
+
+  buttonText: {
+    margin: '5%',
+    zIndex: 1,
+    color: 'whitesmoke',
+    fontWeight: 'bold'
+  }
+})
