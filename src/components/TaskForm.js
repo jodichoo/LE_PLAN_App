@@ -296,7 +296,7 @@ function showTimePicker() {
       </View> */}
       <View style={styles.field}>
         <Pressable style={styles.formButton} onPress={showDatePicker}>
-        <Text style={styles.text}>Date: {dateTime.toLocaleDateString('en-CA')}</Text>
+        <Text style={styles.buttonText}>Date: {dateTime.toLocaleDateString('en-CA')}</Text>
         </Pressable>
         {show && <DateTimePicker 
           mode= {mode}
@@ -306,7 +306,7 @@ function showTimePicker() {
 
       <View style={styles.field}>
         <Pressable style={styles.formButton} onPress={showTimePicker}>
-        <Text style={styles.text}>Time: {dateTime.toLocaleTimeString('en-GB')}</Text>
+        <Text style={styles.buttonText}>Time: {dateTime.toLocaleTimeString('en-GB')}</Text>
         </Pressable>
       </View>
 
