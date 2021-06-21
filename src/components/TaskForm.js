@@ -154,12 +154,12 @@ function TaskForm(props) {
     console.log(t); 
     
     //format the date to be stored in/queried from database
-    const d = moment(dateTime.toLocaleDateString('en-CA'), 'MM/DD/YY').format('YYYY-MM-DD'); 
-    console.log(d); 
+    // console.log(dateTime.toLocaleDateString('en-CA'));
+    const d = dateTime.toLocaleDateString('en-CA'); 
 
     //create a new doc within the relevant collection
     const ref = userTasks.collection(d).doc();
-    console.log(ref);
+    // console.log(ref);
     const work = edit ? isWork : addWorkClicked;
     console.log(taskName);
     console.log(taskDesc);
