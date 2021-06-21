@@ -172,7 +172,7 @@ function TaskForm(props) {
       name: taskName,
       desc: taskDesc,
       time: t,
-      dur: taskDur,
+      dur: parseFloat(taskDur),
       isComplete: false,
     };
     //write to database here
