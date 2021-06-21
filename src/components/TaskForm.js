@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   View,
   Button,
-  ScrollView
+  ScrollView,
 } from "react-native";
 
 function TaskForm(props) {
@@ -26,8 +26,10 @@ function TaskForm(props) {
     edit,
     setEdit,
     selectedDate,
+    updateCalendar,
+    setTriggerLoad,
   } = props;
-  const today = moment().format("YYYY-MM-DD").split('-');
+  const today = moment().format("YYYY-MM-DD").split("-");
   const currDate = [today[2], today[1], today[0]];
   const [taskName, setTaskName] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
@@ -35,7 +37,7 @@ function TaskForm(props) {
   const [taskHrs, setTaskHrs] = useState(0);
   const [taskMins, setTaskMins] = useState(0);
   const [taskDur, setTaskDur] = useState("");
-  const [check, setCheck] = useState(true);
+  // const [check, setCheck] = useState(true);
   const [isWork, setIsWork] = useState(true);
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
@@ -43,7 +45,7 @@ function TaskForm(props) {
   const selectedD = selectedDate.split("-");
   const [taskDate, setTaskDate] = useState([
     { id: "day", value: parseInt(selectedD[2]) },
-    { id: "month", value: parseInt(selectedD[1])}, 
+    { id: "month", value: parseInt(selectedD[1]) },
     { id: "year", value: parseInt(selectedD[0]) },
   ]);
   const dateRange = [
@@ -110,7 +112,13 @@ function TaskForm(props) {
   }
 
   function initStates() {
-    if (edit) {
+    if (updateCalendar) {
+      const d =
+        taskDate[2].value + "-" + taskDate[1].value + "-" + taskDate[0].value;
+      const formatDate = moment(d, "YYYY-MM-DD").format("YYYY-MM-DD");
+      setTriggerLoad(formatDate);
+      setEdit(false);
+    } else if (edit) {
       setEdit(false);
     } else {
       setAddWorkClicked(false);
@@ -185,7 +193,7 @@ function TaskForm(props) {
           handleCounters(editTask.isWork, "-", editTask.dur);
         }
       });
-    }
+  }
 
   function handleCounters(work, operator, dur) {
     userTasks.get().then((doc) => {
@@ -207,18 +215,18 @@ function TaskForm(props) {
     });
   }
 
-function styleTime(value) {
+  function styleTime(value) {
     if (value < 10) {
-        return "0" + value;
+      return "0" + value;
     } else {
-        return value;
+      return value;
     }
-}
+  }
 
   function configureTime(values) {
-      setTaskTime(values);
-      setTaskHrs(styleTime(values[0].value));
-      setTaskMins(styleTime(values[1].value));
+    setTaskTime(values);
+    setTaskHrs(styleTime(values[0].value));
+    setTaskMins(styleTime(values[1].value));
   }
 
   //   function isChecked() {
@@ -232,15 +240,16 @@ function styleTime(value) {
   //     }
   //   }
 
-// function returnHome() {
-//   navigation.navigate("TaskManager")
-// }
+  // function returnHome() {
+  //   navigation.navigate("TaskManager")
+  // }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.field}>
         <Text style={styles.text}>Task Name: </Text>
-        <TextInput style={styles.input}
+        <TextInput
+          style={styles.input}
           value={taskName}
           onChangeText={(e) => setTaskName(e)}
           required
@@ -249,7 +258,11 @@ function styleTime(value) {
 
       <View style={styles.field}>
         <Text style={styles.text}>Description: </Text>
-        <TextInput style={styles.input} value={taskDesc} onChangeText={(e) => setTaskDesc(e)} />
+        <TextInput
+          style={styles.input}
+          value={taskDesc}
+          onChangeText={(e) => setTaskDesc(e)}
+        />
       </View>
 
       <View style={styles.field}>
@@ -274,7 +287,8 @@ function styleTime(value) {
 
       <View style={styles.field}>
         <Text style={styles.text}>Duration: </Text>
-        <TextInput style={styles.input}
+        <TextInput
+          style={styles.input}
           value={taskDur}
           placeholder="E.g. 2.25"
           onChangeText={(e) => setTaskDur(e)}
@@ -282,11 +296,13 @@ function styleTime(value) {
       </View>
 
       <View style={styles.buttons}>
-        <Pressable style={styles.formButton}
-        onPress={() => {
-          edit && handleEditTask();
-          handleAddTask();
-        }}>
+        <Pressable
+          style={styles.formButton}
+          onPress={() => {
+            edit && handleEditTask();
+            handleAddTask();
+          }}
+        >
           <Text style={styles.buttonText}>Submit</Text>
         </Pressable>
         <Pressable style={styles.formButton} onPress={removeTaskForm}>
@@ -301,46 +317,46 @@ export default TaskForm;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    alignItems: 'center',
-    flexGrow: 1
-  }, 
+    width: "100%",
+    alignItems: "center",
+    flexGrow: 1,
+  },
 
-  field: { 
-    margin: 8, 
-    width: '100%'
+  field: {
+    margin: 8,
+    width: "100%",
     // backgroundColor: 'grey'
   },
 
   text: {
     fontSize: 16,
-    fontWeight: 'bold'
-  }, 
+    fontWeight: "bold",
+  },
 
   input: {
     paddingHorizontal: 100,
     margin: 3,
-    backgroundColor: 'white', 
-    padding: 1, 
+    backgroundColor: "white",
+    padding: 1,
   },
 
   buttons: {
-    margin: 12, 
-    flexDirection: 'row', 
-    width: '100%',
-    justifyContent: 'space-evenly'
-  }, 
+    margin: 12,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-evenly",
+  },
 
   formButton: {
-    backgroundColor: 'grey', 
-    paddingHorizontal: 20, 
+    backgroundColor: "grey",
+    paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 6,
   },
 
   buttonText: {
-    color: 'whitesmoke', 
+    color: "whitesmoke",
     fontSize: 14,
-    fontWeight: 'bold'
-  }
-})
+    fontWeight: "bold",
+  },
+});

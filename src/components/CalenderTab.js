@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, Agenda } from "react-native-calendars";
+import { Agenda } from "react-native-calendars";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
+import CalendarItem from "./CalendarItem";
 import moment from "moment";
 import {
   View,
@@ -15,7 +16,7 @@ import {
 function CalenderTab() {
   const [items, setItems] = useState({});
   const [triggerLoad, setTriggerLoad] = useState(moment().format("YYYY-MM-DD"));
-  const { currentUser, logout } = useAuth();
+  const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
 
   useEffect(() => {
@@ -29,44 +30,44 @@ function CalenderTab() {
   //     "timestamp": 1621382400000,
   //     "year": 2021,
   //   }
-  function deleteTask(task) {
-    //delete task from database
-    userTasks.collection(task.date).doc(task.id).delete();
-    setTriggerLoad(task.date); //visible lag in rerendering
-    //update work/life time in database
-    const isWork = task.isWork;
-    const dur = task.dur;
+  // function deleteTask(task) {
+  //   //delete task from database
+  //   userTasks.collection(task.date).doc(task.id).delete();
+  //   setTriggerLoad(task.date); //visible lag in rerendering
+  //   //update work/life time in database
+  //   const isWork = task.isWork;
+  //   const dur = task.dur;
 
-    const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
-    const numDays = whatday - 1; // num of times to mathfloor
-    const monDate = moment().subtract(numDays, "days");
+  //   const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
+  //   const numDays = whatday - 1; // num of times to mathfloor
+  //   const monDate = moment().subtract(numDays, "days");
 
-    if (moment(task.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
-      userTasks.get().then((doc) => {
-        if (isWork) {
-          const currWork = doc.data().workTime;
-          userTasks.update({
-            workTime: currWork - dur,
-          });
-        } else {
-          const currLife = doc.data().lifeTime;
-          userTasks.update({
-            lifeTime: currLife - dur,
-          });
-        }
-      });
-    }
-  }
+  //   if (moment(task.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
+  //     userTasks.get().then((doc) => {
+  //       if (isWork) {
+  //         const currWork = doc.data().workTime;
+  //         userTasks.update({
+  //           workTime: currWork - dur,
+  //         });
+  //       } else {
+  //         const currLife = doc.data().lifeTime;
+  //         userTasks.update({
+  //           lifeTime: currLife - dur,
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
-  function convertTime(num) {
-    const s = parseFloat(num).toFixed(2).toString();
-    const split = s.split(".");
-    if (split[0] < 10) {
-      return "0" + split[0] + ":" + split[1];
-    } else {
-      return split[0] + ":" + split[1];
-    }
-  }
+  // function convertTime(num) {
+  //   const s = parseFloat(num).toFixed(2).toString();
+  //   const split = s.split(".");
+  //   if (split[0] < 10) {
+  //     return "0" + split[0] + ":" + split[1];
+  //   } else {
+  //     return split[0] + ":" + split[1];
+  //   }
+  // }
 
   async function loadOnMonth(date) {
     for (let i = -10; i < 10; i++) {
@@ -106,34 +107,37 @@ function CalenderTab() {
 
   const renderItem = (item) => {
     return (
-      <TouchableOpacity
-        style={{
-          flex: 1,
-          height: 70,
-          marginTop: 30,
-          marginRight: 10,
-          marginBottom: 20,
-          padding: 10,
-          borderRadius: 5,
-        }}
-      >
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          {convertTime(item.time)}
-          {"-"}
-          {convertTime(item.time + item.dur)}
-        </Text>
-        <Text style={{ fontSize: 17 }}>{item.name}</Text>
-        <Pressable
-          onPress={() => {
-            deleteTask(item);
-            Alert.alert("Are you sure you want to delete?");
-          }}
-        >
-          <Text>Delete</Text>
-        </Pressable>
-        <Text style={{ fontSize: 14 }}>{item.desc}</Text>
-        <Text>{item.isWork ? "WORK" : "PLAY"}</Text>
-      </TouchableOpacity>
+      // <TouchableOpacity
+      //   style={{
+      //     flex: 1,
+      //     height: 70,
+      //     marginTop: 30,
+      //     marginRight: 10,
+      //     marginBottom: 20,
+      //     padding: 10,
+      //     borderRadius: 5,
+      //   }}
+      // >
+      //   <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+      //     {convertTime(item.time)}
+      //     {"-"}
+      //     {convertTime(item.time + item.dur)}
+      //   </Text>
+      //   <Text style={{ fontSize: 17 }}>{item.name}</Text>
+      //   <Pressable
+      //     onPress={() => {
+      //       deleteTask(item);
+      //       Alert.alert("Are you sure you want to delete?");
+      //     }}
+      //   >
+      //     <Text>Delete</Text>
+      //   </Pressable>
+      //   <Text style={{ fontSize: 14 }}>{item.desc}</Text>
+      //   <Text>{item.isWork ? "WORK" : "PLAY"}</Text>
+      // </TouchableOpacity>
+      <>
+        <CalendarItem item={item} selectedDate={item.date} setTriggerLoad={setTriggerLoad}/>
+      </>
     );
   };
 
