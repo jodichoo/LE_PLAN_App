@@ -175,7 +175,7 @@ function TaskManagerTab(props) {
       </Modal>
       {/* toggle add task */}
       <Pressable onPress={() => setShowAdd(!showAdd)}>
-        <Text>+</Text>
+        <Text style={{fontSize: 30}}>+</Text>
       </Pressable>
       <Modal transparent={true} visible={showAdd}>
         <TouchableOpacity
