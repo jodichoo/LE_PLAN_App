@@ -23,7 +23,7 @@ function Event(props) {
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [editTask, setEditTask] = useState(task);
   const [edit, setEdit] = useState(false);
-  const [showAdd, setShowAdd] = useState(false);
+  const [showDesc, setShowDesc] = useState(false);
 
   function deleteTask(task) {
     //delete task from database
@@ -75,10 +75,15 @@ function Event(props) {
     setEditTask(task);
   }
 
+  function toggleDesc() {
+    setShowDesc(!showDesc);
+  }
+
   return (
     <View >
       <TouchableOpacity
         onLongPress={() => triggerEdit(task)}
+        onPress={() => toggleDesc()}
         style={styles.task}
       >
         <View style={styles.taskField}>
@@ -99,6 +104,9 @@ function Event(props) {
         <View style={styles.deleteButton}>
           <Button title="Delete" onPress={() => deleteTask(task)} />
         </View>
+        {showDesc && <View>
+          <Text style={styles.bolded}>{task.desc}</Text>
+        </View>}
       </TouchableOpacity>
 
       <Modal transparent={true} visible={edit}>
