@@ -4,6 +4,7 @@ import { db } from "../firebase/config";
 import moment from "moment";
 import TaskForm from "./TaskForm";
 import {
+  StyleSheet,
   View,
   Text,
   TouchableOpacity,
@@ -61,6 +62,38 @@ function CalendarItem(props) {
     setEdit(!edit);
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: 'row',
+    },
+
+    left: {
+      flex: 0.7,
+    }, 
+
+    right: {
+      flex: 0.3,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+      alignItems: 'center', 
+      justifyContent: 'space-between'
+    }, 
+
+    delete: {
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      backgroundColor: '#c95353',
+      borderRadius: 10,
+    },
+
+    buttonText: {
+      color: 'whitesmoke',
+      fontWeight: 'bold'
+    }
+  })
+
   return (
     <TouchableOpacity
       onPress={triggerEdit}
@@ -74,23 +107,30 @@ function CalendarItem(props) {
       }}
     >
       {!edit && (
-        <View>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            {convertTime(item.time)}
-            {"-"}
-            {convertTime(item.time + item.dur)}
-          </Text>
-          <Text style={{ fontSize: 17 }}>{item.name}</Text>
-          <Pressable
-            onPress={() => {
-              deleteTask(item);
-              Alert.alert("Are you sure you want to delete?");
-            }}
-          >
-            <Text>Delete</Text>
-          </Pressable>
-          <Text style={{ fontSize: 14 }}>{item.desc}</Text>
-          <Text>{item.isWork ? "WORK" : "PLAY"}</Text>
+        <View style={styles.container}>
+
+          <View style={styles.left}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              {convertTime(item.time)}
+              {"-"}
+              {convertTime(item.time + item.dur)}
+            </Text>
+            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{item.name}</Text>
+            <Text style={{ fontSize: 14 }}>{item.desc}</Text>
+             
+          </View>
+
+          <View style={styles.right}>
+            <Text style={{fontWeight: 'bold', color: 'grey'}}>{item.isWork ? "WORK" : "PLAY"}</Text> 
+            <Pressable style={styles.delete}
+              onPress={() => {
+                deleteTask(item);
+                Alert.alert("Are you sure you want to delete?");
+              }}
+            >
+              <Text style={styles.buttonText}>Delete</Text>
+            </Pressable>
+          </View>
         </View>
       )}
       {edit && (
