@@ -11,13 +11,12 @@ import {
   Button,
   Pressable
 } from "react-native";
-import styles from "../screens/HomeScreen/styles";
 
-function AddTaskTab(props) {
+function AddTaskBar(props) {
   const [addWorkClicked, setAddWorkClicked] = useState(false);
   const [addLifeClicked, setAddLifeClicked] = useState(false);
   //const { todayTasks, selectedDate } = props; for meter in reactjs
-  const { selectedDate } = props;
+  const { selectedDate, setShowAdd } = props;
 
   function showWorkTaskForm() {
     if (addLifeClicked) {
@@ -32,40 +31,6 @@ function AddTaskTab(props) {
     }
     setAddLifeClicked(true);
   }
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column',
-      alignItems: 'center'
-    }, 
-
-    buttons: {
-      margin: 20,
-      width: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-around'
-    },
-
-    buttonStyle: {
-      paddingVertical: 8, 
-      paddingHorizontal: 65,
-      backgroundColor: 'turquoise',
-      borderRadius: 6
-    },
-
-    buttonText: {
-      color: 'whitesmoke',
-      fontWeight: 'bold', 
-      fontSize: 16
-    },
-
-    formContainer: {
-      paddingHorizontal: 20,
-      flex: 1,
-      width: '100%'
-    }
-  })
 
   return (
     <View style={styles.container}>
@@ -87,6 +52,7 @@ function AddTaskTab(props) {
             addWorkClicked={addWorkClicked}
             setAddWorkClicked={setAddWorkClicked}
             setAddLifeClicked={setAddLifeClicked}
+            setShowAdd={setShowAdd}
           />
         )}
         {addLifeClicked && (
@@ -95,6 +61,7 @@ function AddTaskTab(props) {
             addWorkClicked={addWorkClicked}
             setAddWorkClicked={setAddWorkClicked}
             setAddLifeClicked={setAddLifeClicked}
+            setShowAdd={setShowAdd}
           />
         )}
       </View>
@@ -102,4 +69,38 @@ function AddTaskTab(props) {
   );
 }
 
-export default AddTaskTab;
+export default AddTaskBar;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center'
+  }, 
+
+  buttons: {
+    margin: 20,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+
+  buttonStyle: {
+    paddingVertical: 8, 
+    paddingHorizontal: 65,
+    backgroundColor: 'turquoise',
+    borderRadius: 6
+  },
+
+  buttonText: {
+    color: 'whitesmoke',
+    fontWeight: 'bold', 
+    fontSize: 16
+  },
+
+  formContainer: {
+    paddingHorizontal: 20,
+    flex: 1,
+    width: '100%'
+  }
+})

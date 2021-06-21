@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { db } from "../firebase/config";
 import moment from "moment";
 import { useAuth } from "../navigation/AuthProvider";
-// import Checkbox from 'expo-checkbox';
 import NumberPlease from "react-native-number-please";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -19,20 +18,18 @@ import {
   ScrollView,
   Platform
 } from "react-native";
-// import styles from "./styles";
-import { useNavigation } from '@react-navigation/native';
 
 function TaskForm(props) {
   const {
     addWorkClicked,
     setAddWorkClicked,
     setAddLifeClicked,
+    setShowAdd,
     editTask,
     edit,
     setEdit,
     selectedDate,
   } = props;
-  const navigation = useNavigation();
   const today = moment().format("YYYY-MM-DD").split('-');
   const currDate = [today[2], today[1], today[0]];
   const [taskName, setTaskName] = useState("");
@@ -115,12 +112,12 @@ function TaskForm(props) {
   }
 
   function removeTaskForm() {
-    // e.preventDefault();
     if (edit) {
       setEdit(false);
     } else {
       setAddWorkClicked(false);
       setAddLifeClicked(false);
+      setShowAdd(false);
     }
   }
 
@@ -130,6 +127,7 @@ function TaskForm(props) {
     } else {
       setAddWorkClicked(false);
       setAddLifeClicked(false);
+      setShowAdd(false);
     }
     setTaskName("");
     setTaskDesc("");
@@ -186,7 +184,7 @@ function TaskForm(props) {
     initStates();
   }
 
-  function handleEditTask(e) {
+  function handleEditTask() {
     const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
     const numDays = whatday - 1; // num of times to mathfloor
     const monDate = moment().subtract(numDays, "days");
@@ -201,7 +199,7 @@ function TaskForm(props) {
           handleCounters(editTask.isWork, "-", editTask.dur);
         }
       });
-  }
+    }
 
   function handleCounters(work, operator, dur) {
     userTasks.get().then((doc) => {
@@ -248,55 +246,9 @@ function styleTime(value) {
   //     }
   //   }
 
-function returnHome() {
-  navigation.navigate("TaskManager")
-}
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    alignItems: 'center',
-    flexGrow: 1
-  }, 
-
-  field: { 
-    margin: 8, 
-    width: '100%'
-    // backgroundColor: 'grey'
-  },
-
-  text: {
-    fontSize: 16,
-    fontWeight: 'bold'
-  }, 
-
-  input: {
-    paddingHorizontal: 100,
-    margin: 3,
-    backgroundColor: 'white', 
-    padding: 1, 
-  },
-
-  buttons: {
-    margin: 12, 
-    flexDirection: 'row', 
-    width: '100%',
-    justifyContent: 'space-evenly'
-  }, 
-
-  formButton: {
-    backgroundColor: 'grey', 
-    paddingHorizontal: 20, 
-    paddingVertical: 8,
-    borderRadius: 6,
-  },
-
-  buttonText: {
-    color: 'whitesmoke', 
-    fontSize: 14,
-    fontWeight: 'bold'
-  }
-})
+// function returnHome() {
+//   navigation.navigate("TaskManager")
+// }
 
 const [show, setShow] = useState(false); 
 const [mode, setMode] = useState('date'); 
@@ -383,7 +335,6 @@ function showTimePicker() {
         onPress={() => {
           edit && handleEditTask();
           handleAddTask();
-          returnHome();
         }}>
           <Text style={styles.buttonText}>Submit</Text>
         </Pressable>
@@ -394,28 +345,51 @@ function showTimePicker() {
     </ScrollView>
   );
 }
-{
-  /* <View>
-        <Checkbox
-            // style={styles.checkbox}
-            onChangeValue={isChecked}
-            value={false}
-          />{" "}
-        <Text>Set Reminders</Text>
-      </View>
-
-      <View style={{ display: "none" }}>
-        {/* <Checkbox style={styles.checkbox} /> <Text>10 min</Text>
-          <Checkbox style={styles.checkbox} /> <Text>30 min</Text>
-          <Checkbox style={styles.checkbox} /> <Text>1 hour before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>3 hours before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>1 day before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>3 days before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>1 week before</Text>
-          <Checkbox style={styles.checkbox} /> <Text>2 weeks before</Text> */
-}
-{
-  /* </View> */
-}
 
 export default TaskForm;
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    alignItems: 'center',
+    flexGrow: 1
+  }, 
+
+  field: { 
+    margin: 8, 
+    width: '100%'
+    // backgroundColor: 'grey'
+  },
+
+  text: {
+    fontSize: 16,
+    fontWeight: 'bold'
+  }, 
+
+  input: {
+    paddingHorizontal: 100,
+    margin: 3,
+    backgroundColor: 'white', 
+    padding: 1, 
+  },
+
+  buttons: {
+    margin: 12, 
+    flexDirection: 'row', 
+    width: '100%',
+    justifyContent: 'space-evenly'
+  }, 
+
+  formButton: {
+    backgroundColor: 'grey', 
+    paddingHorizontal: 20, 
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+
+  buttonText: {
+    color: 'whitesmoke', 
+    fontSize: 14,
+    fontWeight: 'bold'
+  }
+})
