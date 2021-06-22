@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
-import { View , Text} from "react-native";
+import { View , Text, StyleSheet, TouchableOpacity } from "react-native";
 
 function Meter() {
   const { currentUser } = useAuth();
@@ -10,6 +10,7 @@ function Meter() {
   const [lifeTime, setLifeTime] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [hovered, setHovered] = useState("Work");
+  const [label, setLabel] = useState("Loading...")
 
   useEffect(() => {
     userTasks.onSnapshot((doc) => {
@@ -20,6 +21,7 @@ function Meter() {
         setLifeTime(l);
         setWorkTime(w);
         setTotalTime(t);
+        setLabel(`Work: ${(w * 100 / t).toFixed(1)}%`);
       }
     });
   }, []);
@@ -36,10 +38,45 @@ function Meter() {
     }
   }
 
+  function touchWork(e) {
+    setLabel(`Work: ${(workTime * 100 / totalTime).toFixed(1)}%`); 
+  }
+
+  function touchPlay(e) {
+    setLabel(`Play: ${(lifeTime * 100 / totalTime).toFixed(1)}%`);
+  }
+
+  const styles = StyleSheet.create({
+    container: {
+      zIndex: 0, 
+      margin: 10, 
+      flexDirection: 'row', 
+      width: '60%',
+      height: '3%'
+    },
+
+    work: {
+      zIndex: 1,
+      flex: workTime / totalTime,
+      backgroundColor: 'red'
+    },
+    
+    play: {
+      zIndex: 1, 
+      flex: lifeTime / totalTime,
+      backgroundColor: 'green'
+    }
+  });
+
   return (
-    <View>
-      <Text>{workTime}/{lifeTime}</Text>
+    <>
+    {/* <Text>{workTime}/{lifeTime}</Text> */}
+    <Text>{label}</Text>
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
+      <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
     </View>
+    </>
   );
 }
 
