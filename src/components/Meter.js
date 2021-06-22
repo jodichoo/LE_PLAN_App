@@ -10,7 +10,8 @@ function Meter() {
   const [lifeTime, setLifeTime] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
   const [hovered, setHovered] = useState("Work");
-  const [label, setLabel] = useState("Loading...")
+  const [loading, setLoading] = useState(true); 
+  const [label, setLabel] = useState("Loading...");
 
   useEffect(() => {
     userTasks.onSnapshot((doc) => {
@@ -22,6 +23,7 @@ function Meter() {
         setWorkTime(w);
         setTotalTime(t);
         setLabel(`Work: ${(w * 100 / t).toFixed(1)}%`);
+        setLoading(false); 
       }
     });
   }, []);
@@ -48,35 +50,59 @@ function Meter() {
 
   const styles = StyleSheet.create({
     container: {
-      zIndex: 0, 
-      margin: 10, 
+      height: '8%',
+      flexDirection: 'column',
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 5,
+    },
+
+    wrapper: {
+      marginTop: 10, 
       flexDirection: 'row', 
       width: '60%',
-      height: '3%'
+      height: '28%'
     },
 
     work: {
-      zIndex: 1,
       flex: workTime / totalTime,
       backgroundColor: 'red'
     },
     
     play: {
-      zIndex: 1, 
       flex: lifeTime / totalTime,
       backgroundColor: 'green'
     }
   });
 
   return (
-    <>
-    {/* <Text>{workTime}/{lifeTime}</Text> */}
-    <Text>{label}</Text>
     <View style={styles.container}>
-      <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
-      <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
+      {loading ? (<Text>Loading...</Text>)
+        : (<>
+            <Text>{label}</Text>
+            <View style={styles.wrapper}>
+              <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
+              <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
+            </View></>)}
     </View>
-    </>
+  )
+
+  return (
+    loading ? (<Text>Loading...</Text>) : (<View>
+      <Text>{label}</Text>
+      <View style={styles.wrapper}>
+        <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
+        <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
+      </View>
+    </View>)
+    // <View>
+    //   <Text>{label}</Text>
+    //   <View style={styles.container}>
+    //     <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
+    //     <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
+    //   </View>
+    // </View>
   );
 }
 

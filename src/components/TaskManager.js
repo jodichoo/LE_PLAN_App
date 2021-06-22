@@ -136,7 +136,9 @@ function TaskManagerTab(props) {
   return (
     <View style={styles.container}>
       <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
+
       <Meter /> 
+      
       <View style={styles.tasksContainer}>
         {/* incomplete tasks  */}
         {separateTasks(tasks)[0].map((task) => renderTask(task))}
