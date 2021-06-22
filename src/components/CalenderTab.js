@@ -13,7 +13,8 @@ import {
   Alert,
 } from "react-native";
 
-function CalenderTab() {
+function CalenderTab(props) {
+  const { tasks } = props; 
   const [items, setItems] = useState({});
   const [triggerLoad, setTriggerLoad] = useState(moment().format("YYYY-MM-DD"));
   const { currentUser } = useAuth();
@@ -21,7 +22,7 @@ function CalenderTab() {
 
   useEffect(() => {
     loadOnMonth(triggerLoad);
-  }, [triggerLoad]);
+  }, [tasks, triggerLoad]);
 
   //   Object {
   //     "dateString": "2021-05-19",
