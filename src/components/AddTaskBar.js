@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   }, 
 
   buttons: {
-    margin: 20,
+    margin: 10,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around'
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
 
   formContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
     flex: 1,
     width: '100%'
   }

@@ -3,6 +3,7 @@ import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import TaskForm from "./TaskForm";
 import moment from "moment";
+import { AntDesign } from '@expo/vector-icons';
 import {
   StyleSheet,
   FlatList,
@@ -95,7 +96,7 @@ function Event(props) {
             />
           </View>
           <View style={styles.taskField}>
-            <Text style={styles.bolded}>{convertTime(task.time)}</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 12}}>{convertTime(task.time)}</Text>
           </View>
           <View style={styles.taskName}>
             <Text style={styles.text}>{task.name}</Text>
@@ -104,7 +105,11 @@ function Event(props) {
             <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
           </View>
           <View style={styles.deleteButton}>
-            <Button title="Delete" onPress={() => deleteTask(task)} />
+            {/* <Button title="Delete" onPress={() => deleteTask(task)} /> */}
+            <Pressable  onPress={() => deleteTask(task)}>
+              <AntDesign name='delete' size={17} color='grey'/>
+            </Pressable>
+            
           </View>
         </TouchableOpacity>
         
@@ -152,10 +157,10 @@ const styles = StyleSheet.create({
   },
 
   task: {
-    padding: 0,
+    padding: 1.6,
     width: "100%",
     flexDirection: "row",
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
 
   taskName: {
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   deleteButton: {
-    flex: 0.2,
+    flex: 0.1,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -181,12 +186,12 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 16,
+    fontSize: 17,
   },
 
   bolded: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 14.5,
   },
 
 //   edit: {
