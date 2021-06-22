@@ -64,6 +64,23 @@ function CalendarItem(props) {
     setEdit(!edit);
   }
 
+  function addDurationAndFormat(time, dur) {
+    var newMoment = moment(); 
+    var h; 
+    if (time === 0) {
+      h = time; 
+      newMoment = newMoment.hour(h); 
+    } else {
+      const str = time.toFixed(2);
+      const split = str.split(".");
+      h = parseInt(split[0]);
+      const m = parseInt(split[1]);
+      newMoment = newMoment.hour(h).minute(m); 
+    }
+    console.log(newMoment.format('HH:mm'));
+    return newMoment.add(dur, 'hours').format('HH:mm');
+  }
+
   const rightButtons = [
     <TouchableHighlight style={styles.delete} onPress={() => {
       deleteTask(item);
@@ -87,7 +104,7 @@ function CalendarItem(props) {
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               {convertTime(item.time)}
               {"-"}
-              {convertTime(item.time + item.dur)}
+              {addDurationAndFormat(item.time, item.dur)}
             </Text>
             <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{item.name}</Text>
             <Text style={{ fontSize: 14 }}>{item.desc}</Text>
