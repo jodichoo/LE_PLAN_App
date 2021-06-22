@@ -92,24 +92,27 @@ function TaskForm(props) {
     }
   }, []);
 
+  // function getHour(num) {
+  //   const newNum = parseFloat(num).toFixed(2);
+  //   if (newNum === 0) {
+  //     return newNum;
+  //   } else {
+  //     const str = newNum.toString();
+  //     const split = str.split(".");
+  //     return parseInt(split[0]);
+  //   }
+  // }
+
   function getHour(num) {
-    if (num === 0) {
-      return num;
-    } else {
-      const str = num.toString();
-      const split = str.split(".");
-      return parseInt(split[0]);
-    }
+    const s = parseFloat(num).toFixed(2);
+    const split = s.split(".");
+    return parseInt(split[0]); 
   }
 
   function getMin(num) {
-    if (num === 0) {
-      return num;
-    } else {
-      const str = num.toString();
-      const split = str.split(".");
-      return parseInt(split[1]);
-    }
+    const s = parseFloat(num).toFixed(2);
+    const split = s.split(".");
+    return parseInt(split[1]); 
   }
 
   function removeTaskForm() {
@@ -124,9 +127,8 @@ function TaskForm(props) {
 
   function initStates() {
     if (updateCalendar) {
-      const d =
-        taskDate[2].value + "-" + taskDate[1].value + "-" + taskDate[0].value;
-      const formatDate = moment(d, "YYYY-MM-DD").format("YYYY-MM-DD");
+      const d = moment(dateTime.toLocaleDateString('en-CA'), 'YYYY-MM-DD');
+      const formatDate = d.format("YYYY-MM-DD");
       setTriggerLoad(formatDate);
       setEdit(false);
     } else if (edit) {
