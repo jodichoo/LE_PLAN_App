@@ -39,6 +39,7 @@ function TaskForm(props) {
   const [taskHrs, setTaskHrs] = useState(0);
   const [taskMins, setTaskMins] = useState(0);
   const [taskDur, setTaskDur] = useState("");
+  const [error, setError] = useState(undefined); 
   // const [check, setCheck] = useState(true);
   const [isWork, setIsWork] = useState(true);
   const { currentUser } = useAuth();
@@ -281,13 +282,14 @@ function showTimePicker() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      { error && <View style={styles.error}><Text style={styles.errorText}>{error}</Text></View> }
+      {/* {console.log(error || false)} */}
       <View style={styles.field}>
         <Text style={styles.text}>Task Name: </Text>
         <TextInput
           style={styles.input}
           value={taskName}
           onChangeText={(e) => setTaskName(e)}
-          required
         />
       </View>
 
@@ -352,8 +354,14 @@ function showTimePicker() {
         <Pressable
           style={styles.formButton}
           onPress={() => {
-            edit && handleEditTask();
-            handleAddTask();
+            if (taskName === "") {
+              setError("Please input a task name"); 
+            } else if (taskDur === undefined || taskDur === '0') {
+              setError("Pleae input a valid duration in hours"); 
+            } else {
+              edit && handleEditTask();
+              handleAddTask();
+            }
           }}
         >
           <Text style={styles.buttonText}>Submit</Text>
@@ -380,6 +388,19 @@ const styles = StyleSheet.create({
     margin: 8,
     width: "100%",
     // backgroundColor: 'grey'
+  },
+
+  error: {
+    alignItems: 'center', 
+    backgroundColor:'pink',
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },  
+
+  errorText: {
+    color: 'grey',
   },
 
   text: {
