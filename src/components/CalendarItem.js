@@ -69,7 +69,7 @@ function CalendarItem(props) {
     var h; 
     if (time === 0) {
       h = time; 
-      newMoment = newMoment.hour(h); 
+      newMoment = newMoment.hour(h).minute(0); 
     } else {
       const str = time.toFixed(2);
       const split = str.split(".");
