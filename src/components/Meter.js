@@ -6,11 +6,12 @@ import { View , Text, StyleSheet, TouchableOpacity } from "react-native";
 function Meter() {
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
-  const [workTime, setWorkTime] = useState(0);
-  const [lifeTime, setLifeTime] = useState(0);
-  const [totalTime, setTotalTime] = useState(0);
+  const [workTime, setWorkTime] = useState(1);
+  const [lifeTime, setLifeTime] = useState(1);
+  const [totalTime, setTotalTime] = useState(1);
+  const [playPerc, setPlayPerc] = useState(0.5); 
+  const [workPerc, setWorkPerc] = useState(0.5); 
   const [hovered, setHovered] = useState("Work");
-  const [loading, setLoading] = useState(true); 
   const [label, setLabel] = useState("Loading...");
 
   useEffect(() => {
@@ -22,8 +23,12 @@ function Meter() {
         setLifeTime(l);
         setWorkTime(w);
         setTotalTime(t);
+        if (t !== 0) {
+          console.log('went here');
+          setWorkPerc(w / t); 
+          setPlayPerc(l / t);
+        } 
         setLabel(`Work: ${(w * 100 / t).toFixed(1)}%`);
-        setLoading(false); 
       }
     });
   }, []);
@@ -65,37 +70,42 @@ function Meter() {
       height: '28%'
     },
 
+    emptyWrapper: {
+      backgroundColor: 'grey',
+      marginTop: 10, 
+      width: '60%',
+      height: '28%',
+    },
+
     work: {
-      flex: workTime / totalTime,
+      flex: workPerc,
       backgroundColor: 'red'
     },
     
     play: {
-      flex: lifeTime / totalTime,
+      flex: playPerc,
       backgroundColor: 'green'
     }
   });
 
   return (
     <View style={styles.container}>
-      {loading ? (<Text>Loading...</Text>)
-        : (<>
+      {workTime === 0 && lifeTime === 0
+        ? <>
+            <Text>No tasks for the week, add tasks to get started!</Text>
+            <View style={styles.emptyWrapper}></View>
+          </>
+        : <>
             <Text>{label}</Text>
             <View style={styles.wrapper}>
               <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
               <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
-            </View></>)}
+            </View>
+          </>}
     </View>
   )
 
-  return (
-    loading ? (<Text>Loading...</Text>) : (<View>
-      <Text>{label}</Text>
-      <View style={styles.wrapper}>
-        <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
-        <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
-      </View>
-    </View>)
+
     // <View>
     //   <Text>{label}</Text>
     //   <View style={styles.container}>
@@ -103,7 +113,7 @@ function Meter() {
     //     <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>
     //   </View>
     // </View>
-  );
+  // );
 }
 
 {/* <div className='meter'>
