@@ -16,6 +16,7 @@ import AddTaskBar from "../../components/AddTaskBar";
 import TaskManagerTab from "../../components/TaskManager";
 import Meter from "../../components/Meter";
 import CalendarTab from "../../components/CalenderTab";
+import FriendsTab from "../../components/FriendsTab";
 import moment from "moment";
 import { db } from "../../firebase/config";
 import { NavigationContainer } from "@react-navigation/native";
@@ -78,15 +79,7 @@ const HomeScreen = ({ navigation }) => {
           />
         )}
       </Tabs.Screen>
-      {/* <Tabs.Screen name="AddTask">
-        {(props) => (
-          <AddTaskTab
-            {...props}
-            todayTasks={todayTasks}
-            selectedDate={selectedDate}
-          />
-        )}
-      </Tabs.Screen> */}
+      <Tabs.Screen name="Friends" component={FriendsTab} />
     </Tabs.Navigator>
   );
 };
