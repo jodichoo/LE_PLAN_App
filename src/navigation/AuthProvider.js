@@ -10,7 +10,8 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [username, setUsername] = useState('User'); 
+  const [username, setUsername] = useState("User");
+  const [displayName, setDisplayName] = useState("User");
 
   return (
     <AuthContext.Provider
@@ -25,26 +26,43 @@ export const AuthProvider = ({ children }) => {
             console.log(e);
           }
         },
-        register: async (email, password, un) => {
-          setUsername(un)
+        register: async (email, password, un, display) => {
+          setDisplayName(display); 
+          setUsername(un);
           try {
             await firebase
               .auth()
               .createUserWithEmailAndPassword(email, password)
-              .then(() => {
+              .then((response) => {
                 // Once the user creation has happened successfully, we can add the currentUser into firestore
                 // with the appropriate details.
+                const user = response.user;
+                const uid = user.uid;
+                user
+                  .updateProfile({
+                    displayName: display,
+                  })
+                  .then(() => {
+                    console.log("set the display name");
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+
                 firebase
                   .firestore()
                   .collection("users")
-                  .doc(firebase.auth().currentUser.uid)
+                  .doc(uid)
                   .set({
                     storedDate: "2021-05-31",
                     username: un,
                     workTime: 0,
                     lifeTime: 0,
+                    friends: [],
                   })
-                  .then(() => {console.log('set user data')})
+                  .then(() => {
+                    console.log("set user data");
+                  })
                   //ensure we catch any errors at this stage to advise us if something does go wrong
                   .catch((error) => {
                     console.log(
@@ -52,6 +70,18 @@ export const AuthProvider = ({ children }) => {
                       error
                     );
                   });
+
+                firebase
+                  .firestore()
+                  .collection("usernames")
+                  .doc(un)
+                  .set({
+                    username: un,
+                  })
+                  .then(() => {
+                    console.log("set username");
+                  })
+                  .catch((error) => console.log(error));
               })
               //we need to catch the whole sign up process if it fails too.
               .catch((error) => {

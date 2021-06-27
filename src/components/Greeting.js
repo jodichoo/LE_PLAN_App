@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   return (
     <View style={styles.container}>
       <Text style={styles.greetText}>
-        {date.toLocaleTimeString()} {convertGreet(date)}, {greetName}!
+        {date.toLocaleTimeString()} {convertGreet(date)}, {currentUser.displayName}!
       </Text>
       <Text style={styles.statement}>
         {/* Here are your tasks for {date.toLocaleDateString()} ecksdee ecksdee */}
