@@ -22,7 +22,7 @@ import {
 
 function TaskManagerTab(props) {
   const { setTasks, tasks, selectedDate } = props;
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [editTask, setEditTask] = useState({});
   const [edit, setEdit] = useState(false);
@@ -136,7 +136,7 @@ function TaskManagerTab(props) {
   return (
     <View style={styles.container}>
       <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
-
+      <Pressable onPress={logout}><Text>logout</Text></Pressable>
       <Meter /> 
       
       <View style={styles.tasksContainer}>
