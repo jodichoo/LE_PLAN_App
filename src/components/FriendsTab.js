@@ -91,28 +91,28 @@ function FriendsTab() {
     const wFlex = p === 0 ? 100 : (w * 100) / p + w;
     const pFlex = w === 0 ? 100 : (p * 100) / p + w;
 
-    const styles = {
-      wrapper: {
-        display: "flex",
-        flexDirection: "row",
-        width: "100%",
-        border: "1px solid whitesmoke",
-      },
+    const styles = StyleSheet.create({
+      // wrapper: {
+      //   display: "flex",
+      //   flexDirection: "row",
+      //   width: "100%",
+      //   border: "1px solid whitesmoke",
+      // },
 
-      work: {
-        color: "red",
-        height: "100%",
-        flex: `${wFlex}%`,
-        backgroundColor: "red",
-      },
+      // work: {
+      //   color: "red",
+      //   height: "100%",
+      //   flex: `${wFlex}%`,
+      //   backgroundColor: "red",
+      // },
 
-      play: {
-        color: "green",
-        height: "100%",
-        flex: `${pFlex}%`,
-        backgroundColor: "green",
-      },
-    };
+      // play: {
+      //   color: "green",
+      //   height: "100%",
+      //   flex: `${pFlex}%`,
+      //   backgroundColor: "green",
+      // },
+    });
 
     return w === 0 && p === 0 ? (
       <Text>Noobie</Text>
