@@ -158,7 +158,8 @@ function TaskForm(props) {
     
     //format the date to be stored in/queried from database
     // console.log(dateTime.toLocaleDateString('en-CA'));
-    const d = dateTime.toLocaleDateString('en-CA'); 
+    // const c = moment(dateTime.toLocaleDateString('en-CA'), 'YYYY-MM-DD');
+    const d = moment(dateTime).format("YYYY-MM-DD"); 
 
     //create a new doc within the relevant collection
     const ref = userTasks.collection(d).doc();
