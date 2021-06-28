@@ -19,6 +19,23 @@ const RegistrationScreen = ({ navigation }) => {
     navigation.navigate("Login");
   };
 
+  async function handleSubmit() {
+    if (password !== confirmPassword) {
+      return setError("Passwords do not match!");
+    } else if (password.length < 6) {
+      return setError("Password must be at least 6 characters long");
+    } else if (username.trim().length === 0) {
+      return setError("Please enter a username");
+    }
+
+    try {
+      setError("");
+      await register(email, password, username, fullName);
+    } catch {
+      setError("Failed to create an account, try using another email");
+    }
+  }
+
   function checkUsername() {
     if (username.trim().length === 0) {
       return setError("Please enter a username");
@@ -35,6 +52,7 @@ const RegistrationScreen = ({ navigation }) => {
         });
     }
   }
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -56,6 +74,7 @@ const RegistrationScreen = ({ navigation }) => {
           autoCapitalize="none"
         />
         <TextInput
+          onBlur={checkUsername}
           style={styles.input}
           placeholder="Username"
           placeholderTextColor="#aaaaaa"
@@ -73,18 +92,16 @@ const RegistrationScreen = ({ navigation }) => {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TouchableOpacity onPress={checkUsername}>
-          <TextInput
-            style={styles.input}
-            placeholderTextColor="#aaaaaa"
-            secureTextEntry
-            placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-          />
-        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#aaaaaa"
+          secureTextEntry
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+        />
         <TextInput
           style={styles.input}
           placeholderTextColor="#aaaaaa"
@@ -95,10 +112,7 @@ const RegistrationScreen = ({ navigation }) => {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => register(email, password, username, fullName)}
-        >
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonTitle}>Create account</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
