@@ -13,7 +13,13 @@ export default StyleSheet.create({
         height: 120,
         width: 90,
         alignSelf: "center",
-        margin: 30
+        margin: 30,
+        marginTop: 50,
+    },
+    err: {
+        height: 20,
+        color: 'red',
+        alignSelf: "center",
     },
     input: {
         height: 48,
