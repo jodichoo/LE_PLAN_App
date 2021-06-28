@@ -7,7 +7,9 @@ const Stack = createStackNavigator();
 
 const AppStack = (props) => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+          }}>
             <Stack.Screen name='Home'>
                 {props => <HomeScreen {...props} extraData={props.name} />}
             </Stack.Screen>
