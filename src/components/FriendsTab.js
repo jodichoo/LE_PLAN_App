@@ -135,7 +135,7 @@ function FriendsTab() {
   function renderFriend(friendObj) {
     return (
       <View>
-        <Text>
+        <Text style={{fontSize: 15, color: "whitesmoke"}}>
           {friendObj.friend} 
         </Text>
         {renderMeter(friendObj.work, friendObj.play)}
@@ -145,31 +145,32 @@ function FriendsTab() {
 
   function showAddFriend() {
     setAddFriends(!addFriends);
+    setError("")
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       {/* <button onClick={showAddFriend}>+ Add Friends</button> */}
       
         {/* <HiUserAdd style={{ color: "whitesmoke", fontSize: "20px" }} /> */}
-        <Pressable onPress={showAddFriend}><Text>Add Friends</Text></Pressable>
+        <Pressable style={styles.addFriendBut} onPress={showAddFriend}><Text style={{fontSize: 20, color: "whitesmoke"}}>Add Friends</Text></Pressable>
       
 
       {addFriends && (
-        <View>
-          <Text>{error && <Text>{error}</Text>}</Text>
-          <Text>Your Friend's Username: </Text>
-          <TextInput
+        <View style={styles.addFriend}>
+          <Text style={styles.err}>{error && <Text>{error}</Text>}</Text>
+          <Text style={{}}>Your Friend's Username: </Text>
+          <TextInput style={{backgroundColor: '#ededed'}}
           onChangeText={(e) => setFriendsUn(e)}
         />
-          <Pressable onPress={handleAddFriend}><Text>Add</Text></Pressable>
+          <Pressable style={styles.addFriendBut} onPress={handleAddFriend}><Text style={{fontSize: 20, color: "whitesmoke", alignSelf:"center"}}>Add</Text></Pressable>
         </View>
       )}
 
-      <View>
-        <Text>Friends: </Text>
+      <View style={styles.board}>
+        <Text style={{fontSize: 23, color: "whitesmoke", marginBottom: 10}}>Friends: </Text>
         {friendData.length === 0 ? (
-          <Text>You have no friends :(</Text>
+          <Text style={{fontSize: 20, color: "whitesmoke"}}>You have no friends :(</Text>
         ) : (
           friendData.map(renderFriend)
         )}
@@ -179,3 +180,44 @@ function FriendsTab() {
 }
 
 export default FriendsTab;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 30,
+  },
+
+  addFriend: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    backgroundColor: "turquoise",
+    borderRadius: 10,
+  },
+
+  addFriendBut: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    backgroundColor: "turquoise",
+    borderRadius: 10,
+  },
+
+  err: {
+    fontWeight: 'bold',
+    padding: 10,
+    color: "red"
+  },
+
+  board: {
+    alignItems: "center",
+    marginTop: 30,
+    backgroundColor: "#000000aa",
+    padding: 10,
+    borderRadius: 10,
+    width: 100,
+    height: 100,
+    
+  }
+});
