@@ -5,7 +5,7 @@ import Greeting from "./Greeting";
 import TaskForm from "./TaskForm";
 import AddTaskBar from "./AddTaskBar";
 import Event from "./Event";
-import Meter from "./Meter"; 
+import Meter from "./Meter";
 import moment from "moment";
 import {
   StyleSheet,
@@ -28,51 +28,6 @@ function TaskManagerTab(props) {
   const [edit, setEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
 
-  // function deleteTask(task) {
-  //   //delete task from database
-  //   userTasks.collection(selectedDate).doc(task.id).delete();
-  //   //update work/life time in database
-  //   const isWork = task.isWork;
-  //   const dur = task.dur;
-
-  //   const whatday = moment().day() === 0 ? 7 : moment().day(); // 1,2,3,4....7
-  //   const numDays = whatday - 1; // num of times to mathfloor
-  //   const monDate = moment().subtract(numDays, "days");
-
-  //   if (moment(task.date, "YYYY-MM-DD").diff(monDate, "days") < 6) {
-  //     userTasks.get().then((doc) => {
-  //       if (isWork) {
-  //         const currWork = doc.data().workTime;
-  //         userTasks.update({
-  //           workTime: currWork - dur,
-  //         });
-  //       } else {
-  //         const currLife = doc.data().lifeTime;
-  //         userTasks.update({
-  //           lifeTime: currLife - dur,
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
-
-  // function convertTime(num) {
-  //   const s = parseFloat(num).toFixed(2).toString();
-  //   const split = s.split(".");
-  //   if (split[0] < 10) {
-  //     return "0" + split[0] + ":" + split[1];
-  //   } else {
-  //     return split[0] + ":" + split[1];
-  //   }
-  // }
-
-  // function handleCheck(task) {
-  //   //toggle isComplete for the selected task
-  //   userTasks.collection(selectedDate).doc(task.id).update({
-  //     isComplete: !task.isComplete,
-  //   });
-  // }
-
   function separateTasks(arr) {
     const len = arr.length;
     const completed = [];
@@ -90,55 +45,18 @@ function TaskManagerTab(props) {
     return [incomplete, completed]; //return separated tasks
   }
 
-  // function triggerEdit(task) {
-  //   setEdit(true);
-  //   setEditTask(task);
-  // }
-
-  // function renderTask(task) {
-  //   return (
-  //     <>
-  //       <TouchableOpacity
-  //         onLongPress={() => triggerEdit(task)}
-  //         style={styles.task}
-  //       >
-  //         <View style={styles.taskField}>
-  //           <Checkbox
-  //             value={task.isComplete}
-  //             onValueChange={() => handleCheck(task)}
-  //           />
-  //         </View>
-  //         <View style={styles.taskField}>
-  //           <Text style={styles.bolded}>{convertTime(task.time)}</Text>
-  //         </View>
-  //         <View style={styles.taskName}>
-  //           <Text style={styles.text}>{task.name}</Text>
-  //         </View>
-  //         <View style={styles.taskField}>
-  //           <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
-  //         </View>
-  //         <View style={styles.deleteButton}>
-  //           <Button title="Delete" onPress={() => deleteTask(task)} />
-  //         </View>
-  //       </TouchableOpacity>
-  //     </>
-  //   );
-  // }
-
   function renderTask(task) {
     return (
       <View>
-        <Event selectedDate={selectedDate} task={task}/>
+        <Event selectedDate={selectedDate} task={task} />
       </View>
-    )
+    );
   }
 
   return (
     <View style={styles.container}>
       <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
-      <Pressable onPress={logout}><Text>logout</Text></Pressable>
-      <Meter /> 
-      
+      <Meter />
       <View style={styles.tasksContainer}>
         {/* incomplete tasks  */}
         {separateTasks(tasks)[0].map((task) => renderTask(task))}
@@ -186,8 +104,16 @@ function TaskManagerTab(props) {
       </Modal> */}
       {/* toggle add task */}
       <View style={styles.addTask}>
-        <Pressable style={styles.addTaskButton} onPress={() => setShowAdd(!showAdd)}>
-          <Text style={{fontSize: 30, color:'whitesmoke'}}>+</Text>
+        <Pressable
+          style={styles.addTaskButton}
+          onPress={() => setShowAdd(!showAdd)}
+        >
+          <Text style={{ fontSize: 30, color: "whitesmoke" }}>+</Text>
+        </Pressable>
+      </View>
+      <View style={styles.log}>
+        <Pressable onPress={logout} style={styles.addTaskButton}>
+          <Text style={{ fontSize: 20, color: "whitesmoke" }}>logout</Text>
         </Pressable>
       </View>
       <Modal transparent={true} visible={showAdd}>
@@ -284,18 +210,25 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 
+  log: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+
   addTask: {
-    width: '100%', 
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end'
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 
   addTaskButton: {
     marginHorizontal: 20,
-    marginVertical: 10, 
+    marginVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: 'turquoise',
+    backgroundColor: "turquoise",
     borderRadius: 10,
-  }
+  },
 });
