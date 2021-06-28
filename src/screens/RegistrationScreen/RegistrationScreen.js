@@ -63,7 +63,7 @@ const RegistrationScreen = ({ navigation }) => {
           style={styles.logo}
           source={require("../../../assets/icon.png")}
         />
-        <Text>{error && <Text>{error}</Text>}</Text>
+        <Text style={styles.err}>{error && <Text >{error}</Text>}</Text>
         <TextInput
           style={styles.input}
           placeholder="Full Name"
@@ -129,45 +129,3 @@ const RegistrationScreen = ({ navigation }) => {
 };
 
 export default RegistrationScreen;
-
-// export default function RegistrationScreen({navigation}) {
-//     const [fullName, setFullName] = useState('')
-//     const [email, setEmail] = useState('')
-//     const [password, setPassword] = useState('')
-//     const [confirmPassword, setConfirmPassword] = useState('')
-
-//     const onFooterLinkPress = () => {
-//         navigation.navigate('Login')
-//     }
-
-//     const onRegisterPress = () => {
-//         if (password !== confirmPassword) {
-//             alert("Passwords don't match.")
-//             return
-//         }
-//         firebase
-//             .auth()
-//             .createUserWithEmailAndPassword(email, password)
-//             .then((response) => {
-//                 const uid = response.user.uid
-//                 const data = {
-//                     id: uid,
-//                     email,
-//                     fullName,
-//                 };
-//                 const usersRef = firebase.firestore().collection('users')
-//                 usersRef
-//                     .doc(uid)
-//                     .set(data)
-//                     .then(() => {
-//                         navigation.navigate('Home', {user:data})
-//                     })
-//                     .catch((error) => {
-//                         alert(error)
-//                     });
-//             })
-//             .catch((error) => {
-//                 alert(error)
-//         });
-//     }
-// }
