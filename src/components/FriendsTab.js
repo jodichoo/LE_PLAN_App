@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 80,
   },
 
   addFriend: {
