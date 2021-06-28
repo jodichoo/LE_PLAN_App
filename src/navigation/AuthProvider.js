@@ -20,11 +20,11 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser,
         username,
         login: async (email, password) => {
-          try {
+          // try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
-          } catch (e) {
-            console.log(e);
-          }
+          // } catch (e) {
+          //   console.log(e);
+          // }
         },
         register: async (email, password, un, display) => {
           setDisplayName(display); 
