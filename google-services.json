@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "560679851",
-    "project_id": "wlbbot-c1927",
-    "storage_bucket": "wlbbot-c1927.appspot.com"
+    "project_number": "142675589929",
+    "project_id": "wlbbot-fdd9e",
+    "storage_bucket": "wlbbot-fdd9e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:560679851:android:861131692e7029fec4e0ee",
+        "mobilesdk_app_id": "1:142675589929:android:716416312c648920ead538",
         "android_client_info": {
-          "package_name": "com.reactnativefirebase"
+          "package_name": "com.wlbbot"
         }
       },
       "oauth_client": [
         {
-          "client_id": "560679851-rg9fq990dbl5oep7ha6a3ol440mmbq00.apps.googleusercontent.com",
+          "client_id": "142675589929-j00in2jvepb5g4r07o3514ss8qos083b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCph9wPZcUc2uoczTTsd9yb8YdCLs-gu_U"
+          "current_key": "AIzaSyCb_PXTEAwoDEjpBHiS977L7VPqTqoOs7c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "560679851-rg9fq990dbl5oep7ha6a3ol440mmbq00.apps.googleusercontent.com",
+              "client_id": "142675589929-j00in2jvepb5g4r07o3514ss8qos083b.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "560679851-gnd329j432v11a2pj9gn9emptvno7c9g.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.reactnativefirebase"
-              }
             }
           ]
         }

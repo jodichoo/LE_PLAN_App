@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>560679851-gnd329j432v11a2pj9gn9emptvno7c9g.apps.googleusercontent.com</string>
+	<string>142675589929-5crqo44sh3268qln31f8b1e690a54o7h.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.560679851-gnd329j432v11a2pj9gn9emptvno7c9g</string>
+	<string>com.googleusercontent.apps.142675589929-5crqo44sh3268qln31f8b1e690a54o7h</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD7P9KXKpODIF5P05xhbLK8W3q9oRh9JUE</string>
+	<string>AIzaSyBcGBrgVdY7zKypkgk8uRskTOsAnc53jrI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>560679851</string>
+	<string>142675589929</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.reactnativefirebase</string>
+	<string>com.wlbbot</string>
 	<key>PROJECT_ID</key>
-	<string>wlbbot-c1927</string>
+	<string>wlbbot-fdd9e</string>
 	<key>STORAGE_BUCKET</key>
-	<string>wlbbot-c1927.appspot.com</string>
+	<string>wlbbot-fdd9e.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:560679851:ios:9bc10fb01fea6664c4e0ee</string>
+	<string>1:142675589929:ios:1aeac69cfeae228aead538</string>
 </dict>
 </plist>
