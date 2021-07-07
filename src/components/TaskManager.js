@@ -111,11 +111,11 @@ function TaskManagerTab(props) {
           <Text style={{ fontSize: 30, color: "whitesmoke" }}>+</Text>
         </Pressable>
       </View>
-      <View style={styles.log}>
+      {/* <View style={styles.log}>
         <Pressable onPress={logout} style={styles.addTaskButton}>
           <Text style={{ fontSize: 20, color: "whitesmoke" }}>logout</Text>
         </Pressable>
-      </View>
+      </View> */}
       <Modal transparent={true} visible={showAdd}>
         <TouchableOpacity
           onPress={() => setShowAdd(false)}
@@ -211,12 +211,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 
-  log: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
+  // log: {
+  //   width: "100%",
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   justifyContent: "flex-end",
+  // },
 
   addTask: {
     width: "100%",
