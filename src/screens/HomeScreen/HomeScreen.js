@@ -8,26 +8,19 @@ import {
   View,
   Button,
 } from "react-native";
-import styles from "./styles";
-import { firebase } from "../../firebase/config";
 import { AuthContext } from "../../navigation/AuthProvider";
-import TaskForm from "../../components/TaskForm";
-import AddTaskBar from "../../components/AddTaskBar";
+import { db } from "../../firebase/config";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TaskManagerTab from "../../components/TaskManager";
-import Meter from "../../components/Meter";
 import CalendarTab from "../../components/CalenderTab";
 import FriendsTab from "../../components/FriendsTab";
 import moment from "moment";
-import { db } from "../../firebase/config";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const HomeScreen = ({ navigation }) => {
   const { currentUser, logout } = useContext(AuthContext);
   const currDate = moment().format("YYYY-MM-DD");
   const [selectedDate, setSelectedDate] = useState(currDate);
   const [error, setError] = useState("");
-  //const history = useHistory();
   const [tasks, setTasks] = useState([]);
   const [todayTasks, setTodayTasks] = useState([]);
   const userTasks = db.collection("users").doc(currentUser.uid);
@@ -65,22 +58,24 @@ const HomeScreen = ({ navigation }) => {
   const Tabs = createBottomTabNavigator();
 
   return (
-    <Tabs.Navigator initialRouteName="Today's Schedule">
-      <Tabs.Screen name="Calendar">
-        {(props) => <CalendarTab {...props} selectedDate={selectedDate} tasks={tasks}/>}
-      </Tabs.Screen>
-      <Tabs.Screen name="Today's Schedule">
-        {(props) => (
-          <TaskManagerTab
-            {...props}
-            selectedDate={selectedDate}
-            tasks={tasks}
-            setTasks={setTasks}
-          />
-        )}
-      </Tabs.Screen>
-      <Tabs.Screen name="Friends" component={FriendsTab} />
-    </Tabs.Navigator>
+      <Tabs.Navigator initialRouteName="Today's Schedule">
+        <Tabs.Screen name="Calendar">
+          {(props) => (
+            <CalendarTab {...props} selectedDate={selectedDate} tasks={tasks} />
+          )}
+        </Tabs.Screen>
+        <Tabs.Screen name="Today's Schedule">
+          {(props) => (
+            <TaskManagerTab
+              {...props}
+              selectedDate={selectedDate}
+              tasks={tasks}
+              setTasks={setTasks}
+            />
+          )}
+        </Tabs.Screen>
+        <Tabs.Screen name="Friends" component={FriendsTab} />
+      </Tabs.Navigator>
   );
 };
 

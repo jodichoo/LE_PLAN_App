@@ -11,7 +11,7 @@ import {
 
 function ProfileScreen() {
     return (
-        <div><Text>Profile</Text></div>
+        <View style={{flex:1, justifyContent: 'center'}}><Text>Profile</Text></View>
     )
 }
 

@@ -11,7 +11,7 @@ import {
 
 function SettingsScreen() {
     return (
-        <div><Text>Settings</Text></div>
+        <View style={{flex:1, justifyContent: 'center'}}><Text>Settings</Text></View>
     )
 }
 
