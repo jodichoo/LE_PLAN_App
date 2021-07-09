@@ -28,9 +28,12 @@ function SettingsScreen() {
   const [changeName, setChangeName] = useState(false);
   const [newName, setNewName] = useState("");
   const [picUrl, setPicUrl] = useState("");
+  const [useDefault, setUseDefault] = useState(false);
 
   useEffect(() => {
     userTasks.get().then((doc) => setUsername(doc.data().username));
+    setError('');
+    setSuccess('');
   }, []);
 
   function handleSetProfilePic() {
@@ -41,6 +44,7 @@ function SettingsScreen() {
       .then(() => {
         setSuccess("Successfully changed profile picture!");
         setPicUrl("");
+        setUseDefault(false);
       })
       .catch((error) => {
         setError("Failed to set profile picture, please check the image url");
@@ -73,10 +77,11 @@ function SettingsScreen() {
         displayName: newName,
       })
       .then(() => {
+        setChangeName(false);
         setSuccess("Successfully changed display name!");
       })
       .catch((error) => {
-        setError("Failed to set profile picture, please check the image url");
+        setError("Failed to set new Display Name");
       });
   }
 
@@ -130,30 +135,23 @@ function SettingsScreen() {
       });
   }
 
-  const profilePicStyle = {
-    height: "200px",
-    width: "250px",
-    borderRadius: "100px",
-  };
-
   return (
     <View style={styles.container}>
       {/* <View className='back' onClick={history.goBack}><IoChevronBackOutline style={{fontSize: '20px'}}/><text>Back</text></div> */}
-      <Text>{success && <Text>{success}</Text>}</Text>
-      {/* <img
-        style={profilePicStyle}
-        src={currentUser.photoURL}
-        onError={(e) => {
-          e.target.onError = null;
-          e.target.src = "https://i.stack.imgur.com/l60Hf.png";
-        }}
-      /> */}
+      <View style={styles.msg}>
+        <Text>{success && <Text style={styles.succ}>{success}</Text>}</Text>
+      </View>
+     
       <Image
-        style={styles.image}
-        source={{
-          uri: currentUser.photoURL,
-        }}
+        style={styles.img}
+        source={{uri: currentUser.photoURL}}
+        onError={(e) => setUseDefault(true)}
       />
+
+      {useDefault && <Image
+        style={styles.imgDef}
+        source={require('../../assets/defaultProfile.png')}
+      /> }
 
       <Text>Upload Profile Picture URL</Text>
       <View style={styles.setPic}>
@@ -161,6 +159,7 @@ function SettingsScreen() {
           style={styles.input}
           onChangeText={(e) => setPicUrl(e)}
           placeholder="e.g. pic.png, pic.jpg"
+          value={picUrl}
         />
 
         <Pressable onPress={handleSetProfilePic}>
@@ -175,8 +174,12 @@ function SettingsScreen() {
         <Text>Change Password</Text>
       </Pressable>
 
-      <Text>{error && changePass && <Text style={styles.error}>{error}</Text>}</Text>
-      
+      <View style={styles.msg}>
+        <Text>
+          {error && changePass && <Text style={styles.error}>{error}</Text>}
+        </Text>
+      </View>
+
       {changePass && (
         <View>
           <Text>New password:</Text>
@@ -191,7 +194,6 @@ function SettingsScreen() {
             style={styles.input}
             secureTextEntry={true}
             onChangeText={(e) => setConfPassword(e)}
-            required
           ></TextInput>
 
           <Pressable onPress={handleChangePassword}>
@@ -210,9 +212,13 @@ function SettingsScreen() {
       {changeName && (
         <View>
           <Text>New Display Name:</Text>
-          <TextInput style={styles.input} onChange={(e) => setNewName(e)} />
+          <TextInput style={styles.input} onChangeText={(e) => setNewName(e)} />
+
           <Pressable onPress={handleChangeName}>
             <Text>Submit</Text>
+          </Pressable>
+          <Pressable onPress={() => setChangeName(false)}>
+            <Text>Cancel</Text>
           </Pressable>
         </View>
       )}
@@ -241,7 +247,6 @@ function SettingsScreen() {
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
-
     </View>
   );
 }
@@ -254,10 +259,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 50,
   },
-  image: {
+  img: {
     width: 150,
     height: 150,
     borderRadius: 75,
+  },
+  imgDef: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    marginTop: -150,
   },
   input: {
     padding: 1,
@@ -266,17 +277,23 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.05)",
   },
   setPic: {
-      paddingTop: 10,
-      paddingBottom: 10,
-      flexDirection: 'row'
+    paddingTop: 10,
+    paddingBottom: 10,
+    flexDirection: "row",
   },
-  error: {
-    alignSelf: 'center', 
-    backgroundColor:'pink',
-    width: '100%',
+  msg: {
+    alignSelf: "center",
+    width: "100%",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 20,
-    color: 'red'
-  }
+    borderRadius: 30,
+  },
+  error: {
+    backgroundColor: "pink",
+    color: "red",
+  },
+  succ: {
+    backgroundColor: "lightgreen",
+    color: "green",
+  },
 });
