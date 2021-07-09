@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { useFocusEffect } from '@react-navigation/native';
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
@@ -15,11 +14,7 @@ import {
 const AppStack = () => {
   const { currentUser, logout } = useContext(AuthContext);
   const Drawer = createDrawerNavigator();
-  const [useDefault, setUseDefault] = useState(false);
-
-  // useFocusEffect(() => {
-  //   setUseDefault(false);
-  // },[])
+  const [def, setDef] = useState(false);
 
   function CustomDrawerContent(props) {
     return (
@@ -33,20 +28,21 @@ const AppStack = () => {
               <Image
                 style={{ width: 220, height: 220, borderRadius: 110 }}
                 source={{ uri: currentUser.photoURL }}
-                onError={(e) => setUseDefault(true)}
+                onError={(e) => setDef(true)}
               />
             )}
           />
-          {useDefault && <DrawerItem
-            label={() => (
-              <Image
-                style={{ width: 220, height: 220, borderRadius: 110 }}
-                source={require('../../assets/defaultProfile.png')}
-              />
-              
-            )}
-            style={{marginTop: -260}}
-          />}
+          {def && (
+            <DrawerItem
+              label={() => (
+                <Image
+                  style={{ width: 220, height: 220, borderRadius: 110 }}
+                  source={require("../../assets/defaultProfile.png")}
+                />
+              )}
+              style={{ marginTop: -260 }}
+            />
+          )}
           <DrawerItemList {...props} />
         </DrawerContentScrollView>
 
@@ -66,7 +62,9 @@ const AppStack = () => {
     >
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Settings" component={SettingsScreen} />
+      <Drawer.Screen name="Settings">
+        {(props) => <SettingsScreen {...props} setDef={setDef} />}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 };

@@ -13,8 +13,9 @@ import { db } from "../firebase/config";
 import { useAuth } from "../navigation/AuthProvider";
 import firebase from "firebase/app";
 
-function SettingsScreen() {
+function SettingsScreen(props) {
   const { currentUser } = useAuth();
+  const { setDef } = props;
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [username, setUsername] = useState("");
   const [changePass, setChangePass] = useState(false);
@@ -45,6 +46,7 @@ function SettingsScreen() {
         setSuccess("Successfully changed profile picture!");
         setPicUrl("");
         setUseDefault(false);
+        setDef(false);
       })
       .catch((error) => {
         setError("Failed to set profile picture, please check the image url");
@@ -145,7 +147,7 @@ function SettingsScreen() {
       <Image
         style={styles.img}
         source={{uri: currentUser.photoURL}}
-        onError={(e) => setUseDefault(true)}
+        onError={(e) => {setUseDefault(true); setDef(true)}}
       />
 
       {useDefault && <Image
@@ -260,15 +262,15 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   img: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    width: 250,
+    height: 250,
+    borderRadius: 125,
   },
   imgDef: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginTop: -150,
+    width: 250,
+    height: 250,
+    borderRadius: 125,
+    marginTop: -250,
   },
   input: {
     padding: 1,
