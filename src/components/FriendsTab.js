@@ -130,13 +130,13 @@ function FriendsTab() {
     );
   }
 
-  function goToFriendProfile() {
-    return navigation.navigate('FriendProfile');
+  function goToFriendProfile(friendUn) {
+    return navigation.navigate('FriendProfile', {friendUn: friendUn});
   }
 
   function renderFriend(friendObj) {
     return (
-      <TouchableOpacity onPress={goToFriendProfile}>
+      <TouchableOpacity onPress={() => goToFriendProfile(friendObj.friend)}>
         <Text style={{fontSize: 15, color: "whitesmoke"}}>
           {friendObj.friend} 
         </Text>
