@@ -51,6 +51,8 @@ export const AuthProvider = ({ children }) => {
                   .doc(uid)
                   .set({
                     storedDate: "2021-05-31",
+                    displayName: display,
+                    photoURL: "https://i.stack.imgur.com/l60Hf.png",
                     username: un,
                     workTime: 0,
                     lifeTime: 0,

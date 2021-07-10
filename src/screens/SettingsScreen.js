@@ -29,17 +29,27 @@ function SettingsScreen(props) {
   const [changeName, setChangeName] = useState(false);
   const [newName, setNewName] = useState("");
   const [picUrl, setPicUrl] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
   const [useDefault, setUseDefault] = useState(false);
 
   useEffect(() => {
-    userTasks.get().then((doc) => setUsername(doc.data().username));
-    setError('');
-    setSuccess('');
+    userTasks.get().then((doc) => {
+      setUsername(doc.data().username);
+      setPhotoUrl(doc.data().photoURL);
+    });
+    setError("");
+    setSuccess("");
   }, []);
 
+  useEffect(() => {
+    userTasks.get().then((doc) => {
+      setPhotoUrl(doc.data().photoURL);
+    });
+  }, [picUrl]);
+
   function handleSetProfilePic() {
-    currentUser
-      .updateProfile({
+    userTasks
+      .update({
         photoURL: picUrl,
       })
       .then(() => {
@@ -47,6 +57,7 @@ function SettingsScreen(props) {
         setPicUrl("");
         setUseDefault(false);
         setDef(false);
+        console.log("success");
       })
       .catch((error) => {
         setError("Failed to set profile picture, please check the image url");
@@ -79,8 +90,14 @@ function SettingsScreen(props) {
         displayName: newName,
       })
       .then(() => {
-        setChangeName(false);
-        setSuccess("Successfully changed display name!");
+        userTasks
+          .update({
+            displayName: newName,
+          })
+          .then(() => {
+            setChangeName(false);
+            setSuccess("Successfully changed display name!");
+          });
       })
       .catch((error) => {
         setError("Failed to set new Display Name");
@@ -143,17 +160,22 @@ function SettingsScreen(props) {
       <View style={styles.msg}>
         <Text>{success && <Text style={styles.succ}>{success}</Text>}</Text>
       </View>
-     
+
       <Image
         style={styles.img}
-        source={{uri: currentUser.photoURL}}
-        onError={(e) => {setUseDefault(true); setDef(true)}}
+        source={{ uri: photoUrl }}
+        onError={(e) => {
+          setUseDefault(true);
+          setDef(true);
+        }}
       />
 
-      {useDefault && <Image
-        style={styles.imgDef}
-        source={require('../../assets/defaultProfile.png')}
-      /> }
+      {useDefault && (
+        <Image
+          style={styles.imgDef}
+          source={require("../../assets/defaultProfile.png")}
+        />
+      )}
 
       <Text>Upload Profile Picture URL</Text>
       <View style={styles.setPic}>
