@@ -75,6 +75,7 @@ function FriendsTab() {
               })
               .then(() => {
                 setFriendsList(newList);
+                setAddFriends(false);
               });
             return setError("");
           } else {
