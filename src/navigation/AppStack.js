@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "./AuthProvider";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import FriendProfile from "../screens/FriendProfile";
 import { Text, Image } from "react-native";
 import {
   DrawerContentScrollView,
@@ -14,6 +16,7 @@ import {
 const AppStack = () => {
   const { currentUser, logout } = useContext(AuthContext);
   const Drawer = createDrawerNavigator();
+  const Stack = createStackNavigator();
   const [def, setDef] = useState(false);
 
   function CustomDrawerContent(props) {
@@ -55,17 +58,31 @@ const AppStack = () => {
     );
   }
 
+  function DrawerStack() {
+    return (
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+      >
+        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Settings">
+          {(props) => <SettingsScreen {...props} setDef={setDef} />}
+        </Drawer.Screen>
+      </Drawer.Navigator>
+    );
+  }
+
   return (
-    <Drawer.Navigator
+    <Stack.Navigator
       initialRouteName="Home"
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        headerShown: false,
+      }}
     >
-      <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Settings">
-        {(props) => <SettingsScreen {...props} setDef={setDef} />}
-      </Drawer.Screen>
-    </Drawer.Navigator>
+      <Stack.Screen name="Home" component={DrawerStack} />
+      <Stack.Screen name="FriendProfile" component={FriendProfile} />
+    </Stack.Navigator>
   );
 };
 

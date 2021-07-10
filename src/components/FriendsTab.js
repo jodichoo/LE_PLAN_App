@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
+import { useNavigation } from "@react-navigation/core";
 import {
     StyleSheet,
-    FlatList,
-    Keyboard,
     Text,
     TextInput,
     TouchableOpacity,
     View,
-    Button,
-    Modal,
     Pressable,
   } from "react-native";
   
 function FriendsTab() {
   const { currentUser } = useAuth();
+  const navigation = useNavigation();
   const [friendsUn, setFriendsUn] = useState("");
   const [error, setError] = useState("");
   const userTasks = db.collection("users").doc(currentUser.uid);
@@ -132,14 +130,18 @@ function FriendsTab() {
     );
   }
 
+  function goToFriendProfile() {
+    return navigation.navigate('FriendProfile');
+  }
+
   function renderFriend(friendObj) {
     return (
-      <View>
+      <TouchableOpacity onPress={goToFriendProfile}>
         <Text style={{fontSize: 15, color: "whitesmoke"}}>
           {friendObj.friend} 
         </Text>
         {renderMeter(friendObj.work, friendObj.play)}
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -216,8 +218,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000aa",
     padding: 10,
     borderRadius: 10,
-    width: 100,
-    height: 100,
+    width: 300,
+    height: 400,
     
   }
 });
