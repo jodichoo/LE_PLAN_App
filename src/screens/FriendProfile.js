@@ -11,11 +11,12 @@ function FriendProfile() {
   const { currentUser } = useAuth();
   const friendUsername = route.params.friendUn;
   const userTasks = db.collection("users").doc(currentUser.uid);
-  const [photoUrl, setPhotoUrl] = useState("");
+  const [photoUrl, setPhotoUrl] = useState(".jpg");
   const [useDefault, setUseDefault] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [friendsList, setFriendsList] = useState([]);
   const [bio, setBio] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     db.collection("users")
@@ -27,7 +28,10 @@ function FriendProfile() {
           setPhotoUrl(doc.data().photoURL);
           setFriendsList(doc.data().friends);
         });
-      });
+      })
+      .then(() => {
+        setLoading(false);
+      })
   });
 
   function handleDeleteFriend() {
@@ -52,12 +56,13 @@ function FriendProfile() {
         <Text>Back</Text>
       </Pressable>
       <Text>{displayName}</Text>
-      {!useDefault && (
+      {loading && (
         <Image
           style={styles.imgDef}
           source={{ uri: photoUrl }}
           onError={(e) => {
             setUseDefault(true);
+            console.log('use def')
           }}
         />
       )}

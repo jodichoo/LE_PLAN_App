@@ -20,11 +20,17 @@ const AppStack = () => {
   const Drawer = createDrawerNavigator();
   const Stack = createStackNavigator();
   const [def, setDef] = useState(false);
-  const [photoUrl, setPhotoUrl] = useState('');
+  const [photoUrl, setPhotoUrl] = useState(".jpg");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    userTasks.get().then((doc) => setPhotoUrl(doc.data().photoURL));
-  }, [])
+    userTasks
+      .get()
+      .then((doc) => setPhotoUrl(doc.data().photoURL))
+      .then(() => {
+        setLoading(false);
+      });
+  }, []);
 
   function CustomDrawerContent(props) {
     return (
@@ -33,15 +39,17 @@ const AppStack = () => {
         contentContainerStyle={{ flex: 1, justifyContent: "space-between" }}
       >
         <DrawerContentScrollView>
-          <DrawerItem
-            label={() => (
-              <Image
-                style={{ width: 220, height: 220, borderRadius: 110 }}
-                source={{ uri: photoUrl }}
-                onError={(e) => setDef(true)}
-              />
-            )}
-          />
+          {loading || (
+            <DrawerItem
+              label={() => (
+                <Image
+                  style={{ width: 220, height: 220, borderRadius: 110 }}
+                  source={{ uri: photoUrl }}
+                  onError={(e) => setDef(true)}
+                />
+              )}
+            />
+          )}
           {def && (
             <DrawerItem
               label={() => (

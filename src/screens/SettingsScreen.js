@@ -29,23 +29,26 @@ function SettingsScreen(props) {
   const [changeName, setChangeName] = useState(false);
   const [newName, setNewName] = useState("");
   const [picUrl, setPicUrl] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
+  const [photoUrl, setPhotoUrl] = useState(".jpg");
   const [useDefault, setUseDefault] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     userTasks.get().then((doc) => {
       setUsername(doc.data().username);
       setPhotoUrl(doc.data().photoURL);
+    }).then(() => {
+      setLoading(false);
+      setError("");
+      setSuccess("");
     });
-    setError("");
-    setSuccess("");
   }, []);
 
-  useEffect(() => {
-    userTasks.get().then((doc) => {
-      setPhotoUrl(doc.data().photoURL);
-    });
-  }, [picUrl]);
+  // useEffect(() => {
+  //   userTasks.get().then((doc) => {
+  //     setPhotoUrl(doc.data().photoURL);
+  //   });
+  // }, [picUrl]);
 
   function handleSetProfilePic() {
     userTasks
@@ -161,14 +164,14 @@ function SettingsScreen(props) {
         <Text>{success && <Text style={styles.succ}>{success}</Text>}</Text>
       </View>
 
-      <Image
+      {loading || <Image
         style={styles.img}
         source={{ uri: photoUrl }}
         onError={(e) => {
           setUseDefault(true);
           setDef(true);
         }}
-      />
+      />}
 
       {useDefault && (
         <Image
