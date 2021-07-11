@@ -3,14 +3,14 @@ import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    Pressable,
-  } from "react-native";
-  
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Pressable,
+} from "react-native";
+
 function FriendsTab() {
   const { currentUser } = useAuth();
   const navigation = useNavigation();
@@ -21,6 +21,7 @@ function FriendsTab() {
   const [friendsList, setFriendsList] = useState([]);
   const [addFriends, setAddFriends] = useState(false);
   const [friendData, setFriendData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const dataList = [];
@@ -39,8 +40,10 @@ function FriendsTab() {
           });
         })
         .then(() => {
+          setLoading(true);
           setFriendData(dataList);
-        });
+        })
+        .then(() => setLoading(false));
     }
   }, [friendsList]);
 
@@ -87,7 +90,7 @@ function FriendsTab() {
   }
 
   function renderMeter(w, p) {
-    console.log(w,p)
+    console.log(w, p);
     const wFlex = p === 0 ? 100 : (w * 100) / p + w;
     const pFlex = w === 0 ? 100 : (p * 100) / p + w;
 
@@ -132,14 +135,14 @@ function FriendsTab() {
   }
 
   function goToFriendProfile(friendUn) {
-    return navigation.navigate('FriendProfile', {friendUn: friendUn});
+    return navigation.navigate("FriendProfile", { friendUn: friendUn });
   }
 
   function renderFriend(friendObj) {
     return (
       <TouchableOpacity onPress={() => goToFriendProfile(friendObj.friend)}>
-        <Text style={{fontSize: 15, color: "whitesmoke"}}>
-          {friendObj.friend} 
+        <Text style={{ fontSize: 15, color: "whitesmoke" }}>
+          {friendObj.friend}
         </Text>
         {renderMeter(friendObj.work, friendObj.play)}
       </TouchableOpacity>
@@ -148,34 +151,46 @@ function FriendsTab() {
 
   function showAddFriend() {
     setAddFriends(!addFriends);
-    setError("")
+    setError("");
   }
 
   return (
     <View style={styles.container}>
       {/* <button onClick={showAddFriend}>+ Add Friends</button> */}
-      
-        {/* <HiUserAdd style={{ color: "whitesmoke", fontSize: "20px" }} /> */}
-        <Pressable style={styles.addFriendBut} onPress={showAddFriend}><Text style={{fontSize: 20, color: "whitesmoke"}}>Add Friends</Text></Pressable>
-      
+
+      {/* <HiUserAdd style={{ color: "whitesmoke", fontSize: "20px" }} /> */}
+      <Pressable style={styles.addFriendBut} onPress={showAddFriend}>
+        <Text style={{ fontSize: 20, color: "whitesmoke" }}>Add Friends</Text>
+      </Pressable>
 
       {addFriends && (
         <View style={styles.addFriend}>
           <Text style={styles.err}>{error && <Text>{error}</Text>}</Text>
           <Text style={{}}>Your Friend's Username: </Text>
-          <TextInput style={{backgroundColor: '#ededed'}}
-          onChangeText={(e) => setFriendsUn(e)}
-        />
-          <Pressable style={styles.addFriendBut} onPress={handleAddFriend}><Text style={{fontSize: 20, color: "whitesmoke", alignSelf:"center"}}>Add</Text></Pressable>
+          <TextInput
+            style={{ backgroundColor: "#ededed" }}
+            onChangeText={(e) => setFriendsUn(e)}
+          />
+          <Pressable style={styles.addFriendBut} onPress={handleAddFriend}>
+            <Text
+              style={{ fontSize: 20, color: "whitesmoke", alignSelf: "center" }}
+            >
+              Add
+            </Text>
+          </Pressable>
         </View>
       )}
 
       <View style={styles.board}>
-        <Text style={{fontSize: 23, color: "whitesmoke", marginBottom: 10}}>Friends: </Text>
+        <Text style={{ fontSize: 23, color: "whitesmoke", marginBottom: 10 }}>
+          Friends:{" "}
+        </Text>
         {friendData.length === 0 ? (
-          <Text style={{fontSize: 20, color: "whitesmoke"}}>You have no friends :(</Text>
+          <Text style={{ fontSize: 20, color: "whitesmoke" }}>
+            You have no friends :(
+          </Text>
         ) : (
-          friendData.map(renderFriend)
+          loading || friendData.map(renderFriend)
         )}
       </View>
     </View>
@@ -208,9 +223,9 @@ const styles = StyleSheet.create({
   },
 
   err: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     padding: 10,
-    color: "red"
+    color: "red",
   },
 
   board: {
@@ -221,6 +236,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 300,
     height: 400,
-    
-  }
+  },
 });
