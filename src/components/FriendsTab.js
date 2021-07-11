@@ -24,6 +24,13 @@ function FriendsTab() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    //to account for all friends deleted and force rerendering of friends board
+    if (friendsList.length == 0) {
+      setLoading(true);
+      setFriendData([]);
+      setLoading(false);
+    }
+
     const dataList = [];
     for (var i = 0; i < friendsList.length; i++) {
       const name = friendsList[i];
@@ -42,6 +49,7 @@ function FriendsTab() {
         .then(() => {
           setLoading(true);
           setFriendData(dataList);
+          console.log(dataList);
         })
         .then(() => setLoading(false));
     }
@@ -117,7 +125,7 @@ function FriendsTab() {
     });
 
     return w === 0 && p === 0 ? (
-      <Text>Noobie</Text>
+      <Text>No tasks for the week!</Text>
     ) : w === 0 ? (
       <View styles={styles.wrapper}>
         <Text style={styles.play}>p</Text>
@@ -135,7 +143,12 @@ function FriendsTab() {
   }
 
   function goToFriendProfile(friendUn) {
-    return navigation.navigate("FriendProfile", { friendUn: friendUn });
+    // navigation + pass props into route 
+    return navigation.navigate("FriendProfile", {
+      friendUn: friendUn,
+      friendsList: friendsList,
+      setFriendsList: setFriendsList,
+    });
   }
 
   function renderFriend(friendObj) {

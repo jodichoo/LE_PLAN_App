@@ -14,7 +14,6 @@ function FriendProfile() {
   const [photoUrl, setPhotoUrl] = useState(".jpg");
   const [useDefault, setUseDefault] = useState(false);
   const [displayName, setDisplayName] = useState("");
-  const [friendsList, setFriendsList] = useState([]);
   const [bio, setBio] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -26,16 +25,16 @@ function FriendProfile() {
         querySnapshot.forEach((doc) => {
           setDisplayName(doc.data().displayName);
           setPhotoUrl(doc.data().photoURL);
-          setFriendsList(doc.data().friends);
         });
       })
       .then(() => {
         setLoading(false);
       })
-  });
+  }, []);
 
   function handleDeleteFriend() {
     const toDelete = friendUsername;
+    const friendsList = route.params.friendsList;
     const index = friendsList.findIndex((element) => element === toDelete);
     const newList = [
       ...friendsList.slice(0, index),
@@ -46,6 +45,7 @@ function FriendProfile() {
         friends: newList,
       })
       .then(() => {
+        route.params.setFriendsList(newList)
         goBack();
       });
   }
@@ -56,13 +56,12 @@ function FriendProfile() {
         <Text>Back</Text>
       </Pressable>
       <Text>{displayName}</Text>
-      {loading && (
+      {loading || (
         <Image
-          style={styles.imgDef}
+          style={styles.img}
           source={{ uri: photoUrl }}
           onError={(e) => {
             setUseDefault(true);
-            console.log('use def')
           }}
         />
       )}
@@ -98,9 +97,14 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: -80,
   },
+  img: {
+    width: 200,
+    height: 200,
+  },
   imgDef: {
     width: 200,
     height: 200,
+    marginTop: -200
   },
   remove: {
     backgroundColor: "pink",
