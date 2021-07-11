@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
                 user
                   .updateProfile({
                     displayName: display,
+                    photoURL: "https://i.stack.imgur.com/l60Hf.png",
                   })
                   .then(() => {
                     console.log("set the display name");

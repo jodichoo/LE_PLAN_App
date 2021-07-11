@@ -29,38 +29,41 @@ function SettingsScreen(props) {
   const [changeName, setChangeName] = useState(false);
   const [newName, setNewName] = useState("");
   const [picUrl, setPicUrl] = useState("");
-  const [photoUrl, setPhotoUrl] = useState(".jpg");
   const [useDefault, setUseDefault] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    userTasks.get().then((doc) => {
-      setUsername(doc.data().username);
-      setPhotoUrl(doc.data().photoURL);
-    }).then(() => {
-      setLoading(false);
-      setError("");
-      setSuccess("");
-    });
+    userTasks
+      .get()
+      .then((doc) => {
+        setUsername(doc.data().username);
+      })
+      .then(() => {
+        setLoading(false);
+        setError("");
+        setSuccess("");
+      });
   }, []);
 
-  // useEffect(() => {
-  //   userTasks.get().then((doc) => {
-  //     setPhotoUrl(doc.data().photoURL);
-  //   });
-  // }, [picUrl]);
-
   function handleSetProfilePic() {
-    userTasks
-      .update({
+    currentUser
+      //update personal profile
+      .updateProfile({
         photoURL: picUrl,
       })
       .then(() => {
-        setSuccess("Successfully changed profile picture!");
-        setPicUrl("");
-        setUseDefault(false);
-        setDef(false);
-        console.log("success");
+        //update in firestore for other users to access
+        userTasks
+          .update({
+            photoURL: picUrl,
+          })
+          .then(() => {
+            setSuccess("Successfully changed profile picture!");
+            setPicUrl("");
+            setUseDefault(false);
+            setDef(false);
+            console.log("success");
+          });
       })
       .catch((error) => {
         setError("Failed to set profile picture, please check the image url");
@@ -164,14 +167,16 @@ function SettingsScreen(props) {
         <Text>{success && <Text style={styles.succ}>{success}</Text>}</Text>
       </View>
 
-      {loading || <Image
-        style={styles.img}
-        source={{ uri: photoUrl }}
-        onError={(e) => {
-          setUseDefault(true);
-          setDef(true);
-        }}
-      />}
+      {loading || (
+        <Image
+          style={styles.img}
+          source={{ uri: currentUser.photoURL }}
+          onError={(e) => {
+            setUseDefault(true);
+            setDef(true);
+          }}
+        />
+      )}
 
       {useDefault && (
         <Image

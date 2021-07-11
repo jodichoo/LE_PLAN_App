@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "./AuthProvider";
-import { db } from "../firebase/config";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
@@ -16,21 +15,9 @@ import {
 
 const AppStack = () => {
   const { currentUser, logout } = useContext(AuthContext);
-  const userTasks = db.collection("users").doc(currentUser.uid);
   const Drawer = createDrawerNavigator();
   const Stack = createStackNavigator();
   const [def, setDef] = useState(false);
-  const [photoUrl, setPhotoUrl] = useState(".jpg");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    userTasks
-      .get()
-      .then((doc) => setPhotoUrl(doc.data().photoURL))
-      .then(() => {
-        setLoading(false);
-      });
-  }, []);
 
   function CustomDrawerContent(props) {
     return (
@@ -39,17 +26,16 @@ const AppStack = () => {
         contentContainerStyle={{ flex: 1, justifyContent: "space-between" }}
       >
         <DrawerContentScrollView>
-          {loading || (
             <DrawerItem
               label={() => (
                 <Image
                   style={{ width: 220, height: 220, borderRadius: 110 }}
-                  source={{ uri: photoUrl }}
+                  source={{ uri: currentUser.photoURL }}
                   onError={(e) => setDef(true)}
                 />
               )}
             />
-          )}
+
           {def && (
             <DrawerItem
               label={() => (
