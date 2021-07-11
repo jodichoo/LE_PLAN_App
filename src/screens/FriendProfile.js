@@ -29,8 +29,34 @@ function FriendProfile() {
       })
       .then(() => {
         setLoading(false);
-      })
+      });
   }, []);
+
+  function renderImage() {
+    fetch(photoUrl)
+      .then((res) => {
+        if (res.status == 200) {
+          setUseDefault(false);
+        }
+      })
+      .catch((error) => {
+        setUseDefault(true);
+      });
+    return useDefault ? (
+      <Image
+        style={styles.img}
+        source={require("../../assets/defaultProfile.png")}
+      />
+    ) : (
+      <Image
+        style={styles.img}
+        source={{ uri: photoUrl }}
+        onError={(e) => {
+          setUseDefault(true);
+        }}
+      />
+    );
+  }
 
   function handleDeleteFriend() {
     const toDelete = friendUsername;
@@ -45,7 +71,7 @@ function FriendProfile() {
         friends: newList,
       })
       .then(() => {
-        route.params.setFriendsList(newList)
+        route.params.setFriendsList(newList);
         goBack();
       });
   }
@@ -56,27 +82,15 @@ function FriendProfile() {
         <Text>Back</Text>
       </Pressable>
       <Text>{displayName}</Text>
-      {loading || (
-        <Image
-          style={styles.img}
-          source={{ uri: photoUrl }}
-          onError={(e) => {
-            setUseDefault(true);
-          }}
-        />
-      )}
-      {useDefault && (
-        <Image
-          style={styles.imgDef}
-          source={require("../../assets/defaultProfile.png")}
-        />
-      )}
+      
+      {loading || renderImage()}
+
       <Text>
         {displayName}'s Username: {friendUsername}
       </Text>
       <Text>Bio: poopy loopy</Text>
       <Pressable style={styles.remove} onPress={handleDeleteFriend}>
-        <Text style={styles.del}>Remove 'Friend name' இдஇ</Text>
+        <Text style={styles.del}>Remove {displayName} இдஇ</Text>
       </Pressable>
     </View>
   );
@@ -100,11 +114,6 @@ const styles = StyleSheet.create({
   img: {
     width: 200,
     height: 200,
-  },
-  imgDef: {
-    width: 200,
-    height: 200,
-    marginTop: -200
   },
   remove: {
     backgroundColor: "pink",

@@ -29,8 +29,15 @@ function SettingsScreen(props) {
   const [changeName, setChangeName] = useState(false);
   const [newName, setNewName] = useState("");
   const [picUrl, setPicUrl] = useState("");
-  const [useDefault, setUseDefault] = useState(false);
+  const [useDefault, setUseDefault] = useState(true);
+  const [urlError, setUrlError] = useState("");
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setError("");
+    setUrlError("");
+    setSuccess("");
+  }, []);
 
   useEffect(() => {
     userTasks
@@ -43,30 +50,58 @@ function SettingsScreen(props) {
         setError("");
         setSuccess("");
       });
-  }, []);
 
-  function handleSetProfilePic() {
-    currentUser
-      //update personal profile
-      .updateProfile({
-        photoURL: picUrl,
-      })
-      .then(() => {
-        //update in firestore for other users to access
-        userTasks
-          .update({
-            photoURL: picUrl,
-          })
-          .then(() => {
-            setSuccess("Successfully changed profile picture!");
-            setPicUrl("");
-            setUseDefault(false);
-            setDef(false);
-            console.log("success");
-          });
+    fetch(currentUser.photoURL)
+      .then((res) => {
+        if (res.status == 404) {
+          setUseDefault(true);
+        } else {
+          setUseDefault(false);
+        }
       })
       .catch((error) => {
-        setError("Failed to set profile picture, please check the image url");
+        console.log("failed to fetch validity of URL", error);
+      });
+  }, [picUrl]);
+
+  function handleSetProfilePic() {
+    setError("");
+    setUrlError("");
+    fetch(picUrl)
+      .then((res) => {
+        if (res.status == 200) {
+          currentUser
+            //update personal profile
+            .updateProfile({
+              photoURL: picUrl,
+            })
+            .then(() => {
+              //update in firestore for other users to access
+              userTasks
+                .update({
+                  photoURL: picUrl,
+                })
+                .then(() => {
+                  setError("");
+                  setSuccess("Successfully changed profile picture!");
+                  setPicUrl("");
+                  setUseDefault(false);
+                  setDef(false);
+                  console.log("success");
+                });
+            })
+            .catch((error) => {
+              setUrlError(
+                "Failed to set profile picture, please check the image url"
+              );
+            });
+        }
+      })
+      .catch((error) => {
+        setPicUrl("");
+        setUrlError(
+          "Invalid URL provided. Please ensure photo is in the correct format and valid."
+        );
       });
   }
 
@@ -76,6 +111,7 @@ function SettingsScreen(props) {
     } else if (newPassword.length < 6 && confPassword.length < 6) {
       setError("Password must be at least 6 characters long");
     } else {
+      setUrlError("");
       setError("");
       currentUser
         .updatePassword(newPassword)
@@ -91,6 +127,8 @@ function SettingsScreen(props) {
   }
 
   function handleChangeName() {
+    setError("");
+    setUrlError("");
     currentUser
       .updateProfile({
         displayName: newName,
@@ -107,6 +145,7 @@ function SettingsScreen(props) {
       })
       .catch((error) => {
         setError("Failed to set new Display Name");
+        setUseDefault(true);
       });
   }
 
@@ -126,6 +165,7 @@ function SettingsScreen(props) {
         </Pressable>
         <Pressable
           onPress={() => {
+            setUrlError("");
             setError("");
             setConfirmPassP(false);
             setConfirmPassN(false);
@@ -158,6 +198,8 @@ function SettingsScreen(props) {
         console.log("errorororor");
         setError("Failed to reauthenticate");
       });
+
+    setUrlError("");
   }
 
   return (
@@ -167,7 +209,16 @@ function SettingsScreen(props) {
         <Text>{success && <Text style={styles.succ}>{success}</Text>}</Text>
       </View>
 
-      {loading || (
+      <View style={styles.msg}>
+        <Text>{urlError && <Text style={styles.error}>{urlError}</Text>}</Text>
+      </View>
+
+      {useDefault ? (
+        <Image
+          style={styles.img}
+          source={require("../../assets/defaultProfile.png")}
+        />
+      ) : (
         <Image
           style={styles.img}
           source={{ uri: currentUser.photoURL }}
@@ -175,13 +226,6 @@ function SettingsScreen(props) {
             setUseDefault(true);
             setDef(true);
           }}
-        />
-      )}
-
-      {useDefault && (
-        <Image
-          style={styles.imgDef}
-          source={require("../../assets/defaultProfile.png")}
         />
       )}
 

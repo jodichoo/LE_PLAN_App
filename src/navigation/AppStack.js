@@ -26,17 +26,7 @@ const AppStack = () => {
         contentContainerStyle={{ flex: 1, justifyContent: "space-between" }}
       >
         <DrawerContentScrollView>
-            <DrawerItem
-              label={() => (
-                <Image
-                  style={{ width: 220, height: 220, borderRadius: 110 }}
-                  source={{ uri: currentUser.photoURL }}
-                  onError={(e) => setDef(true)}
-                />
-              )}
-            />
-
-          {def && (
+          {def ? (
             <DrawerItem
               label={() => (
                 <Image
@@ -45,6 +35,16 @@ const AppStack = () => {
                 />
               )}
               style={{ marginTop: -260 }}
+            />
+          ) : (
+            <DrawerItem
+              label={() => (
+                <Image
+                  style={{ width: 220, height: 220, borderRadius: 110 }}
+                  source={{ uri: currentUser.photoURL }}
+                  onError={(e) => setDef(true)}
+                />
+              )}
             />
           )}
           <DrawerItemList {...props} />
