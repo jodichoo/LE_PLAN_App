@@ -1,21 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import Greeting from "./Greeting";
-import TaskForm from "./TaskForm";
 import AddTaskBar from "./AddTaskBar";
 import Event from "./Event";
 import Meter from "./Meter";
-import moment from "moment";
 import {
   StyleSheet,
-  FlatList,
-  Keyboard,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-  Button,
   Modal,
   Pressable,
 } from "react-native";
@@ -27,6 +21,18 @@ function TaskManagerTab(props) {
   const [editTask, setEditTask] = useState({});
   const [edit, setEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
+  const [storedDate, setStoredDate] = useState('');
+
+  useEffect(() => {
+    userTasks
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          //account details exist
+          setStoredDate(doc.data().storedDate);
+        }
+      })
+  }, []);
 
   function separateTasks(arr) {
     const len = arr.length;
@@ -55,8 +61,8 @@ function TaskManagerTab(props) {
 
   return (
     <View style={styles.container}>
-      <Greeting selectedDate={selectedDate} tasks={tasks} setTasks={setTasks} />
-      <Meter />
+      <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} />
+      <Meter storedDate={storedDate} />
       <View style={styles.tasksContainer}>
         {/* incomplete tasks  */}
         {separateTasks(tasks)[0].map((task) => renderTask(task))}

@@ -5,12 +5,11 @@ import moment from "moment";
 import { View, Text, StyleSheet } from "react-native";
 
 function Greeting(props) {
-  const { tasks, setTasks, selectedDate } = props;
+  const { selectedDate, storedDate, setStoredDate } = props;
   const { currentUser, username } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [greetName, setGreetName] = useState("empty");
   const [date, setDate] = useState(new Date());
-  var storedDate;
   const currDate = moment();
 
   //get the username for custom greeting
@@ -31,6 +30,11 @@ function Greeting(props) {
         return unsubscribe;
       }
     });
+
+    var timer = setInterval(() => setDate(new Date()), 1000);
+    return function cleanup() {
+      clearInterval(timer);
+    };
   }, []);
 
   useEffect(() => {
@@ -40,19 +44,13 @@ function Greeting(props) {
         if (doc.exists) {
           //account details exist
           setGreetName(doc.data().username);
-          storedDate = doc.data().storedDate;
         }
       })
       .then(() => {
         console.log(`stored date is ${storedDate}`);
         updateMeterData();
-      });
-
-    var timer = setInterval(() => setDate(new Date()), 1000);
-    return function cleanup() {
-      clearInterval(timer);
-    };
-  }, []);
+      }); 
+  }, [date]);
 
   async function handleGetMeterData(monDate) {
     var workCount = 0;
@@ -82,6 +80,8 @@ function Greeting(props) {
       userTasks.update({
         workTime: workCount,
         lifeTime: lifeCount,
+      }).then(() => {
+        setStoredDate(monDate);
       });
     }
   }
@@ -143,7 +143,7 @@ function Greeting(props) {
 
       data.push(Math.round(dataItem * 100) / 100);
     }
-    
+
     //update database
     userTasks
       .update({

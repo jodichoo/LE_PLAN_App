@@ -3,8 +3,9 @@ import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import { View , Text, StyleSheet, TouchableOpacity } from "react-native";
 
-function Meter() {
+function Meter(props) {
   const { currentUser } = useAuth();
+  const { storedDate } = props;
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [workTime, setWorkTime] = useState(1);
   const [lifeTime, setLifeTime] = useState(1);
@@ -31,7 +32,7 @@ function Meter() {
         setLabel(`Work: ${(w * 100 / t).toFixed(1)}%`);
       }
     });
-  }, []);
+  }, [storedDate]);
 
   function enterMeter(item) {
     return item.label === 'work' ? setHovered('Work') : setHovered('Play');
