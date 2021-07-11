@@ -79,19 +79,27 @@ function FriendProfile() {
   return (
     <View style={styles.container}>
       <Pressable style={styles.back} onPress={() => goBack()}>
-        <Text>Back</Text>
+        <Text style={{color: 'whitesmoke'}}>Back</Text>
       </Pressable>
-      <Text>{displayName}</Text>
-      
-      {loading || renderImage()}
 
-      <Text>
-        {displayName}'s Username: {friendUsername}
-      </Text>
-      <Text>Bio: poopy loopy</Text>
-      <Pressable style={styles.remove} onPress={handleDeleteFriend}>
-        <Text style={styles.del}>Remove {displayName} இдஇ</Text>
-      </Pressable>
+      <View style={styles.profile}>
+        <Text style={styles.displayName}>{displayName}</Text>
+
+        <View style={styles.imgContainer}>
+          {loading || renderImage()}
+        </View>
+
+        <Text style={styles.un}>
+          {displayName}'s username: {friendUsername}
+        </Text>
+
+        <Text style={styles.bio}>Bio: poopy loopy</Text>
+
+        <Pressable style={styles.remove} onPress={handleDeleteFriend}>
+          <Text style={styles.del}>Remove {displayName} இдஇ</Text>
+        </Pressable>
+      </View>
+      
     </View>
   );
 }
@@ -100,22 +108,57 @@ export default FriendProfile;
 
 const styles = StyleSheet.create({
   container: {
+    // backgroundColor:'red',
     flex: 1,
     alignItems: "center",
-    marginTop: 110,
+    marginTop: 40,
   },
   back: {
-    padding: 20,
+    position: 'absolute', 
+    left: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor: "turquoise",
-    borderRadius: 20,
+    borderRadius: 50,
     alignSelf: "flex-start",
-    marginTop: -80,
+    // marginTop: -80,
+  },
+  profile: {
+    marginTop: 40,
+    // backgroundColor: 'grey',
+    flex: 1, 
+    alignItems: 'center',
+  },
+  displayName: {
+    fontSize: 50,
+    fontWeight: '600'
+  },  
+  imgContainer: {
+    backgroundColor: 'white',
+    width: 200, 
+    height: 200, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: 200,
+    marginTop: 10,
+    marginBottom: 20,
   },
   img: {
     width: 200,
     height: 200,
   },
+  un: {
+    fontWeight: '300',
+    color: 'gray',
+    fontSize: 20,
+  }, 
+  bio: {
+    marginTop: 10,
+    fontSize: 15,
+  },
   remove: {
+    marginTop: 30,
     backgroundColor: "pink",
     padding: 10,
     borderRadius: 10,
