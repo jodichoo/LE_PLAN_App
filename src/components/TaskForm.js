@@ -315,7 +315,9 @@ function showTimePicker() {
       {show && <DateTimePicker 
           mode= {mode}
           value={dateTime}
-          onChange={handleDateTime}/>}
+          onChange={handleDateTime}
+          minimumDate={new Date()}
+          />}
       </View>
       <View style={styles.field}>
         <Pressable style={styles.formButton} onPress={showDatePicker}>
