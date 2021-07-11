@@ -5,6 +5,7 @@ import Greeting from "./Greeting";
 import AddTaskBar from "./AddTaskBar";
 import Event from "./Event";
 import Meter from "./Meter";
+import moment from "moment";
 import {
   StyleSheet,
   Text,
@@ -22,8 +23,10 @@ function TaskManagerTab(props) {
   const [edit, setEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [storedDate, setStoredDate] = useState('');
+  const [dateTimer, setDateTimer] = useState(moment().date()); 
 
   useEffect(() => {
+    console.log('setting stored date');
     userTasks
       .get()
       .then((doc) => {
@@ -33,6 +36,13 @@ function TaskManagerTab(props) {
         }
       })
   }, []);
+
+  useEffect(() => {
+    var timer = setInterval(() => setDateTimer(moment().date()), 1000);
+    return function cleanup() {
+      clearInterval(timer);
+    };
+  }, [])
 
   function separateTasks(arr) {
     const len = arr.length;
@@ -61,7 +71,7 @@ function TaskManagerTab(props) {
 
   return (
     <View style={styles.container}>
-      <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} />
+      <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
       <View style={styles.tasksContainer}>
         {/* incomplete tasks  */}

@@ -5,12 +5,12 @@ import moment from "moment";
 import { View, Text, StyleSheet } from "react-native";
 
 function Greeting(props) {
-  const { selectedDate, storedDate, setStoredDate } = props;
+  const { selectedDate, storedDate, setStoredDate, dateTimer } = props;
   const { currentUser, username } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [greetName, setGreetName] = useState("empty");
   const [date, setDate] = useState(new Date());
-  const currDate = moment();
+  const currDate = moment()
 
   //get the username for custom greeting
   useEffect(() => {
@@ -50,7 +50,7 @@ function Greeting(props) {
         console.log(`stored date is ${storedDate}`);
         updateMeterData();
       }); 
-  }, [date]);
+  }, [dateTimer]);
 
   async function handleGetMeterData(monDate) {
     var workCount = 0;
