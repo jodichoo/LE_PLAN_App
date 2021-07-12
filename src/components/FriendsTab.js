@@ -214,7 +214,7 @@ function FriendsTab() {
       )}
 
       <View style={styles.board}>
-        <Text style={{fontSize: 48, fontWeight: '700', alignSelf: 'left'}}>
+        <Text style={{fontSize: 48, fontWeight: '700', alignSelf: 'flex-start'}}>
           Friends:{" "}
         </Text>
         <View style={{ flex: 1, width: '96%'}}>
