@@ -3,7 +3,8 @@ import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import TaskForm from "./TaskForm";
 import moment from "moment";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
+
 import {
   StyleSheet,
   FlatList,
@@ -102,7 +103,7 @@ function Event(props) {
             <Text style={styles.text}>{task.name}</Text>
           </View>
           <View style={styles.taskField}>
-            <Text style={styles.bolded}>{task.isWork ? "Work" : "Play"}</Text>
+            {task.isWork ? <Octicons name="briefcase" size={20} color="pink" /> : <MaterialCommunityIcons name="gamepad-variant" size={23} color="turquoise" />}
           </View>
           <View style={styles.deleteButton}>
             {/* <Button title="Delete" onPress={() => deleteTask(task)} /> */}
