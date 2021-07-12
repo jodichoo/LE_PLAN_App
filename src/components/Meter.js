@@ -56,26 +56,32 @@ function Meter(props) {
 
   const styles = StyleSheet.create({
     container: {
-      height: '8%',
+      flex: 0.18,
       flexDirection: 'column',
-      width: '100%',
+      width: '90%',
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 5,
     },
 
     wrapper: {
-      marginTop: 10, 
+      marginTop: 5, 
       flexDirection: 'row', 
-      width: '60%',
-      height: '28%'
+      width: '90%',
+      height: '28%',
+      borderStyle: 'solid',
+      borderColor: 'black', 
+      borderWidth: 1
     },
 
     emptyWrapper: {
       backgroundColor: 'grey',
       marginTop: 10, 
-      width: '60%',
+      width: '90%',
       height: '28%',
+      borderStyle: 'solid',
+      borderColor: 'black', 
+      borderWidth: 1
     },
 
     work: {

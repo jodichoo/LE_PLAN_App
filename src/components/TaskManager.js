@@ -6,6 +6,7 @@ import AddTaskBar from "./AddTaskBar";
 import Event from "./Event";
 import Meter from "./Meter";
 import moment from "moment";
+import { Ionicons } from '@expo/vector-icons'; 
 import {
   StyleSheet,
   Text,
@@ -73,6 +74,9 @@ function TaskManagerTab(props) {
     <View style={styles.container}>
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
+      <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10}}>
+        Here are your tasks for today
+      </Text>
       <View style={styles.tasksContainer}>
         {/* incomplete tasks  */}
         {separateTasks(tasks)[0].map((task) => renderTask(task))}
@@ -121,10 +125,10 @@ function TaskManagerTab(props) {
       {/* toggle add task */}
       <View style={styles.addTask}>
         <Pressable
-          style={styles.addTaskButton}
           onPress={() => setShowAdd(!showAdd)}
         >
-          <Text style={{ fontSize: 30, color: "whitesmoke" }}>+</Text>
+          <Ionicons name="ios-add-circle" size={80} color="black" />
+          {/* <Text style={{ fontSize: 30, color: "whitesmoke" }}>+</Text> */}
         </Pressable>
       </View>
       {/* <View style={styles.log}>
@@ -235,17 +239,7 @@ const styles = StyleSheet.create({
   // },
 
   addTask: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    alignSelf: "flex-end",
   },
 
-  addTaskButton: {
-    marginHorizontal: 20,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    backgroundColor: "turquoise",
-    borderRadius: 10,
-  },
 });

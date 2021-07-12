@@ -178,14 +178,17 @@ function Greeting(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greetText}>
-        {date.toLocaleTimeString()} {convertGreet(date)},{" "}
-        {currentUser.displayName}!
-      </Text>
-      <Text style={styles.statement}>
-        {/* Here are your tasks for {date.toLocaleDateString()} ecksdee ecksdee */}
+      <View style={styles.greetContainer}>
+        <Text style={styles.greetText}>
+          {convertGreet(date)},
+          </Text>
+        <Text style={styles.greetText}>{currentUser.displayName}!</Text> 
+        <Text style={styles.statement}>The time is {date.toLocaleTimeString()}</Text>
+
+      </View>
+      {/* <Text style={{fontSize: 18, fontWeight: '600', marginTop: 10}}>
         Here are your tasks for {styleDate(selectedDate)}
-      </Text>
+      </Text> */}
       {/* <TaskManager selectedDate={selectedDate} tasks={tasks} setTasks={setTasks}/> */}
     </View>
   );
@@ -195,16 +198,29 @@ export default Greeting;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
     width: "100%",
-    margin: 20,
+    // marginLeft: 20,
     alignItems: "center",
+    justifyContent: 'center',
+    // backgroundColor: 'gray',
   },
-
+  greetContainer: {
+    width: '100%',
+    marginLeft: 20,
+    // backgroundColor: 'orange',
+    alignSelf: 'center',
+    justifyContent: 'flex-start',
+  },
   greetText: {
-    fontSize: 28,
+    // borderColor: 'black', 
+    // borderWidth: 1, 
+    // borderStyle: 'solid',
+    fontSize: 38,
+    fontWeight: '700',
   },
-
   statement: {
-    fontSize: 18,
+    fontSize: 22,
+    fontWeight: '300'
   },
 });
