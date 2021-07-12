@@ -80,12 +80,12 @@ function Meter(props) {
 
     work: {
       flex: workPerc,
-      backgroundColor: 'red'
+      backgroundColor: 'pink'
     },
     
     play: {
       flex: playPerc,
-      backgroundColor: 'green'
+      backgroundColor: 'turquoise'
     }
   });
 

@@ -49,7 +49,7 @@ function FriendsTab() {
         .then(() => {
           setLoading(true);
           setFriendData(dataList);
-          console.log(dataList);
+          // console.log(dataList);
         })
         .then(() => setLoading(false));
     }
@@ -98,48 +98,62 @@ function FriendsTab() {
   }
 
   function renderMeter(w, p) {
-    console.log(w, p);
-    const wFlex = p === 0 ? 100 : (w * 100) / p + w;
-    const pFlex = w === 0 ? 100 : (p * 100) / p + w;
-
+    const wFlex = p === 0 ? 1 : w / (p + w);
+    const pFlex = w === 0 ? 1 : p / (p + w);
+  
     const styles = StyleSheet.create({
+      container: {
+        height: '8%',
+        flexDirection: 'column',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 5,
+      },
+  
       wrapper: {
-        display: "flex",
-        flexDirection: "row",
-        width: "100%",
+        flex: 0.6,
+        flexDirection: 'row', 
+        width: '100%',
+        borderWidth: 1, 
+        borderColor: 'black', 
+        borderStyle: 'solid',
       },
-
+  
+      emptyWrapper: {
+        width: '100%',
+        flex: 0.6,
+        borderWidth: 1, 
+        borderColor: 'black', 
+        borderStyle: 'solid',
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+  
       work: {
-        color: "red",
-        height: "100%",
         flex: wFlex,
-        backgroundColor: "red",
+        backgroundColor: 'pink'
       },
-
+      
       play: {
-        color: "green",
-        height: "100%",
         flex: pFlex,
-        backgroundColor: "green",
-      },
+        backgroundColor: 'turquoise'
+      }
     });
 
-    return w === 0 && p === 0 ? (
-      <Text>No tasks for the week!</Text>
-    ) : w === 0 ? (
-      <View styles={styles.wrapper}>
-        <Text style={styles.play}>p</Text>
-      </View>
-    ) : p === 0 ? (
-      <View style={styles.wrapper}>
-        <Text style={styles.work}>w</Text>
-      </View>
-    ) : (
-      <View style={styles.wrapper}>
-        <Text style={styles.work}>w</Text>
-        <Text style={styles.play}>p</Text>
-      </View>
-    );
+    return (
+      w === 0 && p === 0
+        ? <>
+            <View style={styles.emptyWrapper}><Text>No tasks for the week!</Text></View>
+          </>
+        : <>
+          {console.log(wFlex, pFlex)}
+            <View style={styles.wrapper}>
+              <View style={styles.work}></View>
+              <View style={styles.play}></View>
+            </View>
+          </>
+    )
   }
 
   function goToFriendProfile(friendUn) {
@@ -153,8 +167,8 @@ function FriendsTab() {
 
   function renderFriend(friendObj) {
     return (
-      <TouchableOpacity onPress={() => goToFriendProfile(friendObj.friend)}>
-        <Text style={{ fontSize: 15, color: "whitesmoke" }}>
+      <TouchableOpacity style={styles.friend} onPress={() => goToFriendProfile(friendObj.friend)}>
+        <Text style={{fontSize: 18, fontWeight: '300', flex: 0.4}}>
           {friendObj.friend}
         </Text>
         {renderMeter(friendObj.work, friendObj.play)}
@@ -173,38 +187,45 @@ function FriendsTab() {
 
       {/* <HiUserAdd style={{ color: "whitesmoke", fontSize: "20px" }} /> */}
       <Pressable style={styles.addFriendBut} onPress={showAddFriend}>
-        <Text style={{ fontSize: 20, color: "whitesmoke" }}>Add Friends</Text>
+        <Text style={{ fontSize: 28, fontWeight: '600' }}>Add Friends</Text>
       </Pressable>
 
       {addFriends && (
         <View style={styles.addFriend}>
-          <Text style={styles.err}>{error && <Text>{error}</Text>}</Text>
-          <Text style={{}}>Your Friend's Username: </Text>
-          <TextInput
-            style={{ backgroundColor: "#ededed" }}
-            onChangeText={(e) => setFriendsUn(e)}
-          />
-          <Pressable style={styles.addFriendBut} onPress={handleAddFriend}>
-            <Text
-              style={{ fontSize: 20, color: "whitesmoke", alignSelf: "center" }}
-            >
-              Add
-            </Text>
-          </Pressable>
+          {error.length > 0 && <Text style={styles.err}>{error}</Text>}
+          <View style={{flexDirection: 'row'}}>
+            <View style={{flex: 0.75, alignItems: 'center'}}>
+              <Text style={styles.text}>Your Friend's Username: </Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(e) => setFriendsUn(e)}
+              />
+            </View>
+            <View style={{flex: 0.25}}>
+              <Pressable style={styles.addFriendBut} onPress={handleAddFriend}>
+                <Text style={{ fontSize: 18, fontWeight: '600', alignSelf: "center" }}>
+                  Add
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+          
         </View>
       )}
 
       <View style={styles.board}>
-        <Text style={{ fontSize: 23, color: "whitesmoke", marginBottom: 10 }}>
+        <Text style={{fontSize: 48, fontWeight: '700', alignSelf: 'left'}}>
           Friends:{" "}
         </Text>
-        {friendData.length === 0 ? (
-          <Text style={{ fontSize: 20, color: "whitesmoke" }}>
-            You have no friends :(
-          </Text>
-        ) : (
-          loading || friendData.map(renderFriend)
-        )}
+        <View style={{ flex: 1, width: '96%'}}>
+          {friendData.length === 0 ? (
+            <Text style={{ fontSize: 20 }}>
+              You have no friends :(
+            </Text>
+          ) : (
+            loading || friendData.map(renderFriend)
+          )}
+        </View>
       </View>
     </View>
   );
@@ -214,40 +235,64 @@ export default FriendsTab;
 
 const styles = StyleSheet.create({
   container: {
+    // backgroundColor: '#000000aa',
     flex: 1,
     alignItems: "center",
-    marginTop: 80,
+    marginTop: 50,
+    flexDirection: 'column',
   },
-
+  text: {
+    fontSize: 16, 
+    fontWeight: '500',
+  }, 
+  input: { 
+    backgroundColor: "#ededed", 
+    width: '90%', 
+    paddingHorizontal: 10, 
+    height: 30, 
+    borderRadius: 10, 
+    borderColor: 'black', 
+    borderStyle: 'solid', 
+    borderWidth: 1
+  },
   addFriend: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '90%',
     marginHorizontal: 20,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    backgroundColor: "turquoise",
-    borderRadius: 10,
   },
 
   addFriendBut: {
-    marginHorizontal: 20,
     marginVertical: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
     backgroundColor: "turquoise",
-    borderRadius: 10,
+    borderRadius: 16,
+    borderWidth: 1.4, 
+    borderColor: 'black', 
+    borderStyle: 'solid',
   },
 
   err: {
+    fontSize: 18,
     fontWeight: "bold",
-    padding: 10,
-    color: "red",
+    paddingVertical: 5,
+    color: "pink",
   },
 
   board: {
     alignItems: "center",
-    marginTop: 30,
-    backgroundColor: "#000000aa",
+    marginBottom: 30,
+    borderStyle: 'solid',
+    borderColor: 'black', 
+    borderWidth: 1.4,
     padding: 10,
     borderRadius: 10,
-    width: 300,
-    height: 400,
+    width: '90%',
+    flex: 1,
+  },
+  friend: {
+    flexDirection: 'row',
+    marginVertical: 5,
   },
 });
