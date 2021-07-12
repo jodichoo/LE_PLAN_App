@@ -4,6 +4,7 @@ import { db } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
 import { Text, View, Image, Pressable } from "react-native";
 import Stonker from "../components/Stonker";
+import { Feather } from '@expo/vector-icons';
 
 function ProfileScreen() {
   const { currentUser } = useAuth();
@@ -58,17 +59,20 @@ function goToSettings() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={{ fontSize: 48, fontWeight: "700" }}>Profile</Text>
+        <Text style={{ fontSize: 48, fontWeight: "700"}}>Profile</Text>
+        <Pressable onPress={goToSettings}><Feather name="edit-3" size={35} color="gray" /></Pressable>
       </View>
-      <Pressable onPress={goToSettings}><Text>Edit Account Details</Text></Pressable>
+      
       {loading || (
         <View style={styles.profile}>
           <View style={styles.imgContainer}>{renderImage()}</View>
           <Text style={styles.displayName}>{currentUser.displayName}</Text>
           <Text style={styles.creds}>Un: {username}</Text>
           <Text style={styles.creds}>Email: {currentUser.email}</Text>
-          <Text>Target Play: {100 - target[1]}%-{100-target[0]}%</Text>
-          <Text>Target Work: {target[0]}%-{target[1]}%</Text>
+          <View style={{marginTop: 8}}>
+            <Text style={styles.target}>Target Play: {100 - target[1]}%-{100-target[0]}%</Text>
+            <Text style={styles.target}>Target Work: {target[0]}%-{target[1]}%</Text>
+          </View>
         </View>
       )}
       <View style={styles.stonks}>
@@ -87,8 +91,10 @@ const styles = {
     marginTop: 50,
   },
   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
     width: "100%",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
   },
   profile: {
@@ -117,6 +123,10 @@ const styles = {
     fontWeight: "300",
     color: "gray",
     fontSize: 20,
+  },
+  target: {
+    fontSize: 16,
+    fontWeight: '300',
   },
   stonks: {
     width: "88%",
