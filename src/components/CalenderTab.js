@@ -147,19 +147,23 @@ function CalenderTab(props) {
       <View
         style={{
           height: 15,
-          paddingTop: 30,
-          marginTop: 10,
+          paddingLeft: 10,
+          marginTop: 28,
           flex: 1,
           justifyContent: "center",
+          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+          borderRadius: 10,
         }}
       >
-        <Text style={{ fontSize: 20 }}>No tasks for the day!</Text>
+        <Text style={{ fontSize: 20, fontWeight:'300' }}>No tasks for the day!</Text>
       </View>
     );
   }
 
   return (
     <Agenda
+      style={styles.container}
+      theme={styles.theme}
       items={items}
       loadItemsForMonth={(day) => loadOnMonth(day.dateString)}
       renderItem={(item, firstItemInDay) => {
@@ -172,3 +176,20 @@ function CalenderTab(props) {
 }
 
 export default CalenderTab;
+
+const styles = {
+  container: {
+    marginTop: 50,
+  }, 
+  theme: {
+    agendaDayTextColor: 'grey',
+    agendaDayNumColor: 'grey',
+    agendaTodayColor: 'black',
+    agendaKnobColor: 'turquoise',
+    dotColor: 'turquoise',
+    selectedDotColor: 'turquoise',
+    selectedDayTextColor: '#ffffff',
+    todayTextColor: 'turquoise',
+    selectedDayBackgroundColor: 'gray',
+  }
+}

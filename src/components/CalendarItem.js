@@ -4,6 +4,7 @@ import { db } from "../firebase/config";
 import moment from "moment";
 import TaskForm from "./TaskForm";
 import Swipeable from 'react-native-swipeable-row'; 
+import { Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   StyleSheet,
   View,
@@ -91,7 +92,8 @@ function CalendarItem(props) {
   ]; 
 
   return (
-    <Swipeable rightButtons={rightButtons}>
+    <View style={{marginTop: 8}}>
+    <Swipeable style={{marginTop: 8}} rightButtons={rightButtons}>
 
     <TouchableOpacity
       onPress={triggerEdit}
@@ -112,7 +114,7 @@ function CalendarItem(props) {
           </View>
 
           <View style={styles.right}>
-            <Text style={{fontWeight: 'bold', color: 'grey'}}>{item.isWork ? "WORK" : "PLAY"}</Text> 
+            {item.isWork ? <Octicons name="briefcase" size={30} color="pink" /> : <MaterialCommunityIcons name="gamepad-variant" size={33} color="turquoise" />}
           </View>
         </View>
         
@@ -129,6 +131,7 @@ function CalendarItem(props) {
       )}
     </TouchableOpacity>
     </Swipeable>
+    </View>
 
   );
 }
@@ -138,16 +141,19 @@ export default CalendarItem;
 const styles = StyleSheet.create({
   touchable: {
       flex: 1,
-      marginTop: 15,
-      marginRight: 10,
-      marginBottom: -15,
-      padding: 8,
-      borderRadius: 5,
   },
 
   container: {
+    // backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    padding: 10,
     flex: 1,
     flexDirection: 'row',
+    borderBottomLeftRadius: 10, 
+    borderTopLeftRadius: 10,
+    borderStyle: 'solid', 
+    borderColor: 'black',
+    borderWidth: 1,
+    // backgroundColor: 'white',
   },
 
   left: {
@@ -163,7 +169,7 @@ const styles = StyleSheet.create({
   }, 
 
   delete: {
-    marginTop: 15,
+    // marginTop: 15,
     zIndex: 0,
     height: '100%',
     backgroundColor: '#c95353',
