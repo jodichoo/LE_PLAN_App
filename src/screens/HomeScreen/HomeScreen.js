@@ -24,7 +24,15 @@ const HomeScreen = ({ navigation }) => {
   const [error, setError] = useState("");
   const [tasks, setTasks] = useState([]);
   const [todayTasks, setTodayTasks] = useState([]);
+  const [dateTimer, setDateTimer] = useState(moment().date()); 
   const userTasks = db.collection("users").doc(currentUser.uid);
+
+  useEffect(() => {
+    var timer = setInterval(() => setDateTimer(moment().date()), 1000);
+    return function cleanup() {
+      clearInterval(timer);
+    };
+  }, [])
 
   useEffect(() => {
     //get collection of current date's tasks
@@ -54,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
       setTasks(t);
     });
     return () => unsubscribe();
-  }, [selectedDate]);
+  }, [selectedDate, dateTimer]);
 
   const Tabs = createBottomTabNavigator();
 
@@ -97,6 +105,7 @@ const HomeScreen = ({ navigation }) => {
               selectedDate={selectedDate}
               tasks={tasks}
               setTasks={setTasks}
+              dateTimer={dateTimer}
             />
           )}
         </Tabs.Screen>

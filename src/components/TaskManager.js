@@ -17,14 +17,13 @@ import {
 } from "react-native";
 
 function TaskManagerTab(props) {
-  const { setTasks, tasks, selectedDate } = props;
+  const { setTasks, tasks, selectedDate, dateTimer } = props;
   const { currentUser, logout } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [editTask, setEditTask] = useState({});
   const [edit, setEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [storedDate, setStoredDate] = useState('');
-  const [dateTimer, setDateTimer] = useState(moment().date()); 
 
   useEffect(() => {
     console.log('setting stored date');
@@ -38,12 +37,6 @@ function TaskManagerTab(props) {
       })
   }, []);
 
-  useEffect(() => {
-    var timer = setInterval(() => setDateTimer(moment().date()), 1000);
-    return function cleanup() {
-      clearInterval(timer);
-    };
-  }, [])
 
   function separateTasks(arr) {
     const len = arr.length;
@@ -72,6 +65,7 @@ function TaskManagerTab(props) {
 
   return (
     <View style={styles.container}>
+      {console.log('render')}
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
       <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10}}>
