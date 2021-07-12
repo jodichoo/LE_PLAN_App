@@ -14,6 +14,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TaskManagerTab from "../../components/TaskManager";
 import CalendarTab from "../../components/CalenderTab";
 import FriendsTab from "../../components/FriendsTab";
+import { Ionicons } from '@expo/vector-icons'; 
 import moment from "moment";
 
 const HomeScreen = ({ navigation }) => {
@@ -58,7 +59,32 @@ const HomeScreen = ({ navigation }) => {
   const Tabs = createBottomTabNavigator();
 
   return (
-      <Tabs.Navigator initialRouteName="Today's Schedule">
+      <Tabs.Navigator 
+        initialRouteName="Today's Schedule"
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Calendar') {
+              iconName = focused
+                ? 'calendar'
+                : 'calendar-sharp';
+            } else if (route.name === "Today's Schedule") {
+              iconName = focused ? 'ios-list' : 'list-outline';
+            } else if (route.name === "Friends") {
+              iconName = focused 
+                ? 'ios-people'
+                : 'people-outline'
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'turquoise',
+          inactiveTintColor: 'gray',
+        }}
+        >
         <Tabs.Screen name="Calendar">
           {(props) => (
             <CalendarTab {...props} selectedDate={selectedDate} tasks={tasks} />
