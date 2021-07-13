@@ -49,7 +49,9 @@ function SettingsScreen(props) {
       .get()
       .then((doc) => {
         setUsername(doc.data().username);
-        setRange(doc.data().targetWorkRange);
+        if (doc.data().targetWorkRange !== undefined) {
+          setRange(doc.data().targetWorkRange);
+        } 
       })
       .then(() => {
         setLoading(false);
@@ -279,23 +281,20 @@ function SettingsScreen(props) {
 
         <View style={{width: '100%', alignItems: 'center', marginBottom: 15}}>
           <Text style={styles.text}>Set Target Work Range: </Text>
-          {/* <Text>{range[0]}-{range[1]}</Text> */}
           {console.log(range)}
           <View style={{width: '75%'}}>
             <RangeSlider min={0} max={100}
-              fromValueOnChange={value => setRange(r => r === undefined ? [value, 75] : [value, r[1]])}
-              toValueOnChange={value => setRange(r => r === undefined ? [25, value] : [r[0], value])}
-              initialFromValue={range === undefined ? 25 : range[0]}
-              initialToValue={range === undefined ? 75 : range[1]}
+              fromValueOnChange={value => setRange(r => [value, r[1]])}
+              toValueOnChange={value => setRange(r => [r[0], value])}
+              initialFromValue={range[0]}
+              initialToValue={range[1]}
               fromKnobColor={'grey'}
               toKnobColor={'grey'}
               inRangeBarColor={'pink'}
               />
           </View>
           <Pressable style={{...styles.cancelButton, marginTop: -43}} onPress={handleSetTarget}>
-            {range === undefined 
-              ? <Text>Set Target</Text>
-              : <Text>Set {range[0]}%-{range[1]}%</Text>}
+            <Text>Set {range[0]}%-{range[1]}%</Text>
           </Pressable>
         </View>
 
