@@ -5759,6 +5759,13 @@ react-native-number-please@^1.0.5:
     lodash.find "^4.6.0"
     lodash.findindex "^4.6.0"
 
+react-native-range-slider-expo@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-range-slider-expo/-/react-native-range-slider-expo-1.4.0.tgz#af9bc528fc292b3e0ee23abd115bea5eab5cccde"
+  integrity sha512-T7+BZpZgHwGCf+85Aqb+QBXM6QwYbAj0Wb1HJ8FPWiD0QRSLLqVjmWkvxl+Hb8wsdfQ49yxoqKPmZ7d78wXGtw==
+  dependencies:
+    react-native-svg "^12.1.0"
+
 react-native-reanimated@~2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.1.0.tgz#b9ad04aee490e1e030d0a6cdaa43a14895d9a54d"
@@ -5779,7 +5786,7 @@ react-native-screens@~3.0.0:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-3.0.0.tgz#ee4c2d69abf7411603868b57214feec5e8f637fa"
   integrity sha512-35II5oxTaVp3OP8y0eLPOPpQkxG4fRKQ+dL1YSE1we5kCZFOU0l/Rn0T79HbyUu1LPwUZr6lZupPs0ULnRyMuQ==
 
-react-native-svg@^12.1.1:
+react-native-svg@^12.1.0, react-native-svg@^12.1.1:
   version "12.1.1"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.1.tgz#5f292410b8bcc07bbc52b2da7ceb22caf5bcaaee"
   integrity sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q==

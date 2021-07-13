@@ -13,13 +13,16 @@ function ProfileScreen() {
   const [useDefault, setUseDefault] = useState(false);
   const [username, setUsername] = useState("default");
   const [loading, setLoading] = useState(true);
-  const [target, setTarget] = useState([0, 100]);
+  const [target, setTarget] = useState(undefined);
 
   useEffect(() => {
     userTasks
       .get()
       .then((doc) => {
         setUsername(doc.data().username);
+        if (doc.data().targetWorkRange !== undefined) {
+          setTarget(doc.data().targetWorkRange);
+        }
       })
       .then(() => {
         setLoading(false);
@@ -72,14 +75,17 @@ function ProfileScreen() {
             <Text style={styles.displayName}>{currentUser.displayName}</Text>
             <Text style={styles.creds}>Un: {username}</Text>
             <Text style={styles.creds}>Email: {currentUser.email}</Text>
-            <View style={{ marginTop: 8 }}>
-              <Text style={styles.target}>
-                Target Play: {100 - target[1]}%-{100 - target[0]}%
-              </Text>
-              <Text style={styles.target}>
-                Target Work: {target[0]}%-{target[1]}%
-              </Text>
-            </View>
+            {target === undefined 
+              ? <Text style={styles.target}>No target set yet, set one in the settings page!</Text>
+              : <View style={{ marginTop: 8 }}>
+                  <Text style={styles.target}>
+                    Target Work: {target[0]}%-{target[1]}%
+                  </Text>
+                  <Text style={styles.target}>
+                    Target Play: {100 - target[1]}%-{100 - target[0]}%
+                  </Text>
+                </View>}
+            
           </View>
         )}
           <Stonker />
