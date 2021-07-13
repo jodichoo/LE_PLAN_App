@@ -25,7 +25,6 @@ function Meter(props) {
         setWorkTime(w);
         setTotalTime(t);
         if (t !== 0) {
-          console.log('went here');
           setWorkPerc(w / t); 
           setPlayPerc(l / t);
         } 

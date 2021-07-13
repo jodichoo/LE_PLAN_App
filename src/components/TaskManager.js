@@ -65,7 +65,6 @@ function TaskManagerTab(props) {
 
   return (
     <View style={styles.container}>
-      {console.log('render')}
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
       <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10}}>

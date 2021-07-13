@@ -45,12 +45,12 @@ function Greeting(props) {
           //account details exist
           setGreetName(doc.data().username);
         }
-      })
-      .then(() => {
-        console.log(`stored date is ${storedDate}`);
-        updateMeterData();
       }); 
   }, [dateTimer]);
+
+  useEffect(() => {
+    updateMeterData();
+  }, [storedDate]);
 
   async function handleGetMeterData(monDate) {
     var workCount = 0;
@@ -72,7 +72,6 @@ function Greeting(props) {
                 workCount += parseInt(dur);
               } else {
                 lifeCount += parseInt(dur);
-                console.log(lifeCount);
               }
             }
           });
