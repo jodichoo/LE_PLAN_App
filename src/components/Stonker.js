@@ -8,8 +8,6 @@ import { Dimensions } from "react-native";
 function Stonker() {
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
-  const [workSet, setWorkSet] = useState([]);
-  const [playSet, setPlaySet] = useState([]);
   const [dataSet, setDataSet] = useState([-1,-1,-1,-1,-1]);
   const [loading, setLoading] = useState(true);
 
@@ -70,29 +68,33 @@ function Stonker() {
   }
 
   return (
-    <View>
+    <View style={styles.stonks}>
       {loading || (
         <LineChart
           data={{
-            labels: ["", "", "", "", "this week"],
+            labels: ["", "", "", "", "This week"],
             datasets: [
               {
-                data: convertToWork(dataSet)
+                data: convertToWork(dataSet),
+                name: 'Work',
+                color: (opacity = 1) => `rgba(255, 192, 203, ${opacity})`,
               },
               {
-                data: convertToPlay(dataSet)
+                data: convertToPlay(dataSet),
+                name: 'Play',
+                color: (opacity = 1) => `rgba(64, 224, 208, ${opacity})`,
               }
             ],
           }}
-          width={Dimensions.get("window").width} // from react-native
+          width={Dimensions.get("window").width * 0.88} // from react-native
           height={220}
           yAxisLabel=""
           yAxisSuffix="%"
           yAxisInterval={1} // optional, defaults to 1
           chartConfig={{
             backgroundColor: "#e26a00",
-            backgroundGradientFrom: "#fb8c00",
-            backgroundGradientTo: "#ffa726",
+            backgroundGradientFrom: "#000000",
+            backgroundGradientTo: "#000000",
             decimalPlaces: 2, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -101,14 +103,23 @@ function Stonker() {
             },
             propsForDots: {
               r: "6",
-              strokeWidth: "2",
-              stroke: "#ffa726",
+              strokeWidth: "0.5",
+              stroke: "#000000",
             },
+            propsForLabels: {
+              fontWeight: '600',
+            }, 
           }}
           bezier
           style={{
+            borderColor: 'black',
+            borderStyle: 'solid',
+            borderWidth: 2,
             marginVertical: 8,
-            borderRadius: 16,
+            borderRadius: 10,
+            paddingVertical: 8,
+            paddingHorizontal: 3,
+            backgroundColor: 'black',
           }}
         />
       )}
@@ -117,3 +128,14 @@ function Stonker() {
 }
 
 export default Stonker;
+
+const styles = {
+  stonks: {
+    width: "88%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    marginBottom: 20,
+    flex: 1,
+  },
+}

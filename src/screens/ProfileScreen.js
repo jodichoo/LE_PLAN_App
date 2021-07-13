@@ -82,9 +82,7 @@ function ProfileScreen() {
             </View>
           </View>
         )}
-        <View style={styles.stonks}>
           <Stonker />
-        </View>
       </View>
     </ScrollView>
   );
@@ -135,16 +133,5 @@ const styles = {
   target: {
     fontSize: 16,
     fontWeight: "300",
-  },
-  stonks: {
-    width: "88%",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-    marginBottom: 20,
-    flex: 1,
-    borderStyle: "solid",
-    borderColor: "black",
-    borderWidth: 1.4,
   },
 };
