@@ -46,11 +46,11 @@ function Greeting(props) {
           setGreetName(doc.data().username);
         }
       }); 
-  }, [dateTimer]);
+  }, []);
 
   useEffect(() => {
     updateMeterData();
-  }, [storedDate]);
+  }, [dateTimer, storedDate]);
 
   async function handleGetMeterData(monDate) {
     var workCount = 0;

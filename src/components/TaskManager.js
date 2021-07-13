@@ -35,7 +35,7 @@ function TaskManagerTab(props) {
           setStoredDate(doc.data().storedDate);
         }
       })
-  }, []);
+  }, [dateTimer]);
 
 
   function separateTasks(arr) {
@@ -57,7 +57,7 @@ function TaskManagerTab(props) {
 
   function renderTask(task) {
     return (
-      <View>
+      <View key={task.id}>
         <Event selectedDate={selectedDate} task={task} />
       </View>
     );
