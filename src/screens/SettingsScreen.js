@@ -7,12 +7,15 @@ import {
   Modal,
   Image,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase/config";
 import { useAuth } from "../navigation/AuthProvider";
 import firebase from "firebase/app";
+import RangeSlider from 'react-native-range-slider-expo';
+import { Ionicons, Feather } from '@expo/vector-icons'; 
 
 function SettingsScreen(props) {
   const { currentUser } = useAuth();
@@ -33,6 +36,7 @@ function SettingsScreen(props) {
   const [useDefault, setUseDefault] = useState(true);
   const [urlError, setUrlError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [range, setRange] = useState([25, 75]);
 
   useEffect(() => {
     setError("");
@@ -45,6 +49,7 @@ function SettingsScreen(props) {
       .get()
       .then((doc) => {
         setUsername(doc.data().username);
+        setRange(doc.data().targetWorkRange);
       })
       .then(() => {
         setLoading(false);
@@ -65,9 +70,28 @@ function SettingsScreen(props) {
       });
   }, [picUrl]);
 
-  function handleSetProfilePic() {
+  function resetNotifs() {
     setError("");
     setUrlError("");
+    setSuccess(''); 
+  }
+
+  function renderNotif(type) {
+    const icon = type === success
+      ? <Ionicons name="ios-checkmark-sharp" size={24} color="turquoise" />
+      : <Feather name="x" size={24} color="pink" />
+
+    return (
+      type.length > 0 && 
+        <View style={styles.msg}>
+          {icon}
+          <Text style={styles.notif}>{type}</Text>
+        </View>
+    )
+  }
+
+  function handleSetProfilePic() {
+    resetNotifs(); 
     fetch(picUrl)
       .then((res) => {
         if (res.status == 200) {
@@ -107,6 +131,7 @@ function SettingsScreen(props) {
   }
 
   function handleChangePassword() {
+    resetNotifs(); 
     if (newPassword !== confPassword) {
       setError("Passwords do not match!");
     } else if (newPassword.length < 6 && confPassword.length < 6) {
@@ -128,8 +153,7 @@ function SettingsScreen(props) {
   }
 
   function handleChangeName() {
-    setError("");
-    setUrlError("");
+    resetNotifs();  
     currentUser
       .updateProfile({
         displayName: newName,
@@ -153,7 +177,6 @@ function SettingsScreen(props) {
   function toggleAuth() {
     return (
       <View style={{alignItems: 'center', justifyContent: 'center', width: '100%'}}>
-        {error.length > 0 && <Text style={styles.error}>{error}</Text>}
         <Text style={styles.text}>Confirm Current Password:</Text>
         <TextInput
           style={styles.input}
@@ -196,25 +219,33 @@ function SettingsScreen(props) {
       })
       .catch(function (error) {
         // An error happened.
-        console.log("errorororor");
+        console.log(oldPassword);
         setError("Failed to reauthenticate");
       });
 
     setUrlError("");
   }
 
+  function handleSetTarget() {
+    resetNotifs(); 
+    userTasks
+      .set({
+        targetWorkRange: range
+      }, { merge: true })
+      .then(() => {
+        setSuccess('Successfully changed target range');
+      })
+  }
+
   return (
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{flex: 1}}>
+      <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}><Text style={{fontSize: 48, fontWeight: '700'}}>Settings</Text></View>
         {/* <View className='back' onClick={history.goBack}><IoChevronBackOutline style={{fontSize: '20px'}}/><text>Back</text></div> */}
         
-          {success.length > 0 && <View style={styles.msg}>
-            <Text style={styles.succ}>{success}</Text>
-            </View>}
-
-          {urlError > 0 && <View style={styles.msg}>
-            <Text style={styles.error}>{urlError}</Text>
-            </View>}
+          {renderNotif(success)}
+          {renderNotif(urlError)}
 
         {useDefault ? (
           <Image
@@ -242,7 +273,29 @@ function SettingsScreen(props) {
           />
 
           <Pressable style={styles.setButton} onPress={handleSetProfilePic}>
-            <Text style={{color: 'whitesmoke'}}>Set Picture</Text>
+            <Text>Set Picture</Text>
+          </Pressable>
+        </View>
+
+        <View style={{width: '100%', alignItems: 'center', marginBottom: 15}}>
+          <Text style={styles.text}>Set Target Work Range: </Text>
+          {/* <Text>{range[0]}-{range[1]}</Text> */}
+          {console.log(range)}
+          <View style={{width: '75%'}}>
+            <RangeSlider min={0} max={100}
+              fromValueOnChange={value => setRange(r => r === undefined ? [value, 75] : [value, r[1]])}
+              toValueOnChange={value => setRange(r => r === undefined ? [25, value] : [r[0], value])}
+              initialFromValue={range === undefined ? 25 : range[0]}
+              initialToValue={range === undefined ? 75 : range[1]}
+              fromKnobColor={'grey'}
+              toKnobColor={'grey'}
+              inRangeBarColor={'pink'}
+              />
+          </View>
+          <Pressable style={{...styles.cancelButton, marginTop: -43}} onPress={handleSetTarget}>
+            {range === undefined 
+              ? <Text>Set Target</Text>
+              : <Text>Set {range[0]}%-{range[1]}%</Text>}
           </Pressable>
         </View>
 
@@ -251,12 +304,13 @@ function SettingsScreen(props) {
         <Text style={styles.text}>Your Email: {currentUser.email}</Text>
 
         <View style={styles.changeCreds}>
-          <Pressable style={{marginVertical: 5}} onPress={() => setConfirmPassP(true)}>
+          <Pressable style={{marginVertical: 5}} onPress={() => {resetNotifs(); setConfirmPassP(true);}}>
             <Text style={{...styles.text, color: 'gray', textDecorationLine:'underline'}}>Change Password</Text>
           </Pressable>
 
-          {error.length > 0 && changePass && (<View>
-            <Text style={styles.error}>{error}</Text>
+          {error.length > 0 && changePass && (<View style={styles.msg}>
+            <Feather name="x" size={24} color="pink" />
+            <Text style={styles.notif}>{error}</Text>
             </View>)}
 
           {changePass && (
@@ -286,7 +340,7 @@ function SettingsScreen(props) {
             </View>
           )}
 
-          <Pressable onPress={() => setConfirmPassN(true)}>
+          <Pressable onPress={() => {resetNotifs(); setConfirmPassN(true);}}>
             <Text style={{...styles.text, color: 'gray', textDecorationLine:'underline'}}>Change Display Name</Text>
           </Pressable>
 
@@ -326,11 +380,14 @@ function SettingsScreen(props) {
                 justifyContent: 'center'
               }}
             >
+              {renderNotif(error)}
               {toggleAuth()}
             </TouchableOpacity>
           </TouchableOpacity>
         </Modal>
       </View>
+      </ScrollView>
+      </KeyboardAvoidingView>
   );
 }
 
@@ -342,6 +399,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     marginTop: 50,
+    paddingBottom: 50,
   },
   header: {
     width: '100%',
@@ -354,13 +412,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   }, 
   img: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     borderRadius: 125,
   },
   imgDef: {
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     borderRadius: 125,
   },
   input: {
@@ -370,6 +428,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "rgba(0, 0, 0, 0.05)",
     height: 30, //typed text only shows with this??
+    borderColor: 'black', 
+    borderStyle: 'solid', 
+    borderWidth: 1, 
   },
   setPic: {
     width: '100%',
@@ -383,16 +444,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 8,
     alignItems: 'center',
-    width: '25%',
+    width: '31%',
     backgroundColor: 'turquoise',
+    borderColor: 'black', 
+    borderStyle: 'solid', 
+    borderWidth: 1, 
   },
   cancelButton: {
     padding: 10,
     borderRadius: 10,
     marginTop: 8,
     alignItems: 'center',
-    width: '25%',
+    width: '31%',
     backgroundColor: 'pink',
+    borderColor: 'black', 
+    borderStyle: 'solid', 
+    borderWidth: 1, 
   },
   changeCreds: {
     width: '100%',
@@ -405,19 +472,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   msg: {
-    backgroundColor: 'red',
-    alignSelf: "center",
-    width: "100%",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 30,
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: 'flex-start',
+    width: "90%",
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    borderRadius: 10,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderWidth: 1.4,
+    marginBottom: 5,
   },
-  error: {
-    backgroundColor: "pink",
-    color: "red",
-  },
-  succ: {
-    backgroundColor: "lightgreen",
-    color: "green",
-  },
+  notif: {
+    marginLeft: 5,
+    flex: 1,
+    fontSize: 13, 
+    fontWeight: '600',
+  }
 });
