@@ -36,16 +36,11 @@ function Stonker() {
         setDataSet(arr);
       })
       .then(() => {
-        setWorkSet(convertToWork());
-        setPlaySet(convertToPlay());
-      })
-      .then(() => {
         setLoading(false);
       });
   }, []);
 
-  function convertToWork() {
-    const arr = dataSet;
+  function convertToWork(arr) {
     const converted = [];
 
     for (var i = 0; i < dataSet.length; i++) {
@@ -55,12 +50,10 @@ function Stonker() {
         converted.push(arr[i]);
       }
     }
-    console.log(converted)
     return converted;
   }
 
-  function convertToPlay() {
-    const arr = dataSet;
+  function convertToPlay(arr) {
     const converted = [];
 
     for (var i = 0; i < dataSet.length; i++) {
@@ -84,10 +77,10 @@ function Stonker() {
             labels: ["", "", "", "", "this week"],
             datasets: [
               {
-                data: workSet
+                data: convertToWork(dataSet)
               },
               {
-                  data: playSet
+                data: convertToPlay(dataSet)
               }
             ],
           }}
