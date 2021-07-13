@@ -16,7 +16,7 @@ function Meter(props) {
   const [label, setLabel] = useState("Loading...");
 
   useEffect(() => {
-    userTasks.onSnapshot((doc) => {
+    const unsubscribe = userTasks.onSnapshot((doc) => {
       if (doc.exists) {
         const w = doc.data().workTime;
         const l = doc.data().lifeTime;
@@ -31,6 +31,7 @@ function Meter(props) {
         setLabel(`Work: ${(w * 100 / t).toFixed(1)}%`);
       }
     });
+    return () => unsubscribe(); 
   }, [storedDate]);
 
   function enterMeter(item) {
