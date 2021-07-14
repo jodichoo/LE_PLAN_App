@@ -5,46 +5,29 @@ import { useNavigation } from "@react-navigation/core";
 import { Text, View, Image, Pressable, ScrollView } from "react-native";
 import Stonker from "../components/Stonker";
 import { Feather } from "@expo/vector-icons";
-import { useFocusEffect } from '@react-navigation/native';
 
-function ProfileScreen(props) {
+function ProfileScreen() {
   const { currentUser } = useAuth();
   const navigation = useNavigation();
-//   const { navigation } = props;
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [useDefault, setUseDefault] = useState(false);
   const [username, setUsername] = useState("default");
   const [loading, setLoading] = useState(true);
   const [target, setTarget] = useState(undefined);
 
-//   useEffect(() => {
-//     userTasks
-//       .get()
-//       .then((doc) => {
-//         setUsername(doc.data().username);
-//         if (doc.data().targetWorkRange !== undefined) {
-//           setTarget(doc.data().targetWorkRange);
-//         }
-//       })
-//       .then(() => {
-//         setLoading(false);
-//       });
-//   }, []);
-
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      console.log('query target');
+    const unsubscribe = navigation.addListener("focus", () => {
       userTasks
-      .get()
-      .then((doc) => {
-        setUsername(doc.data().username);
-        if (doc.data().targetWorkRange !== undefined) {
-          setTarget(doc.data().targetWorkRange);
-        }
-      })
-      .then(() => {
-        setLoading(false);
-      });
+        .get()
+        .then((doc) => {
+          setUsername(doc.data().username);
+          if (doc.data().targetWorkRange !== undefined) {
+            setTarget(doc.data().targetWorkRange);
+          }
+        })
+        .then(() => {
+          setLoading(false);
+        });
     });
 
     return unsubscribe;
@@ -96,20 +79,23 @@ function ProfileScreen(props) {
             <Text style={styles.displayName}>{currentUser.displayName}</Text>
             <Text style={styles.creds}>Un: {username}</Text>
             <Text style={styles.creds}>Email: {currentUser.email}</Text>
-            {target === undefined 
-              ? <Text style={styles.target}>No target set yet, set one in the settings page!</Text>
-              : <View style={{ marginTop: 8 }}>
-                  <Text style={styles.target}>
-                    Target Work: {target[0]}%-{target[1]}%
-                  </Text>
-                  <Text style={styles.target}>
-                    Target Play: {100 - target[1]}%-{100 - target[0]}%
-                  </Text>
-                </View>}
-            
+            {target === undefined ? (
+              <Text style={styles.target}>
+                No target set yet, set one in the settings page!
+              </Text>
+            ) : (
+              <View style={{ marginTop: 8 }}>
+                <Text style={styles.target}>
+                  Target Work: {target[0]}%-{target[1]}%
+                </Text>
+                <Text style={styles.target}>
+                  Target Play: {100 - target[1]}%-{100 - target[0]}%
+                </Text>
+              </View>
+            )}
           </View>
         )}
-          <Stonker />
+        <Stonker />
       </View>
     </ScrollView>
   );
