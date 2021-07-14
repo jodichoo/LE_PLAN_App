@@ -25,6 +25,7 @@ function FriendProfile() {
         querySnapshot.forEach((doc) => {
           setDisplayName(doc.data().displayName);
           setPhotoUrl(doc.data().photoURL);
+          setBio(doc.data().bio);
         });
       })
       .then(() => {
@@ -88,11 +89,11 @@ function FriendProfile() {
           {loading || renderImage()}
         </View>
 
+        <Text style={styles.bio}>"{bio}"</Text>
+
         <Text style={styles.un}>
           {displayName}'s username: {friendUsername}
         </Text>
-
-        <Text style={styles.bio}>Bio: poopy loopy</Text>
 
         <Pressable style={styles.remove} onPress={handleDeleteFriend}>
           <Text style={styles.del}>Remove {displayName} இдஇ</Text>
@@ -153,8 +154,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   }, 
   bio: {
-    marginTop: 10,
-    fontSize: 15,
+    marginTop: -5,
+    fontSize: 30,
+    fontStyle: 'italic',
   },
   remove: {
     marginTop: 30,
