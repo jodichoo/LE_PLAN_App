@@ -39,13 +39,16 @@ function SettingsScreen(props) {
   const [urlError, setUrlError] = useState("");
   const [loading, setLoading] = useState(true);
   const [range, setRange] = useState([25, 75]);
+  const [bio, setBio] = useState("");
+  const [changeBio, setChangeBio] = useState(false);
+  const [newBio, setNewBio] = useState("");
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setError("");
       setUrlError("");
       setSuccess("");
-      console.log('reset msg')
+      console.log("reset msg");
     });
 
     return unsubscribe;
@@ -56,6 +59,7 @@ function SettingsScreen(props) {
       .get()
       .then((doc) => {
         setUsername(doc.data().username);
+        setBio(doc.data().bio);
         if (doc.data().targetWorkRange !== undefined) {
           setRange(doc.data().targetWorkRange);
         }
@@ -259,6 +263,18 @@ function SettingsScreen(props) {
       });
   }
 
+  function handleChangeBio() {
+    resetNotifs();
+    userTasks
+    .update({
+      bio: newBio,
+    })
+    .then(() => {
+      setChangeBio(false);
+      setSuccess("Successfully changed your bio!");
+    });
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -289,6 +305,8 @@ function SettingsScreen(props) {
               }}
             />
           )}
+
+          <Text>"{bio}"</Text>
 
           <View style={styles.setPic}>
             <Text style={styles.text}>Upload Profile Picture URL</Text>
@@ -445,6 +463,43 @@ function SettingsScreen(props) {
                     <Text>Cancel</Text>
                   </Pressable>
                 </View>
+              </View>
+            )}
+
+            <Pressable
+              style={{ marginVertical: 5 }}
+              onPress={() => {
+                resetNotifs();
+                setChangeBio(true);
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.text,
+                  color: "gray",
+                  textDecorationLine: "underline",
+                }}
+              >
+                Change Bio
+              </Text>
+            </Pressable>
+
+            {changeBio && (
+              <View>
+                <Text>New Bio:</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(e) => setNewBio(e)}
+                />
+                <Pressable style={styles.setButton} onPress={handleChangeBio}>
+                  <Text>Submit</Text>
+                </Pressable>
+                <Pressable
+                  style={styles.cancelButton}
+                  onPress={() => setChangeBio(false)}
+                >
+                  <Text>Cancel</Text>
+                </Pressable>
               </View>
             )}
           </View>

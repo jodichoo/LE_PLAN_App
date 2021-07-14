@@ -14,6 +14,7 @@ function ProfileScreen() {
   const [username, setUsername] = useState("default");
   const [loading, setLoading] = useState(true);
   const [target, setTarget] = useState(undefined);
+  const [bio, setBio] = useState("");
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -21,6 +22,7 @@ function ProfileScreen() {
         .get()
         .then((doc) => {
           setUsername(doc.data().username);
+          setBio(doc.data().bio);
           if (doc.data().targetWorkRange !== undefined) {
             setTarget(doc.data().targetWorkRange);
           }
@@ -76,6 +78,7 @@ function ProfileScreen() {
         {loading || (
           <View style={styles.profile}>
             <View style={styles.imgContainer}>{renderImage()}</View>
+            <Text style={styles.bio}>"{bio}"</Text>
             <Text style={styles.displayName}>{currentUser.displayName}</Text>
             <Text style={styles.creds}>Un: {username}</Text>
             <Text style={styles.creds}>Email: {currentUser.email}</Text>
@@ -118,6 +121,10 @@ const styles = {
   },
   profile: {
     alignItems: "center",
+  },
+  bio: {
+    fontSize: 30,
+    fontStyle:'italic'  
   },
   displayName: {
     fontSize: 45,

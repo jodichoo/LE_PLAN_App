@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [username, setUsername] = useState("User");
   const [displayName, setDisplayName] = useState("User");
-
+  const [bio, setBio] = useState("I am Groot");
   return (
     <AuthContext.Provider
       value={{
@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
                   .doc(uid)
                   .set({
                     storedDate: "2021-05-31",
+                    bio: "I.am.Groot",
                     displayName: display,
                     photoURL: "https://i.stack.imgur.com/l60Hf.png",
                     username: un,
