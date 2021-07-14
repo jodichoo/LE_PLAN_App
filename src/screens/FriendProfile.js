@@ -71,7 +71,6 @@ function FriendProfile() {
         friends: newList,
       })
       .then(() => {
-        route.params.setFriendsList(newList);
         goBack();
       });
   }

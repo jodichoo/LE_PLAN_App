@@ -24,6 +24,17 @@ function FriendsTab() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      userTasks.get().then((doc) => {
+        setCurrUn(doc.data().username);
+        setFriendsList(doc.data().friends);
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     //to account for all friends deleted and force rerendering of friends board
     if (friendsList.length == 0) {
       setLoading(true);
@@ -54,13 +65,6 @@ function FriendsTab() {
         .then(() => setLoading(false));
     }
   }, [friendsList]);
-
-  useEffect(() => {
-    userTasks.get().then((doc) => {
-      setCurrUn(doc.data().username);
-      setFriendsList(doc.data().friends);
-    });
-  }, []);
 
   function handleAddFriend(e) {
     e.preventDefault();
@@ -100,75 +104,79 @@ function FriendsTab() {
   function renderMeter(w, p) {
     const wFlex = p === 0 ? 1 : w / (p + w);
     const pFlex = w === 0 ? 1 : p / (p + w);
-  
+
     const styles = StyleSheet.create({
       container: {
-        height: '8%',
-        flexDirection: 'column',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
+        height: "8%",
+        flexDirection: "column",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
         marginBottom: 5,
       },
-  
+
       wrapper: {
         flex: 0.6,
-        flexDirection: 'row', 
-        width: '100%',
-        borderWidth: 1, 
-        borderColor: 'black', 
-        borderStyle: 'solid',
+        flexDirection: "row",
+        width: "100%",
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
       },
-  
+
       emptyWrapper: {
-        width: '100%',
+        width: "100%",
         flex: 0.6,
-        borderWidth: 1, 
-        borderColor: 'black', 
-        borderStyle: 'solid',
-        alignItems: 'center',
-        justifyContent: 'center'
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
+        alignItems: "center",
+        justifyContent: "center",
       },
-  
+
       work: {
         flex: wFlex,
-        backgroundColor: 'pink'
+        backgroundColor: "pink",
       },
-      
+
       play: {
         flex: pFlex,
-        backgroundColor: 'turquoise'
-      }
+        backgroundColor: "turquoise",
+      },
     });
 
-    return (
-      w === 0 && p === 0
-        ? <>
-            <View style={styles.emptyWrapper}><Text>No tasks for the week!</Text></View>
-          </>
-        : <>
-          {console.log(wFlex, pFlex)}
-            <View style={styles.wrapper}>
-              <View style={styles.work}></View>
-              <View style={styles.play}></View>
-            </View>
-          </>
-    )
+    return w === 0 && p === 0 ? (
+      <>
+        <View style={styles.emptyWrapper}>
+          <Text>No tasks for the week!</Text>
+        </View>
+      </>
+    ) : (
+      <>
+        {console.log(wFlex, pFlex)}
+        <View style={styles.wrapper}>
+          <View style={styles.work}></View>
+          <View style={styles.play}></View>
+        </View>
+      </>
+    );
   }
 
   function goToFriendProfile(friendUn) {
-    // navigation + pass props into route 
+    // navigation + pass props into route
     return navigation.navigate("FriendProfile", {
       friendUn: friendUn,
       friendsList: friendsList,
-      setFriendsList: setFriendsList,
     });
   }
 
   function renderFriend(friendObj) {
     return (
-      <TouchableOpacity style={styles.friend} onPress={() => goToFriendProfile(friendObj.friend)}>
-        <Text style={{fontSize: 18, fontWeight: '300', flex: 0.4}}>
+      <TouchableOpacity
+        style={styles.friend}
+        onPress={() => goToFriendProfile(friendObj.friend)}
+      >
+        <Text style={{ fontSize: 18, fontWeight: "300", flex: 0.4 }}>
           {friendObj.friend}
         </Text>
         {renderMeter(friendObj.work, friendObj.play)}
@@ -187,41 +195,46 @@ function FriendsTab() {
 
       {/* <HiUserAdd style={{ color: "whitesmoke", fontSize: "20px" }} /> */}
       <Pressable style={styles.addFriendBut} onPress={showAddFriend}>
-        <Text style={{ fontSize: 28, fontWeight: '600' }}>Add Friends</Text>
+        <Text style={{ fontSize: 28, fontWeight: "600" }}>Add Friends</Text>
       </Pressable>
 
       {addFriends && (
         <View style={styles.addFriend}>
           {error.length > 0 && <Text style={styles.err}>{error}</Text>}
-          <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 0.75, alignItems: 'center'}}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 0.75, alignItems: "center" }}>
               <Text style={styles.text}>Your Friend's Username: </Text>
               <TextInput
                 style={styles.input}
                 onChangeText={(e) => setFriendsUn(e)}
               />
             </View>
-            <View style={{flex: 0.25}}>
+            <View style={{ flex: 0.25 }}>
               <Pressable style={styles.addFriendBut} onPress={handleAddFriend}>
-                <Text style={{ fontSize: 18, fontWeight: '600', alignSelf: "center" }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "600",
+                    alignSelf: "center",
+                  }}
+                >
                   Add
                 </Text>
               </Pressable>
             </View>
           </View>
-          
         </View>
       )}
 
       <View style={styles.board}>
-        <Text style={{fontSize: 48, fontWeight: '700', alignSelf: 'flex-start'}}>
+        <Text
+          style={{ fontSize: 48, fontWeight: "700", alignSelf: "flex-start" }}
+        >
           Friends:{" "}
         </Text>
-        <View style={{ flex: 1, width: '96%'}}>
+        <View style={{ flex: 1, width: "96%" }}>
           {friendData.length === 0 ? (
-            <Text style={{ fontSize: 20 }}>
-              You have no friends :(
-            </Text>
+            <Text style={{ fontSize: 20 }}>You have no friends :(</Text>
           ) : (
             loading || friendData.map(renderFriend)
           )}
@@ -235,30 +248,32 @@ export default FriendsTab;
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#000000aa',
     flex: 1,
     alignItems: "center",
     marginTop: 50,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
+
   text: {
-    fontSize: 16, 
-    fontWeight: '500',
-  }, 
-  input: { 
-    backgroundColor: "#ededed", 
-    width: '90%', 
-    paddingHorizontal: 10, 
-    height: 30, 
-    borderRadius: 10, 
-    borderColor: 'black', 
-    borderStyle: 'solid', 
-    borderWidth: 1
+    fontSize: 16,
+    fontWeight: "500",
   },
+
+  input: {
+    backgroundColor: "#ededed",
+    width: "90%",
+    paddingHorizontal: 10,
+    height: 30,
+    borderRadius: 10,
+    borderColor: "black",
+    borderStyle: "solid",
+    borderWidth: 1,
+  },
+  
   addFriend: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '90%',
+    flexDirection: "column",
+    alignItems: "center",
+    width: "90%",
     marginHorizontal: 20,
   },
 
@@ -268,9 +283,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: "turquoise",
     borderRadius: 16,
-    borderWidth: 1.4, 
-    borderColor: 'black', 
-    borderStyle: 'solid',
+    borderWidth: 1.4,
+    borderColor: "black",
+    borderStyle: "solid",
   },
 
   err: {
@@ -283,16 +298,17 @@ const styles = StyleSheet.create({
   board: {
     alignItems: "center",
     marginBottom: 30,
-    borderStyle: 'solid',
-    borderColor: 'black', 
+    borderStyle: "solid",
+    borderColor: "black",
     borderWidth: 1.4,
     padding: 10,
     borderRadius: 10,
-    width: '90%',
+    width: "90%",
     flex: 1,
   },
+
   friend: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 5,
   },
 });
