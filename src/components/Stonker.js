@@ -85,6 +85,7 @@ function Stonker() {
                 color: (opacity = 1) => `rgba(64, 224, 208, ${opacity})`,
               }
             ],
+            legend: ["Play","Work"],
           }}
           width={Dimensions.get("window").width * 0.88} // from react-native
           height={220}
