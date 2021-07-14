@@ -5,18 +5,36 @@ import { useNavigation } from "@react-navigation/core";
 import { Text, View, Image, Pressable, ScrollView } from "react-native";
 import Stonker from "../components/Stonker";
 import { Feather } from "@expo/vector-icons";
+import { useFocusEffect } from '@react-navigation/native';
 
-function ProfileScreen() {
+function ProfileScreen(props) {
   const { currentUser } = useAuth();
   const navigation = useNavigation();
+//   const { navigation } = props;
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [useDefault, setUseDefault] = useState(false);
   const [username, setUsername] = useState("default");
   const [loading, setLoading] = useState(true);
   const [target, setTarget] = useState(undefined);
 
+//   useEffect(() => {
+//     userTasks
+//       .get()
+//       .then((doc) => {
+//         setUsername(doc.data().username);
+//         if (doc.data().targetWorkRange !== undefined) {
+//           setTarget(doc.data().targetWorkRange);
+//         }
+//       })
+//       .then(() => {
+//         setLoading(false);
+//       });
+//   }, []);
+
   useEffect(() => {
-    userTasks
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('query target');
+      userTasks
       .get()
       .then((doc) => {
         setUsername(doc.data().username);
@@ -27,7 +45,10 @@ function ProfileScreen() {
       .then(() => {
         setLoading(false);
       });
-  }, []);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   function goToSettings() {
     navigation.navigate("Settings");
