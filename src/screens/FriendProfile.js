@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { db } from "../firebase/config";
 import { useAuth } from "../navigation/AuthProvider";
+import { Ionicons } from '@expo/vector-icons';
 import { Text, View, Pressable, StyleSheet, Image } from "react-native";
 
 function FriendProfile() {
@@ -79,7 +80,8 @@ function FriendProfile() {
   return (
     <View style={styles.container}>
       <Pressable style={styles.back} onPress={() => goBack()}>
-        <Text style={{color: 'whitesmoke'}}>Back</Text>
+        {/* <Text style={{color: 'whitesmoke'}}>Back</Text> */}
+        <Ionicons name="chevron-back-outline" size={60} color="black" />
       </Pressable>
 
       <View style={styles.profile}>
@@ -115,13 +117,8 @@ const styles = StyleSheet.create({
   },
   back: {
     position: 'absolute', 
-    left: 15,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: "turquoise",
-    borderRadius: 50,
+    top: 4,
     alignSelf: "flex-start",
-    // marginTop: -80,
   },
   profile: {
     marginTop: 40,

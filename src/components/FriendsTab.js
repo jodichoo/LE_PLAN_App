@@ -173,6 +173,7 @@ function FriendsTab() {
   function renderFriend(friendObj) {
     return (
       <TouchableOpacity
+        key={friendObj.friend}
         style={styles.friend}
         onPress={() => goToFriendProfile(friendObj.friend)}
       >
