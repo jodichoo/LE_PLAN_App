@@ -3,6 +3,7 @@ import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import TaskForm from "./TaskForm";
 import moment from "moment";
+import Swipeable from 'react-native-swipeable-row'; 
 import { AntDesign, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
@@ -12,12 +13,14 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableHighlight,
   View,
   Button,
   Modal,
   Pressable,
 } from "react-native";
-import Checkbox from "expo-checkbox";
+// import Checkbox from "expo-checkbox";
+import CheckBox from 'react-native-check-box'
 
 function Event(props) {
   const { selectedDate, task } = props;
@@ -91,9 +94,9 @@ function Event(props) {
           style={styles.task}
         >
           <View style={styles.taskField}>
-            <Checkbox
-              value={task.isComplete}
-              onValueChange={() => handleCheck(task)}
+            <CheckBox
+              isChecked={task.isComplete}
+              onClick={() => handleCheck(task)}
             />
           </View>
           <View style={styles.taskField}>
@@ -155,6 +158,7 @@ export default Event;
 const styles = StyleSheet.create({
   taskWDesc: {
     flexDirection: 'column', 
+    marginVertical: 4, 
   },
 
   task: {
