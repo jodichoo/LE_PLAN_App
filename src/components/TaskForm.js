@@ -359,7 +359,7 @@ function showTimePicker() {
           onPress={() => {
             if (taskName === "") {
               setError("Please input a task name"); 
-            } else if (taskDur === undefined || taskDur === '0') {
+            } else if (taskDur === undefined || taskDur === '0' || taskDur.length === 0) {
               setError("Pleae input a valid duration in hours"); 
             } else {
               edit && handleEditTask();
@@ -412,10 +412,12 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    // margin: 3,
-    padding: 1,
-    borderRadius: 3,
-    backgroundColor: 'rgba(0, 0, 0, 0.05)'
+    paddingHorizontal: 10,
+    height: 30,
+    borderRadius: 4,
+    borderColor: 'black', 
+    borderWidth: 1, 
+    borderStyle: 'solid'
   },
 
   buttons: {
