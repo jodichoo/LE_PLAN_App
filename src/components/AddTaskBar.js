@@ -37,11 +37,11 @@ function AddTaskBar(props) {
       <View style={styles.buttons}>
         {/* <Button style={styles.buttonStyle} title="Work" onPress={showWorkTaskForm} />
         <Button style={styles.buttonStyle} title="Play" onPress={showLifeTaskForm} /> */}
-        <Pressable style={styles.buttonStyle} onPress={showWorkTaskForm}>
-          <Text style={styles.buttonText}>Work</Text>
+        <Pressable style={{...styles.buttonStyle, backgroundColor: addWorkClicked ? 'black' : 'pink'}} onPress={showWorkTaskForm}>
+          <Text style={{...styles.buttonText, color: addWorkClicked ? 'whitesmoke' : 'black'}}>Work</Text>
         </Pressable>
-        <Pressable style={styles.buttonStyle} onPress={showLifeTaskForm}>
-          <Text style={styles.buttonText}>Play</Text>
+        <Pressable style={{...styles.buttonStyle, backgroundColor: addLifeClicked ? 'black' : 'turquoise'}} onPress={showLifeTaskForm}>
+          <Text style={{...styles.buttonText, color: addLifeClicked ? 'whitesmoke' : 'black'}}>Play</Text>
         </Pressable>
       </View>
       
@@ -86,20 +86,20 @@ const styles = StyleSheet.create({
   },
 
   buttonStyle: {
+    borderStyle: 'solid',
+    borderWidth: 1, 
+    borderColor: 'black',
     paddingVertical: 8, 
     paddingHorizontal: 20,
-    backgroundColor: 'turquoise',
-    borderRadius: 6
+    borderRadius: 6, 
   },
 
   buttonText: {
-    color: 'whitesmoke',
     fontWeight: 'bold', 
     fontSize: 16
   },
 
   formContainer: {
-    paddingHorizontal: 8,
     flex: 1,
     width: '100%'
   }
