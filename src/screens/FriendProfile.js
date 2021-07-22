@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { db } from "../firebase/config";
 import { useAuth } from "../navigation/AuthProvider";
+import { ThemeContext } from "../theme/ThemeContext";
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View, Pressable, StyleSheet, Image } from "react-native";
 
@@ -10,6 +11,7 @@ function FriendProfile() {
   const route = useRoute();
   const { goBack } = navigation;
   const { currentUser } = useAuth();
+  const { dark, theme } = useContext(ThemeContext);
   const friendUsername = route.params.friendUn;
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [photoUrl, setPhotoUrl] = useState(".jpg");
@@ -77,11 +79,68 @@ function FriendProfile() {
       });
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      marginTop: 40,
+    },
+    back: {
+      position: 'absolute', 
+      top: 4,
+      alignSelf: "flex-start",
+    },
+    profile: {
+      marginTop: 40,
+      flex: 1, 
+      alignItems: 'center',
+    },
+    displayName: {
+      fontSize: 50,
+      fontWeight: '600',
+      color: theme.color
+    },  
+    imgContainer: {
+      backgroundColor: 'white',
+      width: 200, 
+      height: 200, 
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden',
+      borderRadius: 200,
+      marginTop: 10,
+      marginBottom: 20,
+    },
+    img: {
+      width: 200,
+      height: 200,
+    },
+    un: {
+      fontWeight: '300',
+      color: 'gray',
+      fontSize: 20,
+    }, 
+    bio: {
+      marginTop: -5,
+      fontSize: 30,
+      fontStyle: 'italic',
+      color: theme.color
+    },
+    remove: {
+      marginTop: 30,
+      backgroundColor: "pink",
+      padding: 10,
+      borderRadius: 10,
+    },
+    del: {
+      color: "red",
+    },
+  });
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.back} onPress={() => goBack()}>
-        {/* <Text style={{color: 'whitesmoke'}}>Back</Text> */}
-        <Ionicons name="chevron-back-outline" size={60} color="black" />
+        <Ionicons name="chevron-back-outline" size={60} color={theme.color} />
       </Pressable>
 
       <View style={styles.profile}>
@@ -104,64 +163,8 @@ function FriendProfile() {
       
     </View>
   );
+  
 }
 
 export default FriendProfile;
 
-const styles = StyleSheet.create({
-  container: {
-    // backgroundColor:'red',
-    flex: 1,
-    alignItems: "center",
-    marginTop: 40,
-  },
-  back: {
-    position: 'absolute', 
-    top: 4,
-    alignSelf: "flex-start",
-  },
-  profile: {
-    marginTop: 40,
-    // backgroundColor: 'grey',
-    flex: 1, 
-    alignItems: 'center',
-  },
-  displayName: {
-    fontSize: 50,
-    fontWeight: '600'
-  },  
-  imgContainer: {
-    backgroundColor: 'white',
-    width: 200, 
-    height: 200, 
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
-    borderRadius: 200,
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  img: {
-    width: 200,
-    height: 200,
-  },
-  un: {
-    fontWeight: '300',
-    color: 'gray',
-    fontSize: 20,
-  }, 
-  bio: {
-    marginTop: -5,
-    fontSize: 30,
-    fontStyle: 'italic',
-  },
-  remove: {
-    marginTop: 30,
-    backgroundColor: "pink",
-    padding: 10,
-    borderRadius: 10,
-  },
-  del: {
-    color: "red",
-  },
-});

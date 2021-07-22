@@ -1,20 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { db } from "../firebase/config";
-import moment from "moment";
 import { useAuth } from "../navigation/AuthProvider";
+import { ThemeContext } from "../theme/ThemeContext";
+import moment from "moment";
 import NumberPlease from "react-native-number-please";
 import DateTimePicker from '@react-native-community/datetimepicker';
-
 import {
   StyleSheet,
   Pressable,
-  FlatList,
-  Keyboard,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
-  Button,
   ScrollView,
 } from "react-native";
 
@@ -31,6 +27,7 @@ function TaskForm(props) {
     updateCalendar,
     setTriggerLoad,
   } = props;
+  const { dark, theme } = useContext(ThemeContext);
   const today = moment().format("YYYY-MM-DD").split("-");
   const currDate = [today[2], today[1], today[0]];
   const [taskName, setTaskName] = useState("");
@@ -281,10 +278,72 @@ function showTimePicker() {
   setMode('time');
 }
 
+const styles = StyleSheet.create({
+  container: {
+    zIndex: 99,
+    width: "100%",
+    alignItems: "center",
+    flexGrow: 1,
+  },
+
+  field: {
+    margin: 8,
+    width: "100%",
+  },
+
+  error: {
+    alignItems: 'center', 
+    backgroundColor:'rgba(255, 0, 0, 0.7)',
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },  
+
+  errorText: {
+    color: theme.color,
+  },
+
+  text: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: theme.color,
+  },
+
+  input: {
+    paddingHorizontal: 10,
+    height: 30,
+    borderRadius: 4,
+    borderColor: dark ? "whitesmoke" : 'black', 
+    borderWidth: 1, 
+    borderStyle: 'solid',
+    color: theme.color
+  },
+
+  buttons: {
+    margin: 12,
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-evenly",
+  },
+
+  formButton: {
+    backgroundColor: dark ? "whitesmoke" : "grey",
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+
+  buttonText: {
+    color: dark ? "black" : "whitesmoke",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+});
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       { error && <View style={styles.error}><Text style={styles.errorText}>{error}</Text></View> }
-      {/* {console.log(error || false)} */}
       <View style={styles.field}>
         <Text style={styles.text}>Task Name: </Text>
         <TextInput
@@ -379,64 +438,3 @@ function showTimePicker() {
 
 export default TaskForm;
 
-const styles = StyleSheet.create({
-  container: {
-    zIndex: 99,
-    width: "100%",
-    alignItems: "center",
-    flexGrow: 1,
-  },
-
-  field: {
-    margin: 8,
-    width: "100%",
-    // backgroundColor: 'grey'
-  },
-
-  error: {
-    alignItems: 'center', 
-    backgroundColor:'pink',
-    width: '100%',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-  },  
-
-  errorText: {
-    color: 'grey',
-  },
-
-  text: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
-  input: {
-    paddingHorizontal: 10,
-    height: 30,
-    borderRadius: 4,
-    borderColor: 'black', 
-    borderWidth: 1, 
-    borderStyle: 'solid'
-  },
-
-  buttons: {
-    margin: 12,
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-evenly",
-  },
-
-  formButton: {
-    backgroundColor: "grey",
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 6,
-  },
-
-  buttonText: {
-    color: "whitesmoke",
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-});

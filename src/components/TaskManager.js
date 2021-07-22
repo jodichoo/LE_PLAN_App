@@ -20,10 +20,10 @@ import {
 function TaskManagerTab(props) {
   const { setTasks, tasks, selectedDate, dateTimer } = props;
   const { currentUser } = useAuth();
+  const { dark, theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [showAdd, setShowAdd] = useState(false);
   const [storedDate, setStoredDate] = useState('');
-  const { dark, theme } = useContext(ThemeContext);
 
   useEffect(() => {
     console.log('setting stored date');
@@ -92,7 +92,7 @@ function TaskManagerTab(props) {
             onPress={() => console.log("")}
             activeOpacity={1}
             style={{
-              backgroundColor: "whitesmoke",
+              backgroundColor: dark ? theme.backgroundCard : "whitesmoke",
               margin: 50,
               padding: 40,
               borderRadius: 10,

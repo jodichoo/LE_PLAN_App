@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
+import { ThemeContext } from "../theme/ThemeContext";
 import { useNavigation } from "@react-navigation/core";
 import {
   StyleSheet,
@@ -14,6 +15,7 @@ import {
 function FriendsTab() {
   const { currentUser } = useAuth();
   const navigation = useNavigation();
+  const { dark, theme } = useContext(ThemeContext);
   const [friendsUn, setFriendsUn] = useState("");
   const [error, setError] = useState("");
   const userTasks = db.collection("users").doc(currentUser.uid);
@@ -119,16 +121,16 @@ function FriendsTab() {
         flex: 0.6,
         flexDirection: "row",
         width: "100%",
-        borderWidth: 1,
-        borderColor: "black",
+        borderWidth: 2,
+        borderColor: theme.color,
         borderStyle: "solid",
       },
 
       emptyWrapper: {
         width: "100%",
         flex: 0.6,
-        borderWidth: 1,
-        borderColor: "black",
+        borderWidth: 2,
+        borderColor: theme.color,
         borderStyle: "solid",
         alignItems: "center",
         justifyContent: "center",
@@ -177,7 +179,7 @@ function FriendsTab() {
         style={styles.friend}
         onPress={() => goToFriendProfile(friendObj.friend)}
       >
-        <Text style={{ fontSize: 18, fontWeight: "300", flex: 0.4 }}>
+        <Text style={{ fontSize: 18, fontWeight: "300", flex: 0.4, color:theme.color }}>
           {friendObj.friend}
         </Text>
         {renderMeter(friendObj.work, friendObj.play)}
@@ -189,6 +191,73 @@ function FriendsTab() {
     setAddFriends(!addFriends);
     setError("");
   }
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      marginTop: 50,
+      flexDirection: "column",
+    },
+  
+    text: {
+      fontSize: 16,
+      fontWeight: "500",
+    },
+  
+    input: {
+      backgroundColor: "#ededed",
+      width: "90%",
+      paddingHorizontal: 10,
+      height: 30,
+      borderRadius: 10,
+      borderColor: "black",
+      borderStyle: "solid",
+      borderWidth: 1,
+    },
+    
+    addFriend: {
+      flexDirection: "column",
+      alignItems: "center",
+      width: "90%",
+      marginHorizontal: 20,
+    },
+  
+    addFriendBut: {
+      marginVertical: 10,
+      paddingHorizontal: 15,
+      paddingVertical: 8,
+      backgroundColor: "turquoise",
+      borderRadius: 16,
+      borderWidth: dark ? 4 : 3,
+      borderColor: theme.color,
+      borderStyle: "solid",
+    },
+  
+    err: {
+      fontSize: 18,
+      fontWeight: "bold",
+      paddingVertical: 5,
+      color: "pink",
+    },
+  
+    board: {
+      alignItems: "center",
+      marginBottom: 30,
+      borderStyle: "solid",
+      borderColor: theme.color,
+      borderWidth: dark ? 4 : 3,
+      padding: 10,
+      borderRadius: 10,
+      width: "90%",
+      flex: 1,
+    },
+  
+    friend: {
+      flexDirection: "row",
+      marginVertical: 5,
+    },
+  });
 
   return (
     <View style={styles.container}>
@@ -229,13 +298,13 @@ function FriendsTab() {
 
       <View style={styles.board}>
         <Text
-          style={{ fontSize: 48, fontWeight: "700", alignSelf: "flex-start" }}
+          style={{ fontSize: 48, fontWeight: "700", alignSelf: "flex-start", color: theme.color }}
         >
           Friends:{" "}
         </Text>
         <View style={{ flex: 1, width: "96%" }}>
           {friendData.length === 0 ? (
-            <Text style={{ fontSize: 20 }}>You have no friends :(</Text>
+            <Text style={{ fontSize: 20, color: theme.color }}>You have no friends :(</Text>
           ) : (
             loading || friendData.map(renderFriend)
           )}
@@ -246,70 +315,3 @@ function FriendsTab() {
 }
 
 export default FriendsTab;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    marginTop: 50,
-    flexDirection: "column",
-  },
-
-  text: {
-    fontSize: 16,
-    fontWeight: "500",
-  },
-
-  input: {
-    backgroundColor: "#ededed",
-    width: "90%",
-    paddingHorizontal: 10,
-    height: 30,
-    borderRadius: 10,
-    borderColor: "black",
-    borderStyle: "solid",
-    borderWidth: 1,
-  },
-  
-  addFriend: {
-    flexDirection: "column",
-    alignItems: "center",
-    width: "90%",
-    marginHorizontal: 20,
-  },
-
-  addFriendBut: {
-    marginVertical: 10,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    backgroundColor: "turquoise",
-    borderRadius: 16,
-    borderWidth: 1.4,
-    borderColor: "black",
-    borderStyle: "solid",
-  },
-
-  err: {
-    fontSize: 18,
-    fontWeight: "bold",
-    paddingVertical: 5,
-    color: "pink",
-  },
-
-  board: {
-    alignItems: "center",
-    marginBottom: 30,
-    borderStyle: "solid",
-    borderColor: "black",
-    borderWidth: 1.4,
-    padding: 10,
-    borderRadius: 10,
-    width: "90%",
-    flex: 1,
-  },
-
-  friend: {
-    flexDirection: "row",
-    marginVertical: 5,
-  },
-});
