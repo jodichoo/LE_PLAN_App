@@ -1,5 +1,11 @@
-import { firebase } from "../../firebase/config";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./styles";
 import React, { useContext, useState } from "react";
@@ -55,75 +61,81 @@ const RegistrationScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView
-        style={{ flex: 1, width: "100%" }}
-        keyboardShouldPersistTaps="always"
+      <ImageBackground
+        source={require("../../../assets/AuthBG.jpg")}
+        resizeMode="cover"
+        style={styles.bg}
       >
-        <Image
-          style={styles.logo}
-          source={require("../../../assets/icon.png")}
-        />
-        <Text style={styles.err}>{error && <Text >{error}</Text>}</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setFullName(text)}
-          value={fullName}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          onBlur={checkUsername}
-          style={styles.input}
-          placeholder="Username"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setUsername(text)}
-          value={username}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Confirm Password"
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonTitle}>Create account</Text>
-        </TouchableOpacity>
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            Already got an account?{" "}
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              Log in
+        <KeyboardAwareScrollView
+          style={{ flex: 1, width: "100%", backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+          keyboardShouldPersistTaps="always"
+        >
+          <Image
+            style={styles.logo}
+            source={require("../../../assets/logo.png")}
+          />
+          <Text style={styles.err}>{error && <Text>{error}</Text>}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Full Name"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(text) => setFullName(text)}
+            value={fullName}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TextInput
+            onBlur={checkUsername}
+            style={styles.input}
+            placeholder="Username"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(text) => setUsername(text)}
+            value={username}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="E-mail"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="#aaaaaa"
+            secureTextEntry
+            placeholder="Password"
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="#aaaaaa"
+            secureTextEntry
+            placeholder="Confirm Password"
+            onChangeText={(text) => setConfirmPassword(text)}
+            value={confirmPassword}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonTitle}>Create account</Text>
+          </TouchableOpacity>
+          <View style={styles.footerView}>
+            <Text style={styles.footerText}>
+              Already got an account?{" "}
+              <Text onPress={onFooterLinkPress} style={styles.footerLink}>
+                Log in
+              </Text>
             </Text>
-          </Text>
-        </View>
-      </KeyboardAwareScrollView>
+          </View>
+        </KeyboardAwareScrollView>
+      </ImageBackground>
     </View>
   );
 };
