@@ -5,7 +5,7 @@ import Greeting from "./Greeting";
 import AddTaskBar from "./AddTaskBar";
 import Event from "./Event";
 import Meter from "./Meter";
-import moment from "moment";
+import OnboardingScreen from "../screens/OnboardingScreen";
 import { Ionicons } from '@expo/vector-icons'; 
 import {
   StyleSheet,
@@ -65,70 +65,23 @@ function TaskManagerTab(props) {
 
   return (
     <View style={styles.container}>
+    {/* <OnboardingScreen /> */}
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
       <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10}}>
         Here are your tasks for today
       </Text>
       <View style={styles.tasksContainer}>
-        {/* incomplete tasks  */}
         {separateTasks(tasks)[0].map((task) => renderTask(task))}
-        {/* complete tasks */}
         {separateTasks(tasks)[1].map((task) => renderTask(task))}
       </View>
-      {/* toggle edit but "deletes" as date somehow becomes invalid in db*/}
-      {/* {edit && (
-        <View style={styles.edit}>
-          <View style={styles.formContainer}>
-            <TaskForm
-              selectedDate={selectedDate}
-              editTask={editTask}
-              edit={edit}
-              setEdit={setEdit}
-            />
-          </View>
-        </View>
-      )} */}
-      {/* <Modal transparent={true} visible={edit}>
-        <TouchableOpacity
-          onPress={() => setEdit(false)}
-          style={{ backgroundColor: "#000000aa", flex: 1 }}
-        >
-          //to implement touch outside => remove modal
-          <TouchableOpacity
-            onPress={() => console.log("")}
-            activeOpacity={1}
-            style={{
-              backgroundColor: "#ffffff",
-              margin: 50,
-              padding: 40,
-              borderRadius: 10,
-              flex: 1,
-            }}
-          >
-            <TaskForm
-              selectedDate={selectedDate}
-              editTask={editTask}
-              edit={edit}
-              setEdit={setEdit}
-            />
-          </TouchableOpacity>
-        </TouchableOpacity>
-      </Modal> */}
-      {/* toggle add task */}
       <View style={styles.addTask}>
         <Pressable
           onPress={() => setShowAdd(!showAdd)}
         >
           <Ionicons name="ios-add-circle" size={80} color="black" />
-          {/* <Text style={{ fontSize: 30, color: "whitesmoke" }}>+</Text> */}
         </Pressable>
       </View>
-      {/* <View style={styles.log}>
-        <Pressable onPress={logout} style={styles.addTaskButton}>
-          <Text style={{ fontSize: 20, color: "whitesmoke" }}>logout</Text>
-        </Pressable>
-      </View> */}
       <Modal transparent={true} visible={showAdd}>
         <TouchableOpacity
           onPress={() => setShowAdd(false)}

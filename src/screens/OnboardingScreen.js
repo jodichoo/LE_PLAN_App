@@ -9,21 +9,49 @@ function OnboardingScreen() {
             pages={[
             {
                 backgroundColor: '#fff',
-                image: <Image source={require('./images/circle.png')} />,
-                title: 'Onboarding',
-                subtitle: 'Done with React Native Onboarding Swiper',
+                //some intro
+                image: <Image style={{width: 100, height: 100}} source={require('../../assets/defaultProfile.png')} />,
+                title: 'Welcome to Le Plan',
+                subtitle: 'pewpewpewpew',
             },
             {
                 backgroundColor: '#fe6e58',
-                image: <Image source={require('./images/square.png')} />,
-                title: 'The Title',
+                //some video for today's schedule
+                //add task -> show task desc -> edit task -> delete
+                image: <Image style={{width: 100, height: 100}} source={require('../../assets/icon.png')} />,
+                title: "Access Today's Schedule",
+                subtitle: 'Press button to add task <br> Short press -> dfdf <br> Hold-> edit task',
+            },
+            {
+                backgroundColor: '#fe6e58',
+                //drawer
+                //video
+                //access settings + profile here
+                image: <Image style={{width: 100, height: 100}} source={require('../../assets/icon.png')} />,
+                title: 'View your Profile and Settings',
+                subtitle: 'Press button to add task <br> Short press -> dfdf <br> Hold-> edit task',
+            },
+            {
+                backgroundColor: '#fe6e58',
+                //calendar
+                //select date from tab above, swipe to delete, click to edit
+                image: <Image style={{width: 100, height: 100}} source={require('../../assets/icon.png')} />,
+                title: 'ONE STop Platform to view all your plans',
+                subtitle: 'This is the subtitle that sumplements the title.',
+            },
+            {
+                backgroundColor: '#fe6e58',
+                //friends
+                //click to view friend profile
+                image: <Image style={{width: 100, height: 100}} source={require('../../assets/icon.png')} />,
+                title: 'Engage with your friends!',
                 subtitle: 'This is the subtitle that sumplements the title.',
             },
             {
                 backgroundColor: '#999',
-                image: <Image source={require('./images/triangle.png')} />,
-                title: 'Triangle',
-                subtitle: "Beautiful, isn't it?",
+                image: <Image style={{width: 100, height: 100}} source={require('../../assets/defaultProfile.png')} />,
+                title: 'Get started!',
+                subtitle: "some button to finish tutorial",
             },
             ]}
         />
