@@ -1,12 +1,16 @@
-import React from 'react';
-import Providers from './src/navigation';
-import { LogBox } from 'react-native';
-
+import React from "react";
+import Providers from "./src/navigation";
+import { LogBox } from "react-native";
+import { ThemeProvider } from "./src/theme/ThemeContext";
 
 const App = () => {
-  LogBox.ignoreLogs(['Setting a timer']);
-  return <Providers />;
-}
+  LogBox.ignoreLogs(["Setting a timer"]);
+  return (
+    <ThemeProvider>
+      <Providers />
+    </ThemeProvider>
+  );
+};
 
 export default App;
 // import { StatusBar } from 'expo-status-bar';
