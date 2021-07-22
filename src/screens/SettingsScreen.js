@@ -10,9 +10,10 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { db } from "../firebase/config";
 import { useAuth } from "../navigation/AuthProvider";
+import { ThemeContext } from "../theme/ThemeContext";
 import firebase from "firebase/app";
 import { useNavigation } from "@react-navigation/core";
 import RangeSlider from "react-native-range-slider-expo";
@@ -21,6 +22,7 @@ import { Ionicons, Feather } from "@expo/vector-icons";
 function SettingsScreen(props) {
   const { currentUser } = useAuth();
   const { setDef } = props;
+  const { dark, theme } = useContext(ThemeContext);
   const navigation = useNavigation();
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [username, setUsername] = useState("");
@@ -208,7 +210,7 @@ function SettingsScreen(props) {
           onChangeText={(e) => setOldPassword(e)}
         />
         <Pressable style={styles.setButton} onPress={toggleUpdate}>
-          <Text style={{ color: "whitesmoke" }}>Submit</Text>
+          <Text style={{ color: "black" }}>Submit</Text>
         </Pressable>
         {/* <Pressable
           onPress={() => {
@@ -275,6 +277,112 @@ function SettingsScreen(props) {
     });
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      width: "100%",
+      flex: 1,
+      alignItems: "center",
+      marginTop: 50,
+      paddingBottom: 50,
+    },
+    header: {
+      width: "100%",
+      justifyContent: "flex-start",
+      paddingHorizontal: 20,
+      marginBottom: 20,
+    },
+    text: {
+      fontSize: 16,
+      fontWeight: "500",
+      color: theme.color
+    },
+    img: {
+      width: 200,
+      height: 200,
+      borderRadius: 125,
+    },
+    imgDef: {
+      width: 200,
+      height: 200,
+      borderRadius: 125,
+    },
+    input: {
+      color: "black",
+      width: "70%",
+      paddingHorizontal: 10,
+      borderRadius: 10,
+      backgroundColor: dark ? "whitesmoke" : "rgba(0, 0, 0, 0.05)",
+      height: 30, //typed text only shows with this??
+      borderColor: "black",
+      borderStyle: "solid",
+      borderWidth: 1,
+    },
+    setPic: {
+      width: "100%",
+      alignItems: "center",
+      paddingTop: 10,
+      paddingBottom: 20,
+      flexDirection: "column",
+    },
+    setButton: {
+      padding: 10,
+      borderRadius: 10,
+      marginTop: 8,
+      alignItems: "center",
+      width: "31%",
+      backgroundColor: "turquoise",
+      borderColor: theme.color,
+      borderStyle: "solid",
+      borderWidth: 1,
+    },
+    cancelButton: {
+      padding: 10,
+      borderRadius: 10,
+      marginTop: 8,
+      alignItems: "center",
+      width: "31%",
+      backgroundColor: "pink",
+      borderColor: theme.color,
+      borderStyle: "solid",
+      borderWidth: 1,
+    },
+    changeCreds: {
+      width: "100%",
+      alignItems: "center",
+      marginTop: 20,
+    },
+    changeForm: {
+      marginTop: 10,
+      width: "100%",
+      alignItems: "center",
+    },
+    msg: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      width: "90%",
+      paddingVertical: 5,
+      paddingHorizontal: 8,
+      borderRadius: 10,
+      borderColor: "black",
+      borderStyle: "solid",
+      borderWidth: 1.4,
+      marginBottom: 5,
+    },
+    notif: {
+      marginLeft: 5,
+      flex: 1,
+      fontSize: 13,
+      fontWeight: "600",
+    },
+    bio: {
+      marginTop: 10,
+      fontSize: 30,
+      fontStyle:'italic',
+      color: theme.color
+    },
+  });
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -283,7 +391,7 @@ function SettingsScreen(props) {
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={{ fontSize: 48, fontWeight: "700" }}>Settings</Text>
+            <Text style={{ fontSize: 48, fontWeight: "700", color: theme.color }}>Settings</Text>
           </View>
           {/* <View className='back' onClick={history.goBack}><IoChevronBackOutline style={{fontSize: '20px'}}/><text>Back</text></div> */}
 
@@ -306,7 +414,7 @@ function SettingsScreen(props) {
             />
           )}
 
-          <Text>"{bio}"</Text>
+          <Text style={styles.bio}>"{bio}"</Text>
 
           <View style={styles.setPic}>
             <Text style={styles.text}>Upload Profile Picture URL</Text>
@@ -520,7 +628,7 @@ function SettingsScreen(props) {
                 onPress={() => console.log("")}
                 activeOpacity={1}
                 style={{
-                  backgroundColor: "whitesmoke",
+                  backgroundColor: dark ? theme.backgroundCard : "whitesmoke",
                   margin: 50,
                   borderRadius: 10,
                   flex: 0.25,
@@ -540,102 +648,3 @@ function SettingsScreen(props) {
 }
 
 export default SettingsScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    flex: 1,
-    alignItems: "center",
-    marginTop: 50,
-    paddingBottom: 50,
-  },
-  header: {
-    width: "100%",
-    justifyContent: "flex-start",
-    paddingHorizontal: 20,
-    marginBottom: 20,
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: "500",
-  },
-  img: {
-    width: 200,
-    height: 200,
-    borderRadius: 125,
-  },
-  imgDef: {
-    width: 200,
-    height: 200,
-    borderRadius: 125,
-  },
-  input: {
-    color: "black",
-    width: "70%",
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
-    height: 30, //typed text only shows with this??
-    borderColor: "black",
-    borderStyle: "solid",
-    borderWidth: 1,
-  },
-  setPic: {
-    width: "100%",
-    alignItems: "center",
-    paddingTop: 10,
-    paddingBottom: 20,
-    flexDirection: "column",
-  },
-  setButton: {
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 8,
-    alignItems: "center",
-    width: "31%",
-    backgroundColor: "turquoise",
-    borderColor: "black",
-    borderStyle: "solid",
-    borderWidth: 1,
-  },
-  cancelButton: {
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 8,
-    alignItems: "center",
-    width: "31%",
-    backgroundColor: "pink",
-    borderColor: "black",
-    borderStyle: "solid",
-    borderWidth: 1,
-  },
-  changeCreds: {
-    width: "100%",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  changeForm: {
-    marginTop: 10,
-    width: "100%",
-    alignItems: "center",
-  },
-  msg: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "90%",
-    paddingVertical: 5,
-    paddingHorizontal: 8,
-    borderRadius: 10,
-    borderColor: "black",
-    borderStyle: "solid",
-    borderWidth: 1.4,
-    marginBottom: 5,
-  },
-  notif: {
-    marginLeft: 5,
-    flex: 1,
-    fontSize: 13,
-    fontWeight: "600",
-  },
-});

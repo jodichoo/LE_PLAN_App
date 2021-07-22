@@ -7,7 +7,6 @@ import moment from "moment";
 import { AntDesign, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   StyleSheet,
-
   Text,
   TouchableOpacity,
   View,

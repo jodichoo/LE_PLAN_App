@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
+import { ThemeContext } from "../theme/ThemeContext";
 import { Text, View, Image, Pressable, ScrollView } from "react-native";
 import Stonker from "../components/Stonker";
 import { Feather } from "@expo/vector-icons";
@@ -9,6 +10,7 @@ import { Feather } from "@expo/vector-icons";
 function ProfileScreen() {
   const { currentUser } = useAuth();
   const navigation = useNavigation();
+  const { dark, theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [useDefault, setUseDefault] = useState(false);
   const [username, setUsername] = useState("default");
@@ -65,11 +67,64 @@ function ProfileScreen() {
     );
   }
 
+  const styles = {
+    container: {
+      alignItems: "center",
+      flex: 1,
+      marginTop: 50,
+    },
+    header: {
+      flexDirection: "row",
+      alignItems: "center",
+      width: "100%",
+      justifyContent: "space-between",
+      paddingHorizontal: 20,
+    },
+    profile: {
+      alignItems: "center",
+    },
+    bio: {
+      fontSize: 30,
+      fontStyle:'italic',
+      color: theme.color
+    },
+    displayName: {
+      fontSize: 45,
+      fontWeight: "600",
+      color: theme.color
+    },
+    imgContainer: {
+      backgroundColor: "white",
+      width: 200,
+      height: 200,
+      justifyContent: "center",
+      alignItems: "center",
+      overflow: "hidden",
+      borderRadius: 200,
+      marginTop: 10,
+      marginBottom: 10,
+    },
+    img: {
+      width: 200,
+      height: 200,
+    },
+    creds: {
+      fontWeight: "300",
+      color: "gray",
+      fontSize: 20,
+    },
+    target: {
+      fontSize: 16,
+      fontWeight: "300",
+      color: theme.color
+    },
+  };
+  
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={{ fontSize: 48, fontWeight: "700" }}>Profile</Text>
+          <Text style={{ fontSize: 48, fontWeight: "700", color: theme.color }}>Profile</Text>
           <Pressable onPress={goToSettings}>
             <Feather name="edit-3" size={35} color="gray" />
           </Pressable>
@@ -105,53 +160,3 @@ function ProfileScreen() {
 }
 
 export default ProfileScreen;
-
-const styles = {
-  container: {
-    alignItems: "center",
-    flex: 1,
-    marginTop: 50,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-  },
-  profile: {
-    alignItems: "center",
-  },
-  bio: {
-    fontSize: 30,
-    fontStyle:'italic'  
-  },
-  displayName: {
-    fontSize: 45,
-    fontWeight: "600",
-  },
-  imgContainer: {
-    backgroundColor: "white",
-    width: 200,
-    height: 200,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    borderRadius: 200,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  img: {
-    width: 200,
-    height: 200,
-  },
-  creds: {
-    fontWeight: "300",
-    color: "gray",
-    fontSize: 20,
-  },
-  target: {
-    fontSize: 16,
-    fontWeight: "300",
-  },
-};
