@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
+import { ThemeContext } from "../theme/ThemeContext";
 import moment from "moment";
 import { View, Text, StyleSheet } from "react-native";
 
 function Greeting(props) {
   const { selectedDate, storedDate, setStoredDate, dateTimer } = props;
   const { currentUser, username } = useAuth();
+  const { dark, theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [greetName, setGreetName] = useState("empty");
   const [date, setDate] = useState(new Date());
@@ -178,11 +180,11 @@ function Greeting(props) {
   return (
     <View style={styles.container}>
       <View style={styles.greetContainer}>
-        <Text style={styles.greetText}>
+        <Text style={[styles.greetText, {color: theme.color}]}>
           {convertGreet(date)},
           </Text>
-        <Text style={styles.greetText}>{currentUser.displayName}!</Text> 
-        <Text style={styles.statement}>The time is {date.toLocaleTimeString()}</Text>
+        <Text style={[styles.greetText, {color: theme.color}]}>{currentUser.displayName}!</Text> 
+        <Text style={[styles.statement, {color: theme.color}]}>The time is {date.toLocaleTimeString()}</Text>
 
       </View>
       {/* <Text style={{fontSize: 18, fontWeight: '600', marginTop: 10}}>

@@ -1,30 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
+import { ThemeContext } from "../theme/ThemeContext";
 import TaskForm from "./TaskForm";
 import moment from "moment";
-import Swipeable from 'react-native-swipeable-row'; 
 import { AntDesign, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
-
 import {
   StyleSheet,
-  FlatList,
-  Keyboard,
+
   Text,
-  TextInput,
   TouchableOpacity,
-  TouchableHighlight,
   View,
-  Button,
   Modal,
   Pressable,
 } from "react-native";
-// import Checkbox from "expo-checkbox";
 import CheckBox from 'react-native-check-box'
 
 function Event(props) {
   const { selectedDate, task } = props;
   const { currentUser } = useAuth();
+  const { dark, theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [editTask, setEditTask] = useState(task);
   const [edit, setEdit] = useState(false);
@@ -84,6 +79,58 @@ function Event(props) {
     setShowDesc(!showDesc);
   }
 
+  const styles = StyleSheet.create({
+    taskWDesc: {
+      flexDirection: 'column', 
+      marginVertical: 4, 
+    },
+  
+    task: {
+      padding: 1.6,
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: 'space-evenly',
+    },
+  
+    taskName: {
+      flex: 0.5,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  
+    taskField: {
+      flex: 0.1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  
+    deleteButton: {
+      flex: 0.1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  
+    taskDesc: {
+      alignItems: 'center'
+    },
+  
+    text: {
+      fontSize: 17,
+      color: theme.color,
+    },
+  
+    bolded: {
+      fontWeight: "bold",
+      fontSize: 14.5,
+    },
+
+    time: {
+      fontWeight: 'bold', 
+      fontSize: 12,
+      color: theme.color,
+    }
+  });
+
   return (
     <>
     <View style={styles.taskWDesc}>
@@ -97,10 +144,11 @@ function Event(props) {
             <CheckBox
               isChecked={task.isComplete}
               onClick={() => handleCheck(task)}
+              checkBoxColor={theme.color}
             />
           </View>
           <View style={styles.taskField}>
-            <Text style={{fontWeight: 'bold', fontSize: 12}}>{convertTime(task.time)}</Text>
+            <Text style={styles.time}>{convertTime(task.time)}</Text>
           </View>
           <View style={styles.taskName}>
             <Text style={styles.text}>{task.name}</Text>
@@ -111,7 +159,7 @@ function Event(props) {
           <View style={styles.deleteButton}>
             {/* <Button title="Delete" onPress={() => deleteTask(task)} /> */}
             <Pressable  onPress={() => deleteTask(task)}>
-              <AntDesign name='delete' size={17} color='grey'/>
+              <AntDesign name='delete' size={17} color={dark ? "whitesmoke" : "grey"}/>
             </Pressable>
             
           </View>
@@ -155,66 +203,4 @@ function Event(props) {
 
 export default Event;
 
-const styles = StyleSheet.create({
-  taskWDesc: {
-    flexDirection: 'column', 
-    marginVertical: 4, 
-  },
 
-  task: {
-    padding: 1.6,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: 'space-evenly',
-  },
-
-  taskName: {
-    flex: 0.5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  taskField: {
-    flex: 0.1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  deleteButton: {
-    flex: 0.1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  taskDesc: {
-    alignItems: 'center'
-  },
-
-  text: {
-    fontSize: 17,
-  },
-
-  bolded: {
-    fontWeight: "bold",
-    fontSize: 14.5,
-  },
-
-//   edit: {
-//     zIndex: 1,
-//     height: "100%",
-//     width: "100%",
-//     position: "absolute",
-//     top: 0,
-//     left: 0,
-//     backgroundColor: "rgba(0, 0, 0, 0.8)",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-
-//   formContainer: {
-//     margin: 50,
-//     padding: 15,
-//     backgroundColor: "whitesmoke",
-//     borderRadius: 15,
-//   },
-});

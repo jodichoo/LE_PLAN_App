@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
+import { ThemeContext } from "../theme/ThemeContext";
 import Greeting from "./Greeting";
 import AddTaskBar from "./AddTaskBar";
 import Event from "./Event";
@@ -18,12 +19,11 @@ import {
 
 function TaskManagerTab(props) {
   const { setTasks, tasks, selectedDate, dateTimer } = props;
-  const { currentUser, logout } = useAuth();
+  const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
-  const [editTask, setEditTask] = useState({});
-  const [edit, setEdit] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [storedDate, setStoredDate] = useState('');
+  const { dark, theme } = useContext(ThemeContext);
 
   useEffect(() => {
     console.log('setting stored date');
@@ -68,7 +68,7 @@ function TaskManagerTab(props) {
     {/* <OnboardingScreen /> */}
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
-      <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10}}>
+      <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10, color: theme.color}}>
         Here are your tasks for today
       </Text>
       <View style={styles.tasksContainer}>
@@ -79,7 +79,7 @@ function TaskManagerTab(props) {
         <Pressable
           onPress={() => setShowAdd(!showAdd)}
         >
-          <Ionicons name="ios-add-circle" size={80} color="black" />
+          <Ionicons name="ios-add-circle" size={80} color={theme.color} />
         </Pressable>
       </View>
       <Modal transparent={true} visible={showAdd}>
