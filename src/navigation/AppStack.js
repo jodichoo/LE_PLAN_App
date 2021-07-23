@@ -7,7 +7,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import FriendProfile from "../screens/FriendProfile";
 import { ThemeContext } from "../theme/ThemeContext";
-import { Text, Image, Switch } from "react-native";
+import { Text, Image, Switch, View } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -52,8 +52,8 @@ const AppStack = () => {
           <DrawerItemList {...props} />
           <DrawerItem
             label={() => (
-              <DrawerContentScrollView contentContainerStyle={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center'}}>
-              <Text style={{color: theme.color}}>Dark Mode</Text>
+              <DrawerContentScrollView contentContainerStyle={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
+              <Text style={{color: theme.color, fontWeight: '600'}}>Dark Mode{' '}</Text>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                 thumbColor={dark ? "whitesmoke" : "#f4f3f4"}
@@ -67,8 +67,8 @@ const AppStack = () => {
         </DrawerContentScrollView>
 
         <DrawerItem
-          label={() => <Text style={{ color: "white" }}>Logout</Text>}
-          style={{ backgroundColor: "red", marginBottom: 10 }}
+          label={() => <Text style={{ color: "white", fontWeight: '600', fontSize: 16 }}>Logout</Text>}
+          style={{ backgroundColor: "pink", marginBottom: 30 }}
           onPress={logout}
         />
       </DrawerContentScrollView>
@@ -80,6 +80,9 @@ const AppStack = () => {
       <Drawer.Navigator
         initialRouteName="Home"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
+        drawerContentOptions= {{
+          activeTintColor: 'turquoise'
+        }}
       >
         <Drawer.Screen name="Profile" component={ProfileScreen} />
         <Drawer.Screen name="Home" component={HomeScreen} />
