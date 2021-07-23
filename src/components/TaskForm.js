@@ -80,7 +80,7 @@ function TaskForm(props) {
       // setTaskDate(editTask.date);
       // setTaskHrs(getHour(editTask.time));
       // setTaskMins(getMin(editTask.time));
-      setTaskDur(editTask.dur);
+      setTaskDur(`${editTask.dur}`);
       setIsWork(editTask.isWork);
       //   if (editTask.isWork) {
       //     document.getElementById("work-radio-edit").checked = true;
@@ -408,6 +408,7 @@ const styles = StyleSheet.create({
           style={styles.input}
           value={taskDur}
           placeholder="E.g. 2.25"
+          placeholderTextColor={'gray'}
           onChangeText={(e) => setTaskDur(e)}
         />
       </View>
