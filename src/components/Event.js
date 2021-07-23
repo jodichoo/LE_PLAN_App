@@ -12,6 +12,7 @@ import {
   View,
   Modal,
   Pressable,
+  Alert
 } from "react-native";
 import CheckBox from 'react-native-check-box'
 
@@ -130,6 +131,24 @@ function Event(props) {
     }
   });
 
+  const deleteWarning = () => {
+    Alert.alert(
+      'Delete Task',
+      'Are you sure you want to delete this task?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => console.log('cancel'), 
+        }, 
+        {
+          text: 'Delete', 
+          onPress: () => deleteTask(task),
+        }
+      ]
+    );
+  }
+
   return (
     <>
     <View style={styles.taskWDesc}>
@@ -157,7 +176,7 @@ function Event(props) {
           </View>
           <View style={styles.deleteButton}>
             {/* <Button title="Delete" onPress={() => deleteTask(task)} /> */}
-            <Pressable  onPress={() => deleteTask(task)}>
+            <Pressable  onPress={deleteWarning}>
               <AntDesign name='delete' size={17} color={dark ? "whitesmoke" : "grey"}/>
             </Pressable>
             

@@ -82,10 +82,27 @@ function CalendarItem(props) {
     return newMoment.add(dur, 'hours').format('HH:mm');
   }
 
+  const deleteWarning = () => {
+    Alert.alert(
+      'Delete Task',
+      'Are you sure you want to delete this task?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => console.log('cancel'), 
+        }, 
+        {
+          text: 'Delete', 
+          onPress: () => deleteTask(item),
+        }
+      ]
+    );
+  }
+
   const rightButtons = [
     <TouchableHighlight style={styles.delete} onPress={() => {
-      deleteTask(item);
-      Alert.alert("Are you sure you want to delete?");
+      deleteWarning(); 
     }}>
       <Text style={styles.buttonText}>Delete</Text>
     </TouchableHighlight>
