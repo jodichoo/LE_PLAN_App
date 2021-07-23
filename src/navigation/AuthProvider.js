@@ -13,18 +13,24 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState("User");
   const [displayName, setDisplayName] = useState("User");
   const [bio, setBio] = useState("I am Groot");
+  const [isFirstLogin, setIsFirstLogin] = useState(false); //only change this to true if registration happens
+
   return (
     <AuthContext.Provider
       value={{
         currentUser,
         setCurrentUser,
         username,
+        isFirstLogin,
+        setIsFirstLogin, 
         login: async (email, password) => {
+            setIsFirstLogin(false);
             await firebase.auth().signInWithEmailAndPassword(email, password);
         },
         register: async (email, password, un, display) => {
           setDisplayName(display); 
           setUsername(un);
+          setIsFirstLogin(true); //user just registered, so show the walkthrough
           try {
             await firebase
               .auth()

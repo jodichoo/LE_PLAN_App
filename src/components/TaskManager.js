@@ -19,7 +19,7 @@ import {
 
 function TaskManagerTab(props) {
   const { setTasks, tasks, selectedDate, dateTimer } = props;
-  const { currentUser } = useAuth();
+  const { currentUser, isFirstLogin, setIsFirstLogin } = useAuth();
   const { dark, theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [showAdd, setShowAdd] = useState(false);
@@ -63,7 +63,9 @@ function TaskManagerTab(props) {
     );
   }
 
-  return (
+  return ( isFirstLogin
+      ? <OnboardingScreen isFirstLogin={isFirstLogin} setIsFirstLogin={setIsFirstLogin}/> 
+      : 
     <View style={styles.container}>
     {/* <OnboardingScreen /> */}
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
