@@ -20,32 +20,39 @@ function ProfileScreen() {
   const [bio, setBio] = useState("");
   const [currWork, setCurrWork] = useState(0);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      userTasks
-        .get()
-        .then((doc) => {
-          setUsername(doc.data().username);
-          setBio(doc.data().bio);
-          const workCount = doc.data().workTime;
-          const lifeCount = doc.data().lifeTime;
-          const dataItem =
-            (100 * parseFloat(workCount)) /
-            (parseFloat(workCount) + parseFloat(lifeCount));
+  function setProfileData() {
+    userTasks
+      .get()
+      .then((doc) => {
+        setUsername(doc.data().username);
+        setBio(doc.data().bio);
+        const workCount = doc.data().workTime;
+        const lifeCount = doc.data().lifeTime;
+        const dataItem =
+          (100 * parseFloat(workCount)) /
+          (parseFloat(workCount) + parseFloat(lifeCount));
 
-          setCurrWork(Math.round(dataItem * 100) / 100);
-          console.log(currWork)
-          if (doc.data().targetWorkRange !== undefined) {
-            setTarget(doc.data().targetWorkRange);
-          }
-        })
-        .then(() => {
-          setLoading(false);
-        });
-    });
+        setCurrWork(Math.round(dataItem * 100) / 100);
+        console.log(currWork)
+        if (doc.data().targetWorkRange !== undefined) {
+          setTarget(doc.data().targetWorkRange);
+        }
+      })
+      .then(() => {
+        setLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    console.log('performed');
+    const unsubscribe = navigation.addListener("focus", setProfileData);
 
     return unsubscribe;
   }, [navigation]);
+
+  useEffect(() => {
+    setProfileData(); 
+  }, [theme])
 
   function goToSettings() {
     navigation.navigate("Settings");
@@ -141,7 +148,6 @@ function ProfileScreen() {
             <Feather name="edit-3" size={35} color="gray" />
           </Pressable>
         </View>
-
         {loading || (
           <View style={styles.profile}>
             <View style={styles.imgContainer}>{renderImage()}</View>

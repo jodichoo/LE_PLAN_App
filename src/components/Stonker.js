@@ -15,37 +15,43 @@ function Stonker() {
   const [dataSet, setDataSet] = useState([-1, -1, -1, -1, -1]);
   const [loading, setLoading] = useState(true);
 
+  function setData() {
+    userTasks
+      .get()
+      .then((doc) => {
+        setLoading(true);
+        const temp = doc.data().stonksData;
+        const arr = [];
+
+        for (var i = 0; i < temp.length; i++) {
+          arr.push(temp[i]);
+        }
+
+        const workCount = doc.data().workTime;
+        const lifeCount = doc.data().lifeTime;
+        const dataItem =
+          workCount === 0 && lifeCount === 0
+            ? -1
+            : (100 * parseFloat(workCount)) /
+              (parseFloat(workCount) + parseFloat(lifeCount));
+
+        arr.push(Math.round(dataItem * 100) / 100);
+        setDataSet(arr);
+      })
+      .then(() => {
+        setLoading(false);
+      });
+  }
+
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      userTasks
-        .get()
-        .then((doc) => {
-          setLoading(true);
-          const temp = doc.data().stonksData;
-          const arr = [];
-
-          for (var i = 0; i < temp.length; i++) {
-            arr.push(temp[i]);
-          }
-
-          const workCount = doc.data().workTime;
-          const lifeCount = doc.data().lifeTime;
-          const dataItem =
-            workCount === 0 && lifeCount === 0
-              ? -1
-              : (100 * parseFloat(workCount)) /
-                (parseFloat(workCount) + parseFloat(lifeCount));
-
-          arr.push(Math.round(dataItem * 100) / 100);
-          setDataSet(arr);
-        })
-        .then(() => {
-          setLoading(false);
-        });
-    });
+    const unsubscribe = navigation.addListener("focus", setData);
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, theme]);
+
+  useEffect(() => {
+    setData(); 
+  }, [theme])
 
   function convertToWork(arr) {
     const converted = [];
