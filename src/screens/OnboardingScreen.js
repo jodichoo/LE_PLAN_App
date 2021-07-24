@@ -17,7 +17,7 @@ function OnboardingScreen(props) {
             [
                 {
                     text: 'Skip',
-                    onPress: () => setIsFirstMobileLogin(false),
+                    onPress: handleFinishTutorial,
                 },
                 {
                     text: 'Cancel', 
