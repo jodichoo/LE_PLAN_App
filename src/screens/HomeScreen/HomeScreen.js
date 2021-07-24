@@ -1,13 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import {
-  FlatList,
-  Keyboard,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Button,
-} from "react-native";
 import { AuthContext } from "../../navigation/AuthProvider";
 import { db } from "../../firebase/config";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -17,11 +8,10 @@ import FriendsTab from "../../components/FriendsTab";
 import { Ionicons } from '@expo/vector-icons'; 
 import moment from "moment";
 
-const HomeScreen = ({ navigation }) => {
-  const { currentUser, logout } = useContext(AuthContext);
+const HomeScreen = () => {
+  const { currentUser } = useContext(AuthContext);
   const currDate = moment().format("YYYY-MM-DD");
   const [selectedDate, setSelectedDate] = useState(currDate);
-  const [error, setError] = useState("");
   const [tasks, setTasks] = useState([]);
   const [todayTasks, setTodayTasks] = useState([]);
   const [dateTimer, setDateTimer] = useState(moment().date()); 
