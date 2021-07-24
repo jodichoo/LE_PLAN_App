@@ -333,7 +333,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
   },
-
+  buttonStyle: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 6,
+    borderStyle: 'solid', 
+    borderWidth: 1, 
+    borderColor: dark ? 'whitesmoke' : 'black',
+  },
   buttonText: {
     color: dark ? "black" : "whitesmoke",
     fontSize: 14,
@@ -344,6 +351,15 @@ const styles = StyleSheet.create({
   return (
     <ScrollView contentContainerStyle={styles.container}>
       { error && <View style={styles.error}><Text style={styles.errorText}>{error}</Text></View> }
+      { edit && 
+        <View style={styles.buttons}>
+          <Pressable style={{...styles.buttonStyle, backgroundColor: isWork ? 'black' : 'pink'}} onPress={() => setIsWork(true)}>
+            <Text style={{...styles.buttonText, color: isWork ? 'whitesmoke' : 'black'}}>Work</Text>
+          </Pressable>
+          <Pressable style={{...styles.buttonStyle, backgroundColor: !isWork ? 'black' : 'turquoise'}} onPress={() => setIsWork(false)}>
+            <Text style={{...styles.buttonText, color: !isWork ? 'whitesmoke' : 'black'}}>Play</Text>
+          </Pressable>
+        </View>}
       <View style={styles.field}>
         <Text style={styles.text}>Task Name: </Text>
         <TextInput
