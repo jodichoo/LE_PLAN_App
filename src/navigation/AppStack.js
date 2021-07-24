@@ -8,7 +8,8 @@ import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import FriendProfile from "../screens/FriendProfile";
 import { ThemeContext } from "../theme/ThemeContext";
-import { Text, Image, Switch, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Text, Image, Switch } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -25,7 +26,7 @@ const AppStack = () => {
   const Stack = createStackNavigator();
 
   useEffect(() => {
-    console.log("get theme")
+    console.log("get theme");
     userTasks.get().then((doc) => {
       toggleDark(doc.data().dark);
     });
@@ -62,23 +63,39 @@ const AppStack = () => {
           <DrawerItemList {...props} />
           <DrawerItem
             label={() => (
-              <DrawerContentScrollView contentContainerStyle={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
-              <Text style={{color: theme.color, fontWeight: '600'}}>Dark Mode{' '}</Text>
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={dark ? "whitesmoke" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggle}
-                value={dark}
-              />
+              <DrawerContentScrollView
+                contentContainerStyle={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: theme.color, fontWeight: "600" }}>
+                  Dark Mode{" "}
+                </Text>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={dark ? "whitesmoke" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggle}
+                  value={dark}
+                />
               </DrawerContentScrollView>
             )}
           />
         </DrawerContentScrollView>
 
         <DrawerItem
-          label={() => <Text style={{ color: "white", fontWeight: '600', fontSize: 16 }}>Logout</Text>}
-          style={{ backgroundColor: "pink", marginBottom: 30 }}
+          label={() => (
+            <Text style={{ color: "white", fontWeight: "600", fontSize: 16 }}>
+              Logout
+            </Text>
+          )}
+          style={{
+            backgroundColor: dark ? "#8B0000" : "crimson",
+            marginBottom: 30,
+          }}
           onPress={logout}
         />
       </DrawerContentScrollView>
@@ -90,13 +107,48 @@ const AppStack = () => {
       <Drawer.Navigator
         initialRouteName="Home"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
-        drawerContentOptions= {{
-          activeTintColor: 'turquoise'
+        drawerContentOptions={{
+          activeTintColor: "#00CED1",
         }}
       >
-        <Drawer.Screen name="Profile" component={ProfileScreen} />
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Settings">
+        <Drawer.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="person-outline"
+                size={size}
+                color={focused ? "#7cc" : "#ccc"}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="home-outline"
+                size={size}
+                color={focused ? "#7cc" : "#ccc"}
+              />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Settings"
+          options={{
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name="settings-outline"
+                size={size}
+                color={focused ? "#7cc" : "#ccc"}
+              />
+            ),
+          }}
+        >
           {(props) => <SettingsScreen {...props} setDef={setDef} />}
         </Drawer.Screen>
       </Drawer.Navigator>
