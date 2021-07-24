@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "./AuthProvider";
+import { db } from "../firebase/config";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
@@ -16,10 +17,19 @@ import {
 
 const AppStack = () => {
   const { currentUser, logout } = useContext(AuthContext);
+  const userTasks = db.collection("users").doc(currentUser.uid);
+  const { dark, theme, toggle, toggleDark } = useContext(ThemeContext);
+  const [def, setDef] = useState(false);
+
   const Drawer = createDrawerNavigator();
   const Stack = createStackNavigator();
-  const [def, setDef] = useState(false);
-  const { dark, theme, toggle } = useContext(ThemeContext);
+
+  useEffect(() => {
+    console.log("get theme")
+    userTasks.get().then((doc) => {
+      toggleDark(doc.data().dark);
+    });
+  }, []);
 
   function CustomDrawerContent(props) {
     return (

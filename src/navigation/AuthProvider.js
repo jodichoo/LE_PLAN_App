@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from "react";
 import "@firebase/auth";
 import "@firebase/firestore";
 import firebase from "firebase/app";
+import { ThemeContext } from "../theme/ThemeContext";
 export const AuthContext = createContext();
 
 export function useAuth() {
@@ -14,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [displayName, setDisplayName] = useState("User");
   const [bio, setBio] = useState("I am Groot");
   const [isFirstLogin, setIsFirstLogin] = useState(false); //only change this to true if registration happens
+  const { dark } = useContext(ThemeContext);
 
   return (
     <AuthContext.Provider
@@ -60,6 +62,7 @@ export const AuthProvider = ({ children }) => {
                     storedDate: "2021-05-31",
                     bio: "I.am.Groot",
                     displayName: display,
+                    dark: true,
                     photoURL: "https://i.stack.imgur.com/l60Hf.png",
                     username: un,
                     workTime: 0,
@@ -99,7 +102,15 @@ export const AuthProvider = ({ children }) => {
         },
         logout: async () => {
           try {
+            console.log("update theme")
             await firebase.auth().signOut();
+            await firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(currentUser.uid)
+                  .update({
+                    dark: dark,
+                  })
           } catch (e) {
             console.log(e);
           }

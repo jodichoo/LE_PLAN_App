@@ -5,6 +5,7 @@ import { ThemeProvider } from "./src/theme/ThemeContext";
 
 const App = () => {
   LogBox.ignoreLogs(["Setting a timer"]);
+  
   return (
     <ThemeProvider>
       <Providers />
