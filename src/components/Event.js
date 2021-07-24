@@ -4,7 +4,11 @@ import { db } from "../firebase/config";
 import { ThemeContext } from "../theme/ThemeContext";
 import TaskForm from "./TaskForm";
 import moment from "moment";
-import { AntDesign, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  AntDesign,
+  Octicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import {
   StyleSheet,
   Text,
@@ -12,9 +16,9 @@ import {
   View,
   Modal,
   Pressable,
-  Alert
+  Alert,
 } from "react-native";
-import CheckBox from 'react-native-check-box'
+import CheckBox from "react-native-check-box";
 
 function Event(props) {
   const { selectedDate, task } = props;
@@ -81,113 +85,122 @@ function Event(props) {
 
   const styles = StyleSheet.create({
     taskWDesc: {
-      flexDirection: 'column', 
-      marginVertical: 4, 
+      flexDirection: "column",
+      marginVertical: 4,
     },
-  
+
     task: {
       padding: 1.6,
       width: "100%",
       flexDirection: "row",
-      justifyContent: 'space-evenly',
+      justifyContent: "space-evenly",
     },
-  
+
     taskName: {
       flex: 0.5,
       alignItems: "center",
       justifyContent: "center",
     },
-  
+
     taskField: {
       flex: 0.1,
       alignItems: "center",
       justifyContent: "center",
     },
-  
+
     deleteButton: {
       flex: 0.1,
       alignItems: "center",
       justifyContent: "center",
     },
-  
+
     taskDesc: {
-      alignItems: 'center'
+      alignItems: "center",
     },
-  
+
     text: {
       fontSize: 17,
       color: theme.color,
     },
-  
+
     bolded: {
       fontWeight: "bold",
       fontSize: 14.5,
+      color: theme.color,
     },
 
     time: {
-      fontWeight: 'bold', 
+      fontWeight: "bold",
       fontSize: 12,
       color: theme.color,
-    }
+    },
   });
 
   const deleteWarning = () => {
-    Alert.alert(
-      'Delete Task',
-      'Are you sure you want to delete this task?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-          onPress: () => console.log('cancel'), 
-        }, 
-        {
-          text: 'Delete', 
-          onPress: () => deleteTask(task),
-        }
-      ]
-    );
-  }
+    Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+        onPress: () => console.log("cancel"),
+      },
+      {
+        text: "Delete",
+        onPress: () => deleteTask(task),
+      },
+    ]);
+  };
 
   return (
     <>
-    <View style={styles.taskWDesc}>
-      <View style={styles.task}>
-        <TouchableOpacity
-          onLongPress={() => triggerEdit(task)}
-          onPress={() => toggleDesc()}
-          style={styles.task}
-        >
-          <View style={styles.taskField}>
-            <CheckBox
-              isChecked={task.isComplete}
-              onClick={() => handleCheck(task)}
-              checkBoxColor={theme.color}
-            />
-          </View>
-          <View style={styles.taskField}>
-            <Text style={styles.time}>{convertTime(task.time)}</Text>
-          </View>
-          <View style={styles.taskName}>
-            <Text style={styles.text}>{task.name}</Text>
-          </View>
-          <View style={styles.taskField}>
-            {task.isWork ? <Octicons name="briefcase" size={20} color="pink" /> : <MaterialCommunityIcons name="gamepad-variant" size={23} color="turquoise" />}
-          </View>
-          <View style={styles.deleteButton}>
-            {/* <Button title="Delete" onPress={() => deleteTask(task)} /> */}
-            <Pressable  onPress={deleteWarning}>
-              <AntDesign name='delete' size={17} color={dark ? "whitesmoke" : "grey"}/>
-            </Pressable>
-            
-          </View>
-        </TouchableOpacity>
-        
-      </View>
-      {showDesc && <View style={styles.taskDesc}>
+      <View style={styles.taskWDesc}>
+        <View style={styles.task}>
+          <TouchableOpacity
+            onLongPress={() => triggerEdit(task)}
+            onPress={() => toggleDesc()}
+            style={styles.task}
+          >
+            <View style={styles.taskField}>
+              <CheckBox
+                isChecked={task.isComplete}
+                onClick={() => handleCheck(task)}
+                checkBoxColor={theme.color}
+              />
+            </View>
+            <View style={styles.taskField}>
+              <Text style={styles.time}>{convertTime(task.time)}</Text>
+            </View>
+            <View style={styles.taskName}>
+              <Text style={styles.text}>{task.name}</Text>
+            </View>
+            <View style={styles.taskField}>
+              {task.isWork ? (
+                <Octicons name="briefcase" size={20} color="pink" />
+              ) : (
+                <MaterialCommunityIcons
+                  name="gamepad-variant"
+                  size={23}
+                  color="turquoise"
+                />
+              )}
+            </View>
+            <View style={styles.deleteButton}>
+              {/* <Button title="Delete" onPress={() => deleteTask(task)} /> */}
+              <Pressable onPress={deleteWarning}>
+                <AntDesign
+                  name="delete"
+                  size={17}
+                  color={dark ? "whitesmoke" : "grey"}
+                />
+              </Pressable>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {showDesc && (
+          <View style={styles.taskDesc}>
             <Text style={styles.bolded}>{task.desc}</Text>
-          </View>}
-    </View>
+          </View>
+        )}
+      </View>
 
       <Modal transparent={true} visible={edit}>
         <TouchableOpacity
@@ -199,7 +212,7 @@ function Event(props) {
             onPress={() => console.log("")}
             activeOpacity={1}
             style={{
-              backgroundColor: "#ffffff",
+              backgroundColor: dark ? theme.backgroundCard : "whitesmoke",
               margin: 50,
               padding: 40,
               borderRadius: 10,
@@ -215,10 +228,8 @@ function Event(props) {
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
-      </>
+    </>
   );
 }
 
 export default Event;
-
-
