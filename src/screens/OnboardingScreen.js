@@ -1,10 +1,14 @@
 import { Image } from 'react-native';
 import React from 'react';
+import { useAuth } from "../navigation/AuthProvider";
 import Onboarding from 'react-native-onboarding-swiper';
 import { Alert } from 'react-native';
+import { db } from "../firebase/config";
 
 function OnboardingScreen(props) {
-    const { isFirstLogin, setIsFirstLogin } = props; 
+    const { currentUser } = useAuth(); 
+    const { isFirstMobileLogin, setIsFirstMobileLogin } = props; 
+    const userTasks = db.collection("users").doc(currentUser.uid);
 
     const SkipAlert = () => {
         Alert.alert(
@@ -13,7 +17,7 @@ function OnboardingScreen(props) {
             [
                 {
                     text: 'Skip',
-                    onPress: () => setIsFirstLogin(false),
+                    onPress: () => setIsFirstMobileLogin(false),
                 },
                 {
                     text: 'Cancel', 
@@ -24,9 +28,17 @@ function OnboardingScreen(props) {
         );
     }
 
+    function handleFinishTutorial() {
+        setIsFirstMobileLogin(false); 
+        userTasks
+            .update({
+                firstMobileLogin: false
+            })
+    }
+
     return (
         <Onboarding 
-            onDone={() => setIsFirstLogin(false)}
+            onDone={handleFinishTutorial}
             onSkip={SkipAlert}
             pages={[
             {

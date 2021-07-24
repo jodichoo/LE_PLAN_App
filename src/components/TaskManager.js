@@ -19,11 +19,12 @@ import {
 
 function TaskManagerTab(props) {
   const { setTasks, tasks, selectedDate, dateTimer } = props;
-  const { currentUser, isFirstLogin, setIsFirstLogin } = useAuth();
+  const { currentUser } = useAuth();
   const { dark, theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [showAdd, setShowAdd] = useState(false);
   const [storedDate, setStoredDate] = useState('');
+  const [isFirstMobileLogin, setIsFirstMobileLogin] = useState(false); 
 
   useEffect(() => {
     console.log('setting stored date');
@@ -33,10 +34,10 @@ function TaskManagerTab(props) {
         if (doc.exists) {
           //account details exist
           setStoredDate(doc.data().storedDate);
+          setIsFirstMobileLogin(doc.data().firstMobileLogin); 
         }
       })
   }, [dateTimer]);
-
 
   function separateTasks(arr) {
     const len = arr.length;
@@ -63,8 +64,8 @@ function TaskManagerTab(props) {
     );
   }
 
-  return ( isFirstLogin
-      ? <OnboardingScreen isFirstLogin={isFirstLogin} setIsFirstLogin={setIsFirstLogin}/> 
+  return ( isFirstMobileLogin
+      ? <OnboardingScreen isFirstMobileLogin={isFirstMobileLogin} setIsFirstMobileLogin={setIsFirstMobileLogin}/> 
       : 
     <View style={styles.container}>
     {/* <OnboardingScreen /> */}

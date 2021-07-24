@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState("User");
   const [displayName, setDisplayName] = useState("User");
   const [bio, setBio] = useState("I am Groot");
-  const [isFirstLogin, setIsFirstLogin] = useState(false); //only change this to true if registration happens
   const { dark } = useContext(ThemeContext);
 
   return (
@@ -23,16 +22,12 @@ export const AuthProvider = ({ children }) => {
         currentUser,
         setCurrentUser,
         username,
-        isFirstLogin,
-        setIsFirstLogin, 
         login: async (email, password) => {
-            setIsFirstLogin(false);
             await firebase.auth().signInWithEmailAndPassword(email, password);
         },
         register: async (email, password, un, display) => {
           setDisplayName(display); 
           setUsername(un);
-          setIsFirstLogin(true); //user just registered, so show the walkthrough
           try {
             await firebase
               .auth()
@@ -68,6 +63,7 @@ export const AuthProvider = ({ children }) => {
                     workTime: 0,
                     lifeTime: 0,
                     friends: [],
+                    firstMobileLogin: true, 
                   })
                   .then(() => {
                     console.log("set user data");
