@@ -1,42 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAuth } from "../navigation/AuthProvider";
 import { db } from "../firebase/config";
 import { Text, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/core";
+import { ThemeContext } from "../theme/ThemeContext";
 
 function Stonker() {
   const { currentUser } = useAuth();
+  const navigation = useNavigation();
+  const { theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
-  const [dataSet, setDataSet] = useState([-1,-1,-1,-1,-1]);
+  const [dataSet, setDataSet] = useState([-1, -1, -1, -1, -1]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    userTasks
-      .get()
-      .then((doc) => {
-        const temp = doc.data().stonksData;
-        const arr = [];
+    const unsubscribe = navigation.addListener("focus", () => {
+      userTasks
+        .get()
+        .then((doc) => {
+          setLoading(true);
+          const temp = doc.data().stonksData;
+          const arr = [];
 
-        for (var i = 0; i < temp.length; i++) {
-          arr.push(temp[i]);
-        }
+          for (var i = 0; i < temp.length; i++) {
+            arr.push(temp[i]);
+          }
 
-        const workCount = doc.data().workTime;
-        const lifeCount = doc.data().lifeTime;
-        const dataItem =
-          workCount === 0 && lifeCount === 0
-            ? -1
-            : (100 * parseFloat(workCount)) /
-              (parseFloat(workCount) + parseFloat(lifeCount));
+          const workCount = doc.data().workTime;
+          const lifeCount = doc.data().lifeTime;
+          const dataItem =
+            workCount === 0 && lifeCount === 0
+              ? -1
+              : (100 * parseFloat(workCount)) /
+                (parseFloat(workCount) + parseFloat(lifeCount));
 
-        arr.push(Math.round(dataItem * 100) / 100);
-        setDataSet(arr);
-      })
-      .then(() => {
-        setLoading(false);
-      });
-  }, []);
+          arr.push(Math.round(dataItem * 100) / 100);
+          setDataSet(arr);
+        })
+        .then(() => {
+          setLoading(false);
+        });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   function convertToWork(arr) {
     const converted = [];
@@ -51,41 +60,35 @@ function Stonker() {
     return converted;
   }
 
-  function convertToPlay(arr) {
-    const converted = [];
-
-    for (var i = 0; i < dataSet.length; i++) {
-      const curr = arr[i];
-      if (curr === -1) {
-        converted.push(0);
-      } else {
-        const n = 100 - parseFloat(curr);
-        converted.push(Math.round(n * 100) / 100);
-      }
-    }
-
-    return converted;
-  }
-
   return (
     <View style={styles.stonks}>
+      <Text
+        style={{
+          fontSize: 30,
+          fontWeight: "700",
+          alignSelf: "flex-start",
+          color: theme.color,
+          textDecorationLine: "underline",
+          marginBottom: 10,
+        }}
+      >
+        Progress Chart
+      </Text>
+      {/* <Text style={{ fontSize: 15, color: "gray" }}>
+        Track your progress through the weeks and plan ahead to manage your time
+        and reach your goals :)
+      </Text> */}
       {loading || (
         <LineChart
           data={{
-            labels: ["", "", "", "", "This week"],
+            labels: ["One month ago", "", "", "", "This week"],
             datasets: [
               {
                 data: convertToWork(dataSet),
-                name: 'Work',
+                name: "Work",
                 color: (opacity = 1) => `rgba(255, 192, 203, ${opacity})`,
               },
-              {
-                data: convertToPlay(dataSet),
-                name: 'Play',
-                color: (opacity = 1) => `rgba(64, 224, 208, ${opacity})`,
-              }
             ],
-            legend: ["Play","Work"],
           }}
           width={Dimensions.get("window").width * 0.88} // from react-native
           height={220}
@@ -96,7 +99,7 @@ function Stonker() {
             backgroundColor: "#e26a00",
             backgroundGradientFrom: "#000000",
             backgroundGradientTo: "#000000",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 1, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
@@ -108,22 +111,27 @@ function Stonker() {
               stroke: "#000000",
             },
             propsForLabels: {
-              fontWeight: '600',
-            }, 
+              fontWeight: "600",
+            },
           }}
           bezier
           style={{
-            borderColor: 'black',
-            borderStyle: 'solid',
+            borderColor: "black",
+            borderStyle: "solid",
             borderWidth: 2,
             marginVertical: 8,
             borderRadius: 10,
             paddingVertical: 8,
             paddingHorizontal: 3,
-            backgroundColor: 'black',
+            backgroundColor: "black",
           }}
         />
       )}
+      <Text style={{ fontSize: 13, color: "gray" }}>
+        *This chart shows the percentage of{" "}
+        <Text style={{ fontWeight: "bold" }}>work</Text> you did relative to all
+        the time you've spent on each event!
+      </Text>
     </View>
   );
 }
@@ -135,8 +143,8 @@ const styles = {
     width: "88%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: 30,
     marginBottom: 20,
     flex: 1,
   },
-}
+};

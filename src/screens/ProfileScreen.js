@@ -6,17 +6,19 @@ import { ThemeContext } from "../theme/ThemeContext";
 import { Text, View, Image, Pressable, ScrollView } from "react-native";
 import Stonker from "../components/Stonker";
 import { Feather } from "@expo/vector-icons";
+import { Octicons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 function ProfileScreen() {
   const { currentUser } = useAuth();
   const navigation = useNavigation();
-  const { dark, theme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const userTasks = db.collection("users").doc(currentUser.uid);
   const [useDefault, setUseDefault] = useState(false);
   const [username, setUsername] = useState("default");
   const [loading, setLoading] = useState(true);
   const [target, setTarget] = useState(undefined);
   const [bio, setBio] = useState("");
+  const [currWork, setCurrWork] = useState(0);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -25,6 +27,14 @@ function ProfileScreen() {
         .then((doc) => {
           setUsername(doc.data().username);
           setBio(doc.data().bio);
+          const workCount = doc.data().workTime;
+          const lifeCount = doc.data().lifeTime;
+          const dataItem =
+            (100 * parseFloat(workCount)) /
+            (parseFloat(workCount) + parseFloat(lifeCount));
+
+          setCurrWork(Math.round(dataItem * 100) / 100);
+          console.log(currWork)
           if (doc.data().targetWorkRange !== undefined) {
             setTarget(doc.data().targetWorkRange);
           }
@@ -85,13 +95,13 @@ function ProfileScreen() {
     },
     bio: {
       fontSize: 30,
-      fontStyle:'italic',
-      color: theme.color
+      fontStyle: "italic",
+      color: theme.color,
     },
     displayName: {
       fontSize: 45,
       fontWeight: "600",
-      color: theme.color
+      color: theme.color,
     },
     imgContainer: {
       backgroundColor: "white",
@@ -116,15 +126,17 @@ function ProfileScreen() {
     target: {
       fontSize: 16,
       fontWeight: "300",
-      color: theme.color
+      color: theme.color,
     },
   };
-  
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={{ fontSize: 48, fontWeight: "700", color: theme.color }}>Profile</Text>
+          <Text style={{ fontSize: 48, fontWeight: "700", color: theme.color }}>
+            Profile
+          </Text>
           <Pressable onPress={goToSettings}>
             <Feather name="edit-3" size={35} color="gray" />
           </Pressable>
@@ -144,11 +156,40 @@ function ProfileScreen() {
             ) : (
               <View style={{ marginTop: 8 }}>
                 <Text style={styles.target}>
-                  Target Work: {target[0]}%-{target[1]}%
+                  <Octicons name="briefcase" size={20} color="pink" /> Your Work
+                  Target: {target[0]}%-{target[1]}%
                 </Text>
-                <Text style={styles.target}>
-                  Target Play: {100 - target[1]}%-{100 - target[0]}%
-                </Text>
+                <View style={{ alignSelf: "center" }}>
+                  {currWork >= target[0] && currWork <= target[1] ? (
+                    <Text style={styles.target}>
+                      <Ionicons
+                        name="return-down-forward-outline"
+                        size={20}
+                        color={theme.color}
+                      />{" "}
+                      ACHIEVED{" "}
+                      <MaterialCommunityIcons
+                        name="party-popper"
+                        size={20}
+                        color={theme.color}
+                      />
+                    </Text>
+                  ) : (
+                    <Text style={styles.target}>
+                      <Ionicons
+                        name="return-down-forward-outline"
+                        size={20}
+                        color={theme.color}
+                      />{" "}
+                      GETTING THERE{" "}
+                      <MaterialCommunityIcons
+                        name="arm-flex"
+                        size={20}
+                        color={theme.color}
+                      />
+                    </Text>
+                  )}
+                </View>
               </View>
             )}
           </View>
