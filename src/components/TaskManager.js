@@ -6,7 +6,6 @@ import Greeting from "./Greeting";
 import AddTaskBar from "./AddTaskBar";
 import Event from "./Event";
 import Meter from "./Meter";
-import OnboardingScreen from "../screens/OnboardingScreen";
 import { Ionicons } from '@expo/vector-icons'; 
 import {
   StyleSheet,
@@ -64,11 +63,8 @@ function TaskManagerTab(props) {
     );
   }
 
-  return ( isFirstMobileLogin
-      ? <OnboardingScreen isFirstMobileLogin={isFirstMobileLogin} setIsFirstMobileLogin={setIsFirstMobileLogin}/> 
-      : 
+  return (
     <View style={styles.container}>
-    {/* <OnboardingScreen /> */}
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
       <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10, color: theme.color}}>

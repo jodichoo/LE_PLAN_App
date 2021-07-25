@@ -7,6 +7,7 @@ import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import FriendProfile from "../screens/FriendProfile";
+import OnboardingScreen from "../screens/OnboardingScreen";
 import { ThemeContext } from "../theme/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, Image, Switch } from "react-native";
@@ -21,15 +22,21 @@ const AppStack = () => {
   const userTasks = db.collection("users").doc(currentUser.uid);
   const { dark, theme, toggle, toggleDark } = useContext(ThemeContext);
   const [def, setDef] = useState(false);
+  const [isFirstMobileLogin, setIsFirstMobileLogin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const Drawer = createDrawerNavigator();
   const Stack = createStackNavigator();
 
   useEffect(() => {
     console.log("get theme");
-    userTasks.get().then((doc) => {
-      toggleDark(doc.data().dark);
-    });
+    userTasks
+      .get()
+      .then((doc) => {
+        toggleDark(doc.data().dark);
+        setIsFirstMobileLogin(doc.data().firstMobileLogin);
+      })
+      .then(setLoading(false));
   }, []);
 
   function CustomDrawerContent(props) {
@@ -162,7 +169,15 @@ const AppStack = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Home" component={DrawerStack} />
+      {loading || isFirstMobileLogin ? (
+        <Stack.Screen name="Home" children={()=>{
+    return(
+      <OnboardingScreen isFirstMobileLogin={isFirstMobileLogin} setIsFirstMobileLogin={setIsFirstMobileLogin} />
+    )
+   }}/>
+      ) : (
+        <Stack.Screen name="Home" component={DrawerStack} />
+      )}
       <Stack.Screen name="FriendProfile" component={FriendProfile} />
     </Stack.Navigator>
   );
