@@ -171,7 +171,7 @@ const AppStack = () => {
     >
       {loading || isFirstMobileLogin ? (
         <Stack.Screen name="Home" children={()=>{
-    return(
+    return (
       <OnboardingScreen isFirstMobileLogin={isFirstMobileLogin} setIsFirstMobileLogin={setIsFirstMobileLogin} />
     )
    }}/>

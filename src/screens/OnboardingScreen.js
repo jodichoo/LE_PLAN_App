@@ -43,7 +43,7 @@ function OnboardingScreen(props) {
         },
         welcome: {
             width: "100%",
-            height: '100%'
+            height: '100%',
         }
     }
 
@@ -51,12 +51,15 @@ function OnboardingScreen(props) {
         <Onboarding 
             onDone={handleFinishTutorial}
             onSkip={SkipAlert}
+            showSkip={false}
+            showNext={false}
+            bottomBarHighlight={false}
             pages={[
             {
-                backgroundColor: '#fff',
+                backgroundColor: '#680605',
                 image: <Image style={styles.welcome} source={require("../../assets/welcome.png")} />,
-                title: 'Welcome to Le Plan',
-                subtitle: 'pewpewpewpew',
+                // title: 'Welcome to Le Plan',
+                // subtitle: 'pewpewpewpew',
             },
             {
                 backgroundColor: '#fe6e58',
@@ -86,8 +89,8 @@ function OnboardingScreen(props) {
                 subtitle: 'Click on your friend to view their profile',
             },
             {
-                backgroundColor: '#999',
-                image: <Image style={styles.image} source={require('../../assets/defaultProfile.png')} />,
+                backgroundColor: '#333333',
+                // image: <Image style={styles.image} source={require('../../assets/defaultProfile.png')} />,
                 title: 'Get started!',
                 subtitle: "Press on the check button to get started!",
             },
