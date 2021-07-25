@@ -68,7 +68,7 @@ function TaskManagerTab(props) {
       <Greeting selectedDate={selectedDate} storedDate={storedDate} setStoredDate={setStoredDate} dateTimer={dateTimer}/>
       <Meter storedDate={storedDate} />
       <Text style={{fontSize: 18, fontWeight: '600', marginBottom: 10, color: theme.color}}>
-        Here are your tasks for today
+        {tasks.length === 0 ? 'No tasks for today' : 'Here are your tasks for today'}
       </Text>
       <View style={styles.tasksContainer}>
         {separateTasks(tasks)[0].map((task) => renderTask(task))}
