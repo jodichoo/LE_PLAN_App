@@ -121,7 +121,7 @@ function FriendsTab() {
         flex: 0.6,
         flexDirection: "row",
         width: "100%",
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: theme.color,
         borderStyle: "solid",
       },
@@ -129,7 +129,7 @@ function FriendsTab() {
       emptyWrapper: {
         width: "100%",
         flex: 0.6,
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: theme.color,
         borderStyle: "solid",
         alignItems: "center",
@@ -150,7 +150,7 @@ function FriendsTab() {
     return w === 0 && p === 0 ? (
       <>
         <View style={styles.emptyWrapper}>
-          <Text>No tasks for the week!</Text>
+          <Text style={{color: theme.color}}>No tasks for the week!</Text>
         </View>
       </>
     ) : (
