@@ -96,7 +96,7 @@ function SettingsScreen(props) {
       type === success ? (
         <Ionicons name="ios-checkmark-sharp" size={24} color="turquoise" />
       ) : (
-        <Feather name="x" size={24} color="pink" />
+        <Feather name="x" size={24} color="crimson" />
       );
 
     return (
@@ -364,16 +364,17 @@ function SettingsScreen(props) {
       paddingVertical: 5,
       paddingHorizontal: 8,
       borderRadius: 10,
-      borderColor: "black",
+      borderColor: theme.color,
       borderStyle: "solid",
       borderWidth: 1.4,
-      marginBottom: 5,
+      marginBottom: 15,
     },
     notif: {
       marginLeft: 5,
       flex: 1,
       fontSize: 13,
       fontWeight: "600",
+      color: theme.color,
     },
     bio: {
       marginTop: 10,
@@ -393,7 +394,6 @@ function SettingsScreen(props) {
           <View style={styles.header}>
             <Text style={{ fontSize: 48, fontWeight: "700", color: theme.color }}>Settings</Text>
           </View>
-          {/* <View className='back' onClick={history.goBack}><IoChevronBackOutline style={{fontSize: '20px'}}/><text>Back</text></div> */}
 
           {renderNotif(success)}
           {renderNotif(urlError)}
