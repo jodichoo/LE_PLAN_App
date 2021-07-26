@@ -131,8 +131,6 @@ function FriendProfile() {
       backgroundColor: "pink",
       padding: 10,
       borderRadius: 10,
-      // borderWidth: 2,
-      // borderColor: "crimson"
     },
     del: {
       color: "crimson",
