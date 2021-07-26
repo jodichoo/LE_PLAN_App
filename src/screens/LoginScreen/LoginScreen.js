@@ -45,6 +45,7 @@ function LoginScreen({ navigation }) {
             flex: 1,
             width: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.7)",
+            marginTop: 50
           }}
           keyboardShouldPersistTaps="always"
         >

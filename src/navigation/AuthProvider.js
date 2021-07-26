@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext } from "react";
 import "@firebase/auth";
 import "@firebase/firestore";
 import firebase from "firebase/app";
-import { ThemeContext } from "../theme/ThemeContext";
 export const AuthContext = createContext();
 
 export function useAuth() {
@@ -13,8 +12,6 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [username, setUsername] = useState("User");
   const [displayName, setDisplayName] = useState("User");
-  const [bio, setBio] = useState("I am Groot");
-  const { dark } = useContext(ThemeContext);
 
   return (
     <AuthContext.Provider
@@ -100,13 +97,6 @@ export const AuthProvider = ({ children }) => {
           try {
             console.log("update theme")
             await firebase.auth().signOut();
-            await firebase
-                  .firestore()
-                  .collection("users")
-                  .doc(currentUser.uid)
-                  .update({
-                    dark: dark,
-                  })
           } catch (e) {
             console.log(e);
           }

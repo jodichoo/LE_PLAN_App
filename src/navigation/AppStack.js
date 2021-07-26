@@ -39,6 +39,12 @@ const AppStack = () => {
       .then(setLoading(false));
   }, []);
 
+  function updateTheme() {
+    userTasks.update({
+      dark: !dark,
+    })
+  }
+
   function CustomDrawerContent(props) {
     return (
       <DrawerContentScrollView
@@ -85,7 +91,7 @@ const AppStack = () => {
                   trackColor={{ false: "#767577", true: "#81b0ff" }}
                   thumbColor={dark ? "whitesmoke" : "#f4f3f4"}
                   ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggle}
+                  onValueChange={() => {toggle(); updateTheme();}}
                   value={dark}
                 />
               </DrawerContentScrollView>
