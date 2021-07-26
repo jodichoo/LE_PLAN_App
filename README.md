@@ -1,5 +1,61 @@
 [TOC]
-
+- [Introduction](#introduction)
+  - [Web app prototype:](#web-app-prototype)
+  - [Mobile app prototype:](#mobile-app-prototype)
+    - [For iOS: Using Expo Go](#for-ios-using-expo-go)
+    - [For Android: Using Expo Go](#for-android-using-expo-go)
+    - [Demo accounts](#demo-accounts)
+  - [Motivation](#motivation)
+  - [Aim](#aim)
+  - [User Stories](#user-stories)
+- [Features and Usage](#features-and-usage)
+  - [Public Features:](#public-features)
+    - [Landing Page (Web App)](#landing-page-web-app)
+    - [Login Page](#login-page)
+    - [Signup Page](#signup-page)
+  - [Private Features:](#private-features)
+    - [Dashboard (Web App)](#dashboard-web-app)
+    - [Add Taskbar](#add-taskbar)
+    - [Work-Play Meter](#work-play-meter)
+    - [Add Friends Tab](#add-friends-tab)
+    - [Friends Work-Play Board](#friends-work-play-board)
+    - [Friend Profile](#friend-profile)
+    - [Profile Page](#profile-page)
+    - [Weekly Progress Graph](#weekly-progress-graph)
+    - [Settings Page](#settings-page)
+    - [Logout](#logout)
+    - [Task Manager/Today’s Schedule](#task-managertodays-schedule)
+      - [*Mobile App Version*](#mobile-app-version)
+      - [*Web App Version*](#web-app-version)
+      - [Task Display](#task-display)
+      - [Edit Tasks](#edit-tasks)
+      - [Delete Tasks](#delete-tasks)
+      - [Toggle Task Description](#toggle-task-description)
+      - [Complete Tasks](#complete-tasks)
+    - [Calendar Tab](#calendar-tab)
+      - [*Mobile App Version*](#mobile-app-version-1)
+      - [*Web App Version*](#web-app-version-1)
+    - [Upcoming Task](#upcoming-task)
+      - [*Mobile App Version*](#mobile-app-version-2)
+      - [*Web App Version*](#web-app-version-2)
+    - [Dark/Light Mode](#darklight-mode)
+      - [*Mobile App Version*](#mobile-app-version-3)
+      - [*Web App Version*](#web-app-version-3)
+    - [Walkthrough Tutorial](#walkthrough-tutorial)
+      - [*Mobile App Version*](#mobile-app-version-4)
+      - [*Web App Version*](#web-app-version-4)
+- [Project Visualisation](#project-visualisation)
+- [Testing](#testing)
+  - [Heuristic evaluation (Self evaluation)](#heuristic-evaluation-self-evaluation)
+    - [Match between system and the real world](#match-between-system-and-the-real-world)
+    - [Error prevention](#error-prevention)
+    - [Help users recognise, diagnose and recover from errors](#help-users-recognise-diagnose-and-recover-from-errors)
+    - [Visibility of system status](#visibility-of-system-status)
+    - [User control and freedom](#user-control-and-freedom)
+    - [Recognition rather than recall](#recognition-rather-than-recall)
+  - [Usability testing](#usability-testing)
+    - [Feedback and resulting fixes:](#feedback-and-resulting-fixes)
+  - [Features implemented for the current milestone:](#features-implemented-for-the-current-milestone)
 
 
 # Introduction
@@ -8,11 +64,11 @@
 
 LePlan is a multi-platform project. Thus, accounts can be used in both web app and mobile app :)
 
-## **Web app prototype:**
+## Web app prototype:
 
 Please access [LePlan](https://wlbbot-fdd9e.web.app/)
 
-## **Mobile app prototype:**
+## Mobile app prototype:
 
 ### For iOS: Using Expo Go
 
@@ -47,17 +103,17 @@ Please access [LePlan](https://wlbbot-fdd9e.web.app/)
     - Username: bobo
 3. Or create your own! (Highly recommended to get the full experience, especially the mobile app walkthrough)
 
-## **Motivation**
+## Motivation
 
 When you realise by the end of the week that you have more classes to catch up and more assignments to complete than you have time. You wonder where all the time has gone and can only stressfully rush through everything week after week.
 
 Many may have been overwhelmed by the new curriculum and university environment, that they are confused on how to navigate through this semester-style institution and maintain a firm grasp of effective time-management skills as they are caught up with the many Co-Curricular Activities, faculty engagement, school work, socialisation and more. You want to foster new friendships and explore more communities yet at the same time put in your best effort in school rather than rushing your work and study when you are one day or two from the deadline. You ask yourself where has all your time been spent? Why do some people participate in more external activities than you, yet they are still well on task with their education? You really wish that you have a virtual manager that can help you plan and visualise your week so that you can avoid procrastination and portion your time efficiently such that you can have the best of both worlds (work and play) and achieve work-life balance.
 
-## **Aim**
+## Aim
 
 We hope to aid in ease of planning and improve time-management skills through our multi-platform application, and achieve better work-life balance.
 
-## **User Stories**
+## User Stories
 
 1. As a student who is juggling many responsibilities in conjunction with a heavy school workload, I want to be able to plan my tasks quickly and conveniently.
 2. As a student who finds himself feeling stressed and too caught up with work, I want to be able to regulate the time I spend on schoolwork and have some time to relax and engage in my own interests.
@@ -68,9 +124,9 @@ We hope to aid in ease of planning and improve time-management skills through ou
 
 # Features and Usage
 
-## **Public Features:**
+## Public Features:
 
-### **Landing Page (Web App)**
+### Landing Page (Web App)
 
 - New users might not understand the motivation behind our application, as well as what it aims to do. Therefore a landing page was implemented to provide information about our application to potential users.
 - Serves as the homepage of our web application that users will see when they first navigate to the website. 
@@ -78,7 +134,7 @@ We hope to aid in ease of planning and improve time-management skills through ou
 
 
 
-### **Login Page**
+### Login Page
 
 - Page where users with an existing account can log in to use our application. 
 - Users log in with the email and password associated with their existing account. 
@@ -88,7 +144,7 @@ We hope to aid in ease of planning and improve time-management skills through ou
 
 
 
-### **Signup Page**
+### Signup Page
 
 - Page where users without an existing account can create their own account for our application. 
 - Users sign up by choosing a unique username, a display name, their email and password. 
@@ -100,9 +156,10 @@ We hope to aid in ease of planning and improve time-management skills through ou
 
 
 
-## **Private Features:**
+## Private Features:
 
-### **Dashboard (Web App)**![img](https://lh4.googleusercontent.com/xgyWvax7u-wlcYLLHf4p4SWM4zSHG3JzMlhRm5WzA4eGC_et2eL3Mgq106fdo8WaXj2HAEBfDyObrLy2fXJHMh5y8nMGS89JUf7i2-ljooo4rAxf8Ml9ku7VZ0GlXg_AzgbBG2ED)
+### Dashboard (Web App)
+![img](https://lh4.googleusercontent.com/xgyWvax7u-wlcYLLHf4p4SWM4zSHG3JzMlhRm5WzA4eGC_et2eL3Mgq106fdo8WaXj2HAEBfDyObrLy2fXJHMh5y8nMGS89JUf7i2-ljooo4rAxf8Ml9ku7VZ0GlXg_AzgbBG2ED)
 
 - The ‘main page’ of our web application.
 
@@ -122,7 +179,7 @@ We hope to aid in ease of planning and improve time-management skills through ou
 
 
 
-### **Add Taskbar**
+### Add Taskbar
 
 Web: <img src="https://lh5.googleusercontent.com/Nh433L_H3jzB0mm7ffVk-JPf2co_PyaRfK1FhaYjkXZhiFCh72ilt_UOaSed-XeP7kUq8DqJNWvWL1P22uzuRwVVrUmT20ZEJ3nsD5Hio4o14k_3Oj8JNqf6ieOSz1GSBo_Lrf0W" alt="img" style="zoom: 67%;" />  Mobile: <img src="https://lh4.googleusercontent.com/uvsUiX4YMRReCTsP3-DtFjGEusN6Bkdt_wkJiG36Oa9cCRAvhWkw_ZDNQ3O6zKNwC3gLX-6sUvl8yt7yOZM8OdnQ4faoDRunUh-vEfM53sCgwCsa27QmF6RYyOjm86rxnosnDTmn" alt="img" style="zoom:25%;" />
 
@@ -140,7 +197,7 @@ Web: <img src="https://lh5.googleusercontent.com/Nh433L_H3jzB0mm7ffVk-JPf2co_Pya
 
 
 
-### **Work-Play Meter**
+### Work-Play Meter
 
 - Implemented to show the current user of their work-play ratio for the current week (starting monday to sunday).
 
@@ -173,7 +230,7 @@ Web: <img src="https://lh5.googleusercontent.com/Nh433L_H3jzB0mm7ffVk-JPf2co_Pya
 
 
 
-### **Add Friends Tab**
+### Add Friends Tab
 
 ![img](https://lh5.googleusercontent.com/5LiOUuCE7tgkxILnuhaP43MIEtjvxyds5PhvKEsP2WXNK0_x_7feyUEYFVc5yVMoSo7Srs34v1mWJYVNHKPuqH7cUsXbSphjRLpFzyH_ky-i-rFkAJcQNng8ecqHiOVf_xkoDioG)
 
@@ -194,7 +251,7 @@ Web: <img src="https://lh5.googleusercontent.com/Nh433L_H3jzB0mm7ffVk-JPf2co_Pya
 
 
 
-### **Friends Work-Play Board**
+### Friends Work-Play Board
 
 ![img](https://lh6.googleusercontent.com/C751Ac48dKEiUSmSg2UcC1F3YDTzkUjcEQJFXFdmx5_czGqQXAk6X8PRStBz7ds1p04y-waq_W1JQKhjAb2MqB13OjJ_MD2fh7Nf9KiSMyq4vcZxOyOhO0kN-HqoR2GPcJVYjZ8g)![img](https://lh4.googleusercontent.com/-kqOkdafChgAiuTMh9159QRFVLahID2S5nZ5FpCWV-WyCSkB_nfwPF4kMLBvOhoi7fEndcNfWihcsGJWaL9h0pPtSIM087s5u0pEao6wuqi7YxHx_4Mrz554yjH0utrknNbP27Hz)
 
@@ -208,7 +265,7 @@ Web: <img src="https://lh5.googleusercontent.com/Nh433L_H3jzB0mm7ffVk-JPf2co_Pya
 
 
 
-### **Friend Profile**
+### Friend Profile
 
 Web: <img src="https://lh4.googleusercontent.com/KPAxZlC5Ig6zP3OwWSsQjqwEAHZaJ2dFo_OR-deh_DMUnGr_kxo8WhjSQS0rK-8xIIddrJcZHqU03b4b5-tkN2_1sbiYx1w6hG5DuLs8UfEms-TgLxvcO1J5fFYzUx8acucuI3aA" alt="img"  /> Mobile: <img src="https://lh5.googleusercontent.com/aRRfBKJF0rEPOIrRbGVHBa8Hbv6MRziBKaKxUgAohnWk_ShOTDvgwdffGiekqun9AFXlrtEDnBQ8nbTVI-gaAbgom6O88VGPNEIewfd_4uS55RVEILZb0tRNJRB5YJJqcooGTu2D" alt="img" style="zoom: 25%;" />
 
@@ -222,7 +279,7 @@ Web: <img src="https://lh4.googleusercontent.com/KPAxZlC5Ig6zP3OwWSsQjqwEAHZaJ2d
 
 
 
-### **Profile Page**
+### Profile Page
 
 -  Web: <img src="https://lh3.googleusercontent.com/_P040E1k1YwE94DwWpaISoOK7d-UF8wR-Sxa0m7inLcZyGAi-CfpnxIBmtnAFQhSLo8HznLM5MTkuRK52JA-43PUBZW7psg_BBRha1n6RWF5l3KigpTlesbonT3k2Dvu-OePO4z5" alt="img" style="zoom: 50%;" />  Mobile: <img src="https://lh5.googleusercontent.com/ImoaRnX0OjrI5gHqcnUsgHRBvpd9uRsXt9YDTgbMryk0WUn9zWbuRly4_XL1lQCUIXH-f8R3_ChNQYJyjWgBcGZfBS5DwhUu7FjRmhhfWBF0o7ib977LKdRDVIvOfDOkZkDzu0Ru" alt="img" style="zoom:33%;" />
     - Implemented so that users can view their account information.
@@ -235,7 +292,7 @@ Web: <img src="https://lh4.googleusercontent.com/KPAxZlC5Ig6zP3OwWSsQjqwEAHZaJ2d
 
 
 
-### **Weekly Progress Graph**
+### Weekly Progress Graph
 
 Web: <img src="https://lh5.googleusercontent.com/NFM1QGGeccUow0z6y6mrBvQK8rh-ll2EeASaDmkKzDjY8Pdmnc8ABcF3aJME-acwjGtKfMFdwd8v9mgOzsacV2LiFGlBZN8F1x8x5GhGpjAB3o4fFfMuKwxzLPA7f2BndfDvKkmG" alt="img" style="zoom:33%;" />Mobile:<img src="https://lh4.googleusercontent.com/A6F48NbUC9WRrSl9W8gfRKBJ30q52J76q4ABNXZqwqi_KieO2PJyoeIwWtQzx-_vlDkb9gpDcuFfPQHnHEqXjvmBtOVJo8f2lpDj6dd5jdsRmLLr-w3dEmOPkjIdZo5DXAYC6haH" alt="img" style="zoom: 25%;" />
 
@@ -256,7 +313,7 @@ Web: <img src="https://lh5.googleusercontent.com/NFM1QGGeccUow0z6y6mrBvQK8rh-ll2
 
 
 
-### **Settings Page**
+### Settings Page
 
 Web: <img src="https://lh3.googleusercontent.com/MN2au-sp9K2e2AfUq6QpapOuKHyikyuRoUQ75-6RY1-d6peDToJpqkRjb5DxtK_Polzx_j4QnmHooFnC4zjwNRJlgqLRGy6UW0sJcGPc87Or3vVuGE1_iUu_hl2eOvSdtWeOQ_aT" alt="img" style="zoom: 33%;" />        Mobile: <img src="https://lh3.googleusercontent.com/cYCiEI1zgifwwfpUvqtWyb0BjBThFmiiF5TPOO4w0lQ2mWFu8bTF7T3RZCdrMQUXivRsA84cfeOpK9mn4cuwh1dVsEQMI5_DP3RHrm7dKk09VSyHF6VP9dziwvIiQPibSNZ-K7mD" alt="img" style="zoom:33%;" />
 
@@ -271,7 +328,7 @@ Web: <img src="https://lh3.googleusercontent.com/MN2au-sp9K2e2AfUq6QpapOuKHyikyu
 
 
 
-### **Logout**
+### Logout
 
 -  Allows users to log out of their account once they are done with their session. 
 - Location:
@@ -282,7 +339,7 @@ Web: <img src="https://lh3.googleusercontent.com/MN2au-sp9K2e2AfUq6QpapOuKHyikyu
 
 ***In this section, we clarify the differences in the implementation of certain features in the Mobile App and Web App.***
 
-### **Task Manager/Today’s Schedule**
+### Task Manager/Today’s Schedule
 
 #### *Mobile App Version*
 
@@ -363,7 +420,7 @@ Web: <img src="https://lh3.googleusercontent.com/MN2au-sp9K2e2AfUq6QpapOuKHyikyu
 
 
 
-### **Calendar Tab**
+### Calendar Tab
 
 #### *Mobile App Version*
 
@@ -403,7 +460,7 @@ Web: <img src="https://lh3.googleusercontent.com/MN2au-sp9K2e2AfUq6QpapOuKHyikyu
 
 
 
-### **Upcoming Task**
+### Upcoming Task
 
 #### *Mobile App Version*
 
@@ -422,7 +479,7 @@ We decided that since we already have a Today’s Schedule tab and tasks for oth
 
 
 
-### **Dark/Light Mode**
+### Dark/Light Mode
 
 #### *Mobile App Version*
 
@@ -434,7 +491,7 @@ The web app is in permanent dark mode.
 
 
 
-### **Walkthrough Tutorial**
+### Walkthrough Tutorial
 
 #### *Mobile App Version*
 
@@ -464,7 +521,7 @@ Tooltips will contain information about gestures that can be performed on the co
 
 # Testing
 
-## **Heuristic evaluation (Self evaluation)**
+## Heuristic evaluation (Self evaluation)
 
 Conducted heuristic evaluation based on Nielsen’s heuristics for usability:
 
@@ -505,7 +562,7 @@ The user is given a warning when they are about to delete a task, and is able to
 
 
 
-## **Usability testing** 
+## Usability testing
 
 Conducted usability testing of our web and mobile application prototype with a few friends. 
 
@@ -566,7 +623,7 @@ Conducted usability testing of our web and mobile application prototype with a f
     - If the user created their account on the web application, the tutorial would not show up when they use the mobile application 
     - To fix this, we stored a boolean in the database that indicates their first mobile login. This will be set to false once the tutorial in the mobile app is viewed from their account. 
 
-## **Features implemented for the current milestone:**
+## Features implemented for the current milestone:
 
 1. Settings page that allows users to change their account info
 2. Profile page that displays account info (i.e. profile pic, display name, username) 
