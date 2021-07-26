@@ -78,7 +78,7 @@ function Stonker() {
           marginBottom: 10,
         }}
       >
-        Progress Chart
+        Weekly Progress
       </Text>
       {/* <Text style={{ fontSize: 15, color: "gray" }}>
         Track your progress through the weeks and plan ahead to manage your time
@@ -135,7 +135,7 @@ function Stonker() {
       )}
       <Text style={{ fontSize: 13, color: "gray" }}>
         *This chart shows the percentage of{" "}
-        <Text style={{ fontWeight: "bold" }}>work</Text> you did relative to all
+        <Text style={{ fontWeight: "bold", color: "#AC6171" }}>work</Text> you did relative to all
         the time you've spent on each event!
       </Text>
     </View>

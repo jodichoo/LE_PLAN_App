@@ -179,7 +179,7 @@ function FriendsTab() {
         style={styles.friend}
         onPress={() => goToFriendProfile(friendObj.friend)}
       >
-        <Text style={{ fontSize: 18, fontWeight: "300", flex: 0.4, color:theme.color }}>
+        <Text style={{ fontSize: 18, fontWeight: "600", flex: 0.4, color:theme.color }}>
           {friendObj.friend}
         </Text>
         {renderMeter(friendObj.work, friendObj.play)}
@@ -202,7 +202,7 @@ function FriendsTab() {
   
     text: {
       fontSize: 16,
-      fontWeight: "500",
+      fontWeight: "600",
     },
   
     input: {
@@ -213,7 +213,7 @@ function FriendsTab() {
       borderRadius: 10,
       borderColor: "black",
       borderStyle: "solid",
-      borderWidth: 1,
+      borderWidth: 1.7,
     },
     
     addFriend: {
@@ -238,7 +238,7 @@ function FriendsTab() {
       fontSize: 18,
       fontWeight: "bold",
       paddingVertical: 5,
-      color: "pink",
+      color: "crimson",
     },
   
     board: {

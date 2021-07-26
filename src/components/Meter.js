@@ -36,17 +36,17 @@ function Meter(props) {
     return () => unsubscribe(); 
   }, [storedDate]);
 
-  function enterMeter(item) {
-    return item.label === 'work' ? setHovered('Work') : setHovered('Play');
-  }
+  // function enterMeter(item) {
+  //   return item.label === 'work' ? setHovered('Work') : setHovered('Play');
+  // }
 
-  function getValueFormat(values, total) {
-    if (total === 0) {
-      return "";
-    } else {
-      return `${(values * 2 / total * 100).toFixed(1)}%`;
-    }
-  }
+  // function getValueFormat(values, total) {
+  //   if (total === 0) {
+  //     return "";
+  //   } else {
+  //     return `${(values * 2 / total * 100).toFixed(1)}%`;
+  //   }
+  // }
 
   function touchWork(e) {
     setLabel(`Work: ${(workTime * 100 / totalTime).toFixed(1)}%`); 
@@ -73,7 +73,7 @@ function Meter(props) {
       height: '28%',
       borderStyle: 'solid',
       borderColor: theme.color, 
-      borderWidth: 1
+      borderWidth: 1.7
     },
 
     emptyWrapper: {
@@ -83,7 +83,7 @@ function Meter(props) {
       height: '28%',
       borderStyle: 'solid',
       borderColor: theme.color, 
-      borderWidth: 1
+      borderWidth: 2
     },
 
     work: {
@@ -105,7 +105,7 @@ function Meter(props) {
             <View style={styles.emptyWrapper}></View>
           </>
         : <>
-            <Text style={{color: theme.color}}>{label}</Text>
+            <Text style={{color: theme.color, fontWeight: "500"}}>{label}</Text>
             <View style={styles.wrapper}>
               <TouchableOpacity style={styles.work} onPress={touchWork}></TouchableOpacity>
               <TouchableOpacity style={styles.play} onPress={touchPlay}></TouchableOpacity>

@@ -259,15 +259,17 @@ const styles = StyleSheet.create({
 
   error: {
     alignItems: 'center', 
-    backgroundColor:'rgba(255, 0, 0, 0.7)',
+    backgroundColor:'crimson',
     width: '100%',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
+    borderWidth: 1.5,
+    borderColor: theme.color
   },  
 
   errorText: {
-    color: theme.color,
+    color: "whitesmoke",
   },
 
   text: {

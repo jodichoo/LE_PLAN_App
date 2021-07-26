@@ -22,7 +22,7 @@ export default StyleSheet.create({
   },
   err: {
     height: 20,
-    color: "red",
+    color: "crimson",
     alignSelf: "center",
   },
   input: {
