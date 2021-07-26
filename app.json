@@ -4,9 +4,9 @@
     "slug": "Le-Plan",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/applogosquare.png",
+    "icon": "./assets/logoSquare.png",
     "splash": {
-      "image": "./assets/welcome.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/applogosquare.png",
+        "foregroundImage": "./assets/logoSquare.png",
         "backgroundColor": "#FFFFFF"
       }
     },
