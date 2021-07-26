@@ -64,7 +64,8 @@
 LePlan is a multi-platform project. Thus, accounts can be used in both web app and mobile app :)
 
 **Our GitHub Repositories:**
-[LePLan Mobile App](https://github.com/sheehui/LE_PLAN_App)
+
+[LePLan Mobile App](https://github.com/sheehui/LE_PLAN_App)  
 [LePLan Web App](https://github.com/sheehui/LE_PLAN_Web)
 
 ## Web app prototype:
