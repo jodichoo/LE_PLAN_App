@@ -1,4 +1,3 @@
-[TOC]
 - [Introduction](#introduction)
   - [Web app prototype:](#web-app-prototype)
   - [Mobile app prototype:](#mobile-app-prototype)
@@ -63,6 +62,10 @@
 **Proposed Level of Achievement:** Apollo 11
 
 LePlan is a multi-platform project. Thus, accounts can be used in both web app and mobile app :)
+
+**Our GitHub Repositories:**
+[LePLan Mobile App](https://github.com/sheehui/LE_PLAN_App)
+[LePLan Web App](https://github.com/sheehui/LE_PLAN_Web)
 
 ## Web app prototype:
 
