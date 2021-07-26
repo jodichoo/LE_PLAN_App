@@ -3,7 +3,6 @@ import { db } from "../firebase/config";
 import { useAuth } from "../navigation/AuthProvider";
 import { ThemeContext } from "../theme/ThemeContext";
 import moment from "moment";
-import NumberPlease from "react-native-number-please";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {
   StyleSheet,
@@ -42,26 +41,6 @@ function TaskForm(props) {
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
 
-  // const selectedD = selectedDate.split("-");
-  // const [taskDate, setTaskDate] = useState([
-  //   { id: "day", value: parseInt(selectedD[2]) },
-  //   { id: "month", value: parseInt(selectedD[1])}, 
-  //   { id: "year", value: parseInt(selectedD[0]) },
-  // ]);
-  // const dateRange = [
-  //   { id: "day", label: "", min: 1, max: 31 },
-  //   { id: "month", label: "", min: 1, max: 12 },
-  //   { id: "year", label: "", min: new Date().getFullYear(), max: 2100 },
-  // ];
-
-  // const [taskTime, setTaskTime] = useState([
-  //   { id: "hour", value: 0 },
-  //   { id: "min", value: 0 },
-  // ]);
-  // const timeRange = [
-  //   { id: "hour", label: "h", min: 0, max: 23 },
-  //   { id: "min", label: "min", min: 0, max: 59 },
-  // ];
 
   const [dateTime, setDateTime] = useState(new Date()); 
 
@@ -77,9 +56,6 @@ function TaskForm(props) {
       setTaskName(editTask.name);
       setTaskDesc(editTask.desc);
       setDateTime(newDateTime);
-      // setTaskDate(editTask.date);
-      // setTaskHrs(getHour(editTask.time));
-      // setTaskMins(getMin(editTask.time));
       setTaskDur(`${editTask.dur}`);
       setIsWork(editTask.isWork);
       //   if (editTask.isWork) {
@@ -90,16 +66,6 @@ function TaskForm(props) {
     }
   }, []);
 
-  // function getHour(num) {
-  //   const newNum = parseFloat(num).toFixed(2);
-  //   if (newNum === 0) {
-  //     return newNum;
-  //   } else {
-  //     const str = newNum.toString();
-  //     const split = str.split(".");
-  //     return parseInt(split[0]);
-  //   }
-  // }
 
   function getHour(num) {
     const s = parseFloat(num).toFixed(2);
@@ -378,20 +344,12 @@ const styles = StyleSheet.create({
         />
       </View>
 
-      {/* <View style={styles.field}>
-        <Text style={styles.text}>Date: </Text>
-        <NumberPlease
-          digits={dateRange}
-          values={taskDate}
-          onChange={(values) => setTaskDate(values)}
-        />
-      </View> */}
       <View style={styles.field}>
       {show && <DateTimePicker 
           mode= {mode}
           value={dateTime}
           onChange={handleDateTime}
-          minimumDate={new Date()}
+          minimumDate={moment().hour(0).minute(0).toDate()}
           />}
       </View>
       <View style={styles.field}>
@@ -405,17 +363,6 @@ const styles = StyleSheet.create({
         <Text style={styles.buttonText}>Time: {dateTime.toLocaleTimeString('en-GB')}</Text>
         </Pressable>
       </View>
-
-      {/* <View style={styles.field}>
-        <Text style={styles.text}>
-          Time: {taskHrs} : {taskMins}{" "}
-        </Text>
-        <NumberPlease
-          digits={timeRange}
-          values={taskTime}
-          onChange={(values) => configureTime(values)}
-        />
-      </View> */}
 
       <View style={styles.field}>
         <Text style={styles.text}>Duration: </Text>
