@@ -110,10 +110,14 @@ function FriendProfile() {
 
       data: {
         flexDirection: "row",
-        width: "100%",
+        width: "90%",
         alignItems: "center",
-        justifyContent: "center",
-        marginTop: 20
+        justifyContent: "space-evenly",
+        marginTop: 20,
+      },
+      label: {
+        flexDirection: 'row',
+        alignItems: 'center',
       },
       text: {
         color: theme.color,
@@ -130,14 +134,18 @@ function FriendProfile() {
     ) : (
       <View>
         <View style={styles.data}>
-          <Octicons name="briefcase" size={20} color="pink" />
-          <Text style={styles.text}>{" "}Work: {(wFlex * 100).toFixed(1)}%{"     "}</Text>
-          <MaterialCommunityIcons
-            name="gamepad-variant"
-            size={23}
-            color="turquoise"
-          />
-          <Text style={styles.text}>{" "}Play: {(pFlex * 100).toFixed(1)}%</Text>
+          <View style={styles.label}>
+            <Octicons name="briefcase" size={20} color="pink" />
+            <Text style={styles.text}>{" "}Work: {(wFlex * 100).toFixed(1)}%</Text>
+          </View>
+          <View style={styles.label}>
+            <MaterialCommunityIcons
+              name="gamepad-variant"
+              size={23}
+              color="turquoise"
+            />
+            <Text style={styles.text}>{" "}Play: {(pFlex * 100).toFixed(1)}%</Text>
+          </View>
         </View>
         <View style={{ height: 35, marginTop: 10 }}>
           <View style={styles.wrapper}>
