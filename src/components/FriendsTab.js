@@ -164,11 +164,13 @@ function FriendsTab() {
     );
   }
 
-  function goToFriendProfile(friendUn) {
+  function goToFriendProfile(obj) {
     // navigation + pass props into route
     return navigation.navigate("FriendProfile", {
-      friendUn: friendUn,
+      friendUn: obj.friend,
       friendsList: friendsList,
+      w: obj.work,
+      p: obj.play
     });
   }
 
@@ -177,7 +179,7 @@ function FriendsTab() {
       <TouchableOpacity
         key={friendObj.friend}
         style={styles.friend}
-        onPress={() => goToFriendProfile(friendObj.friend)}
+        onPress={() => goToFriendProfile(friendObj)}
       >
         <Text style={{ fontSize: 18, fontWeight: "600", flex: 0.4, color:theme.color }}>
           {friendObj.friend}
