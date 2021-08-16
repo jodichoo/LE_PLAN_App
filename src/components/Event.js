@@ -184,7 +184,6 @@ function Event(props) {
               )}
             </View>
             <View style={styles.deleteButton}>
-              {/* <Button title="Delete" onPress={() => deleteTask(task)} /> */}
               <Pressable onPress={deleteWarning}>
                 <AntDesign
                   name="delete"

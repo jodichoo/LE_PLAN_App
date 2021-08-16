@@ -27,16 +27,10 @@ function TaskForm(props) {
     setTriggerLoad,
   } = props;
   const { dark, theme } = useContext(ThemeContext);
-  const today = moment().format("YYYY-MM-DD").split("-");
-  const currDate = [today[2], today[1], today[0]];
   const [taskName, setTaskName] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
-  // const [taskDate, setTaskDate] = useState(selectedDate);
-  const [taskHrs, setTaskHrs] = useState(0);
-  const [taskMins, setTaskMins] = useState(0);
   const [taskDur, setTaskDur] = useState("");
   const [error, setError] = useState(undefined); 
-  // const [check, setCheck] = useState(true);
   const [isWork, setIsWork] = useState(true);
   const { currentUser } = useAuth();
   const userTasks = db.collection("users").doc(currentUser.uid);
@@ -58,11 +52,6 @@ function TaskForm(props) {
       setDateTime(newDateTime);
       setTaskDur(`${editTask.dur}`);
       setIsWork(editTask.isWork);
-      //   if (editTask.isWork) {
-      //     document.getElementById("work-radio-edit").checked = true;
-      //   } else {
-      //     document.getElementById("life-radio-edit").checked = true;
-      //   }
     }
   }, []);
 
@@ -104,11 +93,8 @@ function TaskForm(props) {
     }
     setTaskName("");
     setTaskDesc("");
-    // setTaskHrs(0);
-    // setTaskMins(0);
     setDateTime(new Date()); 
     setTaskDur("");
-    // setTaskDate(currDate);
     setIsWork(true);
   }
 
@@ -120,13 +106,10 @@ function TaskForm(props) {
     console.log(t); 
     
     //format the date to be stored in/queried from database
-    // console.log(dateTime.toLocaleDateString('en-CA'));
-    // const c = moment(dateTime.toLocaleDateString('en-CA'), 'YYYY-MM-DD');
     const d = moment(dateTime).format("YYYY-MM-DD"); 
 
     //create a new doc within the relevant collection
     const ref = userTasks.collection(d).doc();
-    // console.log(ref);
     const work = edit ? isWork : addWorkClicked;
     console.log(taskName);
     console.log(taskDesc);
@@ -202,27 +185,6 @@ function TaskForm(props) {
       return value;
     }
   }
-
-  // function configureTime(values) {
-  //     setTaskTime(values);
-  //     setTaskHrs(styleTime(values[0].value));
-  //     setTaskMins(styleTime(values[1].value));
-  // }
-
-  //   function isChecked() {
-  //     // e.preventDefault();
-  //     setCheck(!check);
-  //     let reminder = document.getElementById("rem-interval");
-  //     if (check === true) {
-  //       reminder.style.display = "block";
-  //     } else {
-  //       reminder.style.display = "none";
-  //     }
-  //   }
-
-  // function returnHome() {
-  //   navigation.navigate("TaskManager")
-  // }
 
 const [show, setShow] = useState(false); 
 const [mode, setMode] = useState('date'); 

@@ -263,9 +263,6 @@ function FriendsTab() {
 
   return (
     <View style={styles.container}>
-      {/* <button onClick={showAddFriend}>+ Add Friends</button> */}
-
-      {/* <HiUserAdd style={{ color: "whitesmoke", fontSize: "20px" }} /> */}
       <Pressable style={styles.addFriendBut} onPress={showAddFriend}>
         <Text style={{ fontSize: 28, fontWeight: "600" }}>Add Friends</Text>
       </Pressable>

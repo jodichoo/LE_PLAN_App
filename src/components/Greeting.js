@@ -187,10 +187,6 @@ function Greeting(props) {
         <Text style={[styles.statement, {color: theme.color}]}>The time is {date.toLocaleTimeString()}</Text>
 
       </View>
-      {/* <Text style={{fontSize: 18, fontWeight: '600', marginTop: 10}}>
-        Here are your tasks for {styleDate(selectedDate)}
-      </Text> */}
-      {/* <TaskManager selectedDate={selectedDate} tasks={tasks} setTasks={setTasks}/> */}
     </View>
   );
 }
@@ -201,22 +197,16 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     width: "100%",
-    // marginLeft: 20,
     alignItems: "center",
     justifyContent: 'center',
-    // backgroundColor: 'gray',
   },
   greetContainer: {
     width: '100%',
     marginLeft: 20,
-    // backgroundColor: 'orange',
     alignSelf: 'center',
     justifyContent: 'flex-start',
   },
   greetText: {
-    // borderColor: 'black', 
-    // borderWidth: 1, 
-    // borderStyle: 'solid',
     fontSize: 38,
     fontWeight: '700',
   },

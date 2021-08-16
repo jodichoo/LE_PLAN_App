@@ -3,17 +3,6 @@ import '@firebase/auth';
 import '@firebase/firestore';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// const firebaseConfig = {
-//     apiKey: "AIzaSyArTY0IpvSluDGzSsaESw7V8M40sKI5F98",
-//     authDomain: "wlbbot.firebaseapp.com",
-//     projectId: "wlbbot",
-//     storageBucket: "wlbbot.appspot.com",
-//     messagingSenderId: "234811155240",
-//     appId: "1:234811155240:web:fc63e7a5aa3d6a0a41661d",
-//     measurementId: "G-5LYMT00251"
-//   };
-
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDecEux5fREYrO0x2F0QG8zFSanUD9HylA",
   authDomain: "wlbbot-fdd9e.firebaseapp.com",

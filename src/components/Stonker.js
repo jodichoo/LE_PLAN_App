@@ -80,10 +80,6 @@ function Stonker() {
       >
         Weekly Progress
       </Text>
-      {/* <Text style={{ fontSize: 15, color: "gray" }}>
-        Track your progress through the weeks and plan ahead to manage your time
-        and reach your goals :)
-      </Text> */}
       {loading || (
         <LineChart
           data={{

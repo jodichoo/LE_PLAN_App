@@ -212,16 +212,6 @@ function SettingsScreen(props) {
         <Pressable style={styles.setButton} onPress={toggleUpdate}>
           <Text style={{ color: "black" }}>Submit</Text>
         </Pressable>
-        {/* <Pressable
-          onPress={() => {
-            setUrlError("");
-            setError("");
-            setConfirmPassP(false);
-            setConfirmPassN(false);
-          }}
-        >
-          <Text>X</Text>
-        </Pressable> */}
       </View>
     );
   }

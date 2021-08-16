@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    // backgroundColor: 'rgba(0, 0, 0, 0.05)',
     padding: 10,
     flex: 1,
     flexDirection: "row",
@@ -186,7 +185,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderStyle: "solid",
     borderWidth: 1,
-    // backgroundColor: 'white',
   },
 
   left: {
@@ -202,7 +200,6 @@ const styles = StyleSheet.create({
   },
 
   delete: {
-    // marginTop: 15,
     zIndex: 0,
     height: "100%",
     backgroundColor: "#c95353",

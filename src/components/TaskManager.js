@@ -176,13 +176,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 
-  // log: {
-  //   width: "100%",
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   justifyContent: "flex-end",
-  // },
-
   addTask: {
     alignSelf: "flex-end",
   },

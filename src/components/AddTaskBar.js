@@ -15,7 +15,6 @@ import {
 function AddTaskBar(props) {
   const [addWorkClicked, setAddWorkClicked] = useState(false);
   const [addLifeClicked, setAddLifeClicked] = useState(false);
-  //const { todayTasks, selectedDate } = props; for meter in reactjs
   const { selectedDate, setShowAdd } = props;
 
   function showWorkTaskForm() {
@@ -35,8 +34,6 @@ function AddTaskBar(props) {
   return (
     <View style={styles.container}>
       <View style={styles.buttons}>
-        {/* <Button style={styles.buttonStyle} title="Work" onPress={showWorkTaskForm} />
-        <Button style={styles.buttonStyle} title="Play" onPress={showLifeTaskForm} /> */}
         <Pressable style={{...styles.buttonStyle, backgroundColor: addWorkClicked ? 'black' : 'pink'}} onPress={showWorkTaskForm}>
           <Text style={{...styles.buttonText, color: addWorkClicked ? 'whitesmoke' : 'black'}}>Work</Text>
         </Pressable>

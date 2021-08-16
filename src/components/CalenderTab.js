@@ -28,7 +28,6 @@ function CalenderTab(props) {
         .get()
         .then((sub) => {
           if (sub.docs.length > 0) {
-            // if (!items[tempDate]) {
             const t = [];
             userTasks
               .collection(tempDate)
@@ -42,7 +41,6 @@ function CalenderTab(props) {
                 });
               });
             items[tempDate] = t;
-            // }
           } else {
             items[tempDate] = [];
           }
